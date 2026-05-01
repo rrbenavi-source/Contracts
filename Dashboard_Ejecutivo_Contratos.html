@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Contratos de Compras — HEINEKEN México</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --g:    #007A33;
+  --gd:   #004F2D;
+  --gm:   #005C27;
+  --gl:   #E6F4EC;
+  --gp:   #F2FAF5;
+  --red:  #C8102E;
+  --amb:  #E8900A;
+  --pur:  #6B21A8;
+  --blu:  #1D6FA4;
+  --wh:   #FFFFFF;
+  --bg:   #EDF2EE;
+  --bdr:  #D0DDD4;
+  --tx:   #1A1A1A;
+  --txs:  #556B5F;
+  --sh:   0 2px 10px rgba(0,79,45,.10);
+  --shh:  0 6px 24px rgba(0,79,45,.18);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter','Segoe UI',sans-serif;background:var(--bg);color:var(--tx);font-size:13px;min-height:100vh}
+
+/* ─── TOPBAR ─── */
+.topbar{background:var(--gd);display:flex;align-items:center;justify-content:space-between;padding:0 28px;height:46px;border-bottom:3px solid var(--g)}
+.tb-left{display:flex;align-items:center;gap:18px}
+.tb-sep{width:1px;height:22px;background:rgba(255,255,255,.2)}
+.tb-crumb{color:rgba(255,255,255,.55);font-size:11.5px;display:flex;align-items:center;gap:5px}
+.tb-crumb b{color:#fff;font-weight:600}
+.tb-right{display:flex;align-items:center;gap:20px;color:rgba(255,255,255,.65);font-size:11px}
+.tb-right .pill{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);padding:3px 10px;border-radius:12px}
+.tb-right .dot{width:6px;height:6px;border-radius:50%;background:#4ADE80;box-shadow:0 0 6px #4ADE80}
+
+/* ─── HEADER ─── */
+.header{background:linear-gradient(135deg,var(--gd) 0%,var(--gm) 55%,var(--g) 100%);padding:22px 28px 18px;display:flex;align-items:flex-end;justify-content:space-between;position:relative;overflow:hidden}
+.header::before,.header::after{content:'';position:absolute;border-radius:50%;background:rgba(255,255,255,.04)}
+.header::before{width:260px;height:260px;top:-80px;right:-60px}
+.header::after{width:180px;height:180px;bottom:-80px;left:38%}
+.hdr-title h1{color:#fff;font-size:19px;font-weight:800;letter-spacing:-.4px}
+.hdr-title p{color:rgba(255,255,255,.68);font-size:11.5px;margin-top:4px}
+.hdr-meta{display:flex;flex-direction:column;align-items:flex-end;gap:5px;position:relative;z-index:1}
+.hdr-badge{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.25);color:#fff;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:500}
+
+/* ─── TABS ─── */
+.tabs{background:var(--gd);display:flex;padding:0 28px;border-bottom:1px solid rgba(255,255,255,.1)}
+.tab{color:rgba(255,255,255,.55);padding:10px 18px;font-size:12px;font-weight:500;cursor:pointer;border-bottom:3px solid transparent;transition:all .18s;user-select:none;white-space:nowrap}
+.tab:hover{color:rgba(255,255,255,.9)}
+.tab.active{color:#fff;border-bottom-color:var(--g)}
+
+/* ─── FILTER BAR ─── */
+.fbar{background:var(--wh);border-bottom:1px solid var(--bdr);padding:9px 28px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.flabel{font-size:10.5px;font-weight:700;color:var(--txs);text-transform:uppercase;letter-spacing:.5px;white-space:nowrap}
+.fchip{background:var(--gl);border:1px solid var(--g);color:var(--gd);padding:3px 12px;border-radius:14px;font-size:11px;font-weight:600;cursor:pointer;transition:all .15s;user-select:none}
+.fchip:hover,.fchip.on{background:var(--g);color:#fff;border-color:var(--gd)}
+.fsep{width:1px;height:18px;background:var(--bdr);margin:0 4px}
+
+/* ─── CANVAS ─── */
+.canvas{padding:20px 28px 32px;display:flex;flex-direction:column;gap:16px}
+
+/* ─── KPI ROW ─── */
+.kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.kpi{background:var(--wh);border-radius:10px;box-shadow:var(--sh);padding:18px 20px 15px;border-top:4px solid var(--g);transition:box-shadow .2s;position:relative;overflow:hidden;cursor:default}
+.kpi:hover{box-shadow:var(--shh)}
+.kpi.red{border-top-color:var(--red)}
+.kpi.amb{border-top-color:var(--amb)}
+.kpi.pur{border-top-color:var(--pur)}
+.kpi.blu{border-top-color:var(--blu)}
+.kpi::after{content:'';position:absolute;bottom:-22px;right:-22px;width:80px;height:80px;border-radius:50%;background:var(--gp);opacity:.6}
+.kpi.red::after{background:#FFF0F0}
+.kpi.amb::after{background:#FFF8ED}
+.kpi.pur::after{background:#F5EEFF}
+.kpi-ico{font-size:17px;margin-bottom:9px;display:block}
+.kpi-val{font-size:32px;font-weight:900;color:var(--gd);line-height:1;letter-spacing:-1.5px}
+.kpi.red .kpi-val{color:var(--red)}
+.kpi.amb .kpi-val{color:#92590A}
+.kpi.pur .kpi-val{color:var(--pur)}
+.kpi.blu .kpi-val{color:var(--blu)}
+.kpi-lbl{font-size:11px;color:var(--txs);margin-top:6px;font-weight:500;line-height:1.3}
+.kpi-trend{font-size:10.5px;margin-top:8px;font-weight:600;display:flex;align-items:center;gap:3px}
+.tup{color:var(--g)}.tdn{color:var(--red)}.tnt{color:var(--txs)}
+
+/* ─── CHART ROWS ─── */
+.row2{display:grid;gap:14px;grid-template-columns:2fr 1fr}
+.row11{display:grid;gap:14px;grid-template-columns:1fr 1fr}
+.row12{display:grid;gap:14px;grid-template-columns:1fr 2fr}
+.card{background:var(--wh);border-radius:10px;box-shadow:var(--sh);overflow:hidden;transition:box-shadow .2s}
+.card:hover{box-shadow:var(--shh)}
+.chead{padding:13px 18px 10px;border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between}
+.ctitle{font-size:12.5px;font-weight:700;color:var(--tx);display:flex;align-items:center;gap:7px}
+.ctitle .ico{width:22px;height:22px;background:var(--gl);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
+.cacts{display:flex;gap:4px}
+.cbtn{width:24px;height:24px;border:1px solid var(--bdr);border-radius:4px;background:transparent;color:var(--txs);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;transition:all .15s}
+.cbtn:hover{background:var(--gl);border-color:var(--g);color:var(--gd)}
+.cbody{padding:16px 18px}
+
+/* ─── DONUT STATS ─── */
+.dstat{display:flex;flex-direction:column;gap:9px;margin-top:12px}
+.drow{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-radius:7px;background:var(--gp)}
+.drow-l{display:flex;align-items:center;gap:8px}
+.ddot{width:10px;height:10px;border-radius:50%}
+.dlbl{font-size:11.5px;font-weight:600;color:var(--tx)}
+.dval{font-size:15px;font-weight:800;color:var(--gd)}
+.dpct{font-size:10.5px;color:var(--txs);margin-left:3px}
+
+/* ─── PROGRESS BAR ─── */
+.prog-wrap{width:100%;background:#E5EDE8;border-radius:4px;height:6px;overflow:hidden;margin-top:4px}
+.prog-fill{height:100%;border-radius:4px;background:var(--g);transition:width 1.2s cubic-bezier(.4,0,.2,1)}
+
+/* ─── MATRIX TABLE ─── */
+.mtable{width:100%;border-collapse:collapse;font-size:11.5px}
+.mtable th{padding:9px 14px;font-weight:700;font-size:11px}
+.mtable th.rh{text-align:left;background:var(--gp);color:var(--gd);border-bottom:2px solid var(--bdr)}
+.mtable th.cy{text-align:center;background:#EBF4FC;color:#0C4A7A;border-bottom:2px solid var(--blu)}
+.mtable th.cc{text-align:center;background:#F2EAFF;color:#4A0E80;border-bottom:2px solid var(--pur)}
+.mtable th.ct{text-align:center;background:var(--gl);color:var(--gd);border-bottom:2px solid var(--g)}
+.mtable td{padding:8px 14px;border-bottom:1px solid var(--bdr);text-align:center}
+.mtable td.ck{text-align:left;font-weight:700;font-size:12px;font-family:'Cascadia Code','Fira Code',Consolas,monospace;color:var(--gd)}
+.mtable td.tc{font-weight:800;background:var(--gp)!important;color:var(--gd)}
+.mtable tr:hover td{background:var(--gp)}
+.mtable tr.ttl td{background:var(--gd);color:#fff;font-weight:800;border:none}
+.mtable tr.ttl td.tc{background:var(--gm)!important;color:#fff}
+.hhi{background:rgba(0,122,51,.13)!important}
+.hmd{background:rgba(0,122,51,.06)!important}
+.hlo{background:rgba(0,122,51,.02)!important}
+
+/* ─── DATA TABLE ─── */
+.dtable{width:100%;border-collapse:collapse;font-size:11.5px}
+.dtable th{background:var(--gd);color:#fff;padding:9px 12px;text-align:left;font-weight:600;font-size:10.5px;letter-spacing:.3px}
+.dtable th:first-child{border-radius:0}
+.dtable td{padding:7px 12px;border-bottom:1px solid var(--bdr);vertical-align:middle}
+.dtable tr:hover td{background:var(--gp)}
+.dtable tr:last-child td{border-bottom:none}
+
+/* ─── ANOMALY HEADER ─── */
+.anom-head{background:linear-gradient(90deg,#9B0B22,var(--red));color:#fff;padding:12px 18px;display:flex;align-items:center;gap:8px;font-weight:700;font-size:12.5px}
+.anom-pill{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);border-radius:12px;padding:2px 9px;font-size:11px;font-weight:600}
+
+/* ─── BADGES ─── */
+.bg{background:#E6F4EC;color:#004F2D;border:1px solid #9DCFB0;padding:2px 8px;border-radius:10px;font-size:10.5px;font-weight:700;display:inline-block}
+.bp{background:#F2EAFF;color:#6B21A8;border:1px solid #C4A0F0;padding:2px 8px;border-radius:10px;font-size:10.5px;font-weight:700;display:inline-block}
+.br{background:#FDE8E8;color:#9B0B22;border:1px solid #F0A0A0;padding:2px 8px;border-radius:10px;font-size:10.5px;font-weight:700;display:inline-block}
+.bb{background:#EBF4FC;color:#0C4A7A;border:1px solid #90C4E8;padding:2px 8px;border-radius:10px;font-size:10.5px;font-weight:700;display:inline-block}
+.ba{background:#FFF3DE;color:#7A4500;border:1px solid #F5C87A;padding:2px 8px;border-radius:10px;font-size:10.5px;font-weight:700;display:inline-block}
+
+/* ─── SCROLLABLE ─── */
+.tscroll{max-height:270px;overflow-y:auto}
+.tscroll::-webkit-scrollbar{width:5px}
+.tscroll::-webkit-scrollbar-track{background:#f0f0f0}
+.tscroll::-webkit-scrollbar-thumb{background:var(--g);border-radius:3px}
+
+/* ─── FOOTER ─── */
+.footer{background:var(--wh);border-top:1px solid var(--bdr);padding:11px 28px;display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--txs)}
+.fbrand{display:flex;align-items:center;gap:6px;font-weight:700;color:var(--gd);font-size:12px}
+
+/* ─── GAUGE CANVAS ─── */
+.gauge-wrap{display:flex;flex-direction:column;align-items:center;padding:4px 0 0}
+
+/* ─── SECTION DIVIDER ─── */
+.sdiv{display:flex;align-items:center;gap:10px;font-size:10.5px;font-weight:700;color:var(--txs);text-transform:uppercase;letter-spacing:.6px;margin-bottom:-4px}
+.sdiv::before,.sdiv::after{content:'';flex:1;height:1px;background:var(--bdr)}
+
+/* ─── BAR SPARKLINE (inline) ─── */
+.spk{display:flex;align-items:flex-end;gap:2px;height:28px}
+.spk-b{flex:1;background:var(--g);border-radius:2px 2px 0 0;opacity:.7;transition:opacity .2s}
+.spk-b:hover{opacity:1}
+</style>
+</head>
+<body>
+
+<!-- ═══════════ TOPBAR ═══════════ -->
+<div class="topbar">
+  <div class="tb-left">
+    <!-- Heineken Logo SVG -->
+    <svg width="120" height="32" viewBox="0 0 120 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Oval green background -->
+      <ellipse cx="16" cy="16" rx="15" ry="15" fill="#007A33"/>
+      <ellipse cx="16" cy="16" rx="13.5" ry="13.5" fill="none" stroke="#fff" stroke-width=".8" opacity=".4"/>
+      <!-- Red star (5-pointed) -->
+      <polygon points="16,5.5 17.7,11 23.5,11 18.9,14.5 20.6,20 16,16.5 11.4,20 13.1,14.5 8.5,11 14.3,11" fill="#C8102E"/>
+      <!-- HEINEKEN text -->
+      <text x="36" y="20" font-family="Arial Black,Arial" font-weight="900" font-size="13.5" fill="#FFFFFF" letter-spacing=".8">HEINEKEN</text>
+      <text x="36" y="29" font-family="Arial,sans-serif" font-size="7" fill="rgba(255,255,255,0.55)" letter-spacing=".5">MÉXICO · ÁREA DE COMPRAS</text>
+    </svg>
+
+    <div class="tb-sep"></div>
+    <div class="tb-crumb">
+      <span>Workspace: Contracts</span>
+      <span style="opacity:.5">›</span>
+      <b>Dashboard Contratos de Compras</b>
+    </div>
+  </div>
+  <div class="tb-right">
+    <div class="pill">
+      <div class="dot"></div>
+      <span>Azure Databricks · gold_hnk_mx_loc_procure</span>
+    </div>
+    <div class="pill">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+      Actualizado: 30-Abr-2026 · 06:00 hrs
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ HEADER ═══════════ -->
+<div class="header">
+  <div class="hdr-title">
+    <h1>📋 Dashboard Contratos de Compras</h1>
+    <p>tbl_sot_contracts · heiaepmx002pwe01 · Contratos activos vigentes al cierre del período</p>
+  </div>
+  <div class="hdr-meta">
+    <span class="hdr-badge">🟢 Modelo semántico activo</span>
+    <span class="hdr-badge" style="margin-top:4px">1,668 contratos activos · 8 queries M</span>
+  </div>
+</div>
+
+<!-- ═══════════ TABS ═══════════ -->
+<div class="tabs">
+  <div class="tab active" onclick="activateTab(this)">Resumen Ejecutivo</div>
+  <div class="tab" onclick="activateTab(this)">Análisis de Condiciones</div>
+  <div class="tab" onclick="activateTab(this)">Anomalías &amp; Calidad</div>
+  <div class="tab" onclick="activateTab(this)">Evolución Temporal</div>
+</div>
+
+<!-- ═══════════ FILTER BAR ═══════════ -->
+<div class="fbar">
+  <span class="flabel">🔍 Tipo:</span>
+  <span class="fchip on">Todos</span>
+  <span class="fchip">YELO · Local</span>
+  <span class="fchip">YECL · Global</span>
+  <div class="fsep"></div>
+  <span class="flabel">Período:</span>
+  <span class="fchip on">2024–2026</span>
+  <span class="fchip">2025</span>
+  <span class="fchip">2026</span>
+  <div class="fsep"></div>
+  <span class="flabel">Condición:</span>
+  <span class="fchip">V037</span>
+  <span class="fchip">V027</span>
+  <span class="fchip">V028</span>
+  <span class="fchip">V060</span>
+  <span class="fchip">V000</span>
+</div>
+
+<!-- ═══════════ CANVAS ═══════════ -->
+<div class="canvas">
+
+  <!-- ── KPI ROW ── -->
+  <div class="kpi-row">
+
+    <div class="kpi">
+      <span class="kpi-ico">📄</span>
+      <div class="kpi-val">1,668</div>
+      <div class="kpi-lbl">Total Contratos Activos</div>
+      <div class="kpi-trend tup">↑ +54 vs mes anterior</div>
+      <div class="prog-wrap" style="margin-top:9px"><div class="prog-fill" style="width:100%"></div></div>
+    </div>
+
+    <div class="kpi blu">
+      <span class="kpi-ico">🏠</span>
+      <div class="kpi-val">1,378</div>
+      <div class="kpi-lbl">Contratos YELO · Local</div>
+      <div class="kpi-trend tnt">82.6% del total</div>
+      <div class="prog-wrap" style="margin-top:9px"><div class="prog-fill" style="width:82.6%;background:var(--blu)"></div></div>
+    </div>
+
+    <div class="kpi pur">
+      <span class="kpi-ico">🌐</span>
+      <div class="kpi-val">290</div>
+      <div class="kpi-lbl">Contratos YECL · Global</div>
+      <div class="kpi-trend tnt">17.4% del total</div>
+      <div class="prog-wrap" style="margin-top:9px"><div class="prog-fill" style="width:17.4%;background:var(--pur)"></div></div>
+    </div>
+
+    <div class="kpi amb">
+      <span class="kpi-ico">📅</span>
+      <div class="kpi-val">120</div>
+      <div class="kpi-lbl">Promedio Días de Crédito</div>
+      <div class="kpi-trend tnt">≈ 4 meses promedio</div>
+      <div class="prog-wrap" style="margin-top:9px"><div class="prog-fill" style="width:66%;background:var(--amb)"></div></div>
+    </div>
+
+    <div class="kpi red">
+      <span class="kpi-ico">⚠️</span>
+      <div class="kpi-val">11</div>
+      <div class="kpi-lbl">Anomalías Crédito Cero</div>
+      <div class="kpi-trend tdn">↑ V028 · Requiere revisión</div>
+      <div class="prog-wrap" style="margin-top:9px"><div class="prog-fill" style="width:0.66%;background:var(--red)"></div></div>
+    </div>
+
+  </div>
+
+  <!-- ── ROW 2: BAR CONDICION + DONUT ── -->
+  <div class="row2">
+
+    <!-- Bar: Condición de Pago (stacked horizontal) -->
+    <div class="card">
+      <div class="chead">
+        <div class="ctitle">
+          <div class="ico">📊</div>
+          Contratos por Condición de Pago
+        </div>
+        <div class="cacts">
+          <button class="cbtn" title="Tabla">⊞</button>
+          <button class="cbtn" title="Expandir">⛶</button>
+          <button class="cbtn" title="Opciones">⋯</button>
+        </div>
+      </div>
+      <div class="cbody">
+        <div style="position:relative;height:220px">
+          <canvas id="chartCondicion"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Donut: Tipo Contrato -->
+    <div class="card">
+      <div class="chead">
+        <div class="ctitle">
+          <div class="ico">🍩</div>
+          Distribución por Tipo
+        </div>
+        <div class="cacts">
+          <button class="cbtn">⛶</button>
+          <button class="cbtn">⋯</button>
+        </div>
+      </div>
+      <div class="cbody">
+        <div style="position:relative;height:145px">
+          <canvas id="chartDonut"></canvas>
+        </div>
+        <div class="dstat">
+          <div class="drow">
+            <div class="drow-l">
+              <div class="ddot" style="background:#1D6FA4"></div>
+              <span class="dlbl">YELO · Local</span>
+            </div>
+            <div><span class="dval">1,378</span><span class="dpct">82.6%</span></div>
+          </div>
+          <div class="drow">
+            <div class="drow-l">
+              <div class="ddot" style="background:#6B21A8"></div>
+              <span class="dlbl">YECL · Global</span>
+            </div>
+            <div><span class="dval">290</span><span class="dpct">17.4%</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── ROW 3: HISTOGRAMA + LINE CHART ── -->
+  <div class="row11">
+
+    <!-- Histograma rangos crédito -->
+    <div class="card">
+      <div class="chead">
+        <div class="ctitle">
+          <div class="ico">📶</div>
+          Distribución · Rangos de Días de Crédito
+        </div>
+        <div class="cacts">
+          <button class="cbtn">⛶</button>
+          <button class="cbtn">⋯</button>
+        </div>
+      </div>
+      <div class="cbody">
+        <div style="position:relative;height:205px">
+          <canvas id="chartHistograma"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Line chart evolución temporal -->
+    <div class="card">
+      <div class="chead">
+        <div class="ctitle">
+          <div class="ico">📈</div>
+          Evolución Mensual de Contratos Activos
+        </div>
+        <div class="cacts">
+          <button class="cbtn">⛶</button>
+          <button class="cbtn">⋯</button>
+        </div>
+      </div>
+      <div class="cbody">
+        <div style="position:relative;height:205px">
+          <canvas id="chartEvolucion"></canvas>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── ROW 4: MATRIZ + ANOMALIAS ── -->
+  <div class="row11">
+
+    <!-- Matriz Condición × Tipo -->
+    <div class="card">
+      <div class="chead">
+        <div class="ctitle">
+          <div class="ico">🔢</div>
+          Matriz · Condición de Pago × Tipo de Contrato
+        </div>
+        <div class="cacts">
+          <button class="cbtn">⛶</button>
+          <button class="cbtn">⋯</button>
+        </div>
+      </div>
+      <div class="tscroll">
+        <table class="mtable">
+          <thead>
+            <tr>
+              <th class="rh" style="padding-left:18px;width:38%">Condición de Pago</th>
+              <th class="cy">YELO · Local</th>
+              <th class="cc">YECL · Global</th>
+              <th class="ct">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="ck" style="padding-left:18px">V037 <span style="font-family:Inter;font-size:10px;color:var(--txs);font-weight:400">· 60 días</span></td>
+              <td class="hhi">580</td><td>72</td><td class="tc">652</td>
+            </tr>
+            <tr>
+              <td class="ck" style="padding-left:18px">V027 <span style="font-family:Inter;font-size:10px;color:var(--txs);font-weight:400">· 30 días</span></td>
+              <td class="hmd">350</td><td>73</td><td class="tc">423</td>
+            </tr>
+            <tr>
+              <td class="ck" style="padding-left:18px">V028 <span style="font-family:Inter;font-size:10px;color:var(--txs);font-weight:400">· 30 días ⚠</span></td>
+              <td class="hmd">245</td><td>36</td><td class="tc">281</td>
+            </tr>
+            <tr>
+              <td class="ck" style="padding-left:18px">V060 <span style="font-family:Inter;font-size:10px;color:var(--txs);font-weight:400">· 60 días</span></td>
+              <td class="hlo">148</td><td>30</td><td class="tc">178</td>
+            </tr>
+            <tr>
+              <td class="ck" style="padding-left:18px">V000 <span style="font-family:Inter;font-size:10px;color:var(--txs);font-weight:400">· 0 días</span></td>
+              <td>45</td><td>50</td><td class="tc">95</td>
+            </tr>
+            <tr>
+              <td class="ck" style="padding-left:18px">V045 <span style="font-family:Inter;font-size:10px;color:var(--txs);font-weight:400">· 45 días</span></td>
+              <td>10</td><td>29</td><td class="tc">39</td>
+            </tr>
+            <tr class="ttl">
+              <td style="padding-left:18px;font-family:Inter">TOTAL</td>
+              <td>1,378</td><td>290</td><td class="tc">1,668</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Anomalías table -->
+    <div class="card">
+      <div class="anom-head">
+        🚨 Anomalías · Crédito = 0 con Condición ≠ V000
+        <span class="anom-pill">11 contratos</span>
+      </div>
+      <div class="tscroll">
+        <table class="dtable">
+          <thead>
+            <tr>
+              <th>N° Contrato SAP</th>
+              <th>Condición</th>
+              <th>Días</th>
+              <th>Tipo</th>
+              <th>Estatus</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><code>4600017930</code></td><td><span class="br">V028</span></td><td>0</td><td><span class="bb">YELO</span></td><td><span class="ba">Revisar</span></td></tr>
+            <tr><td><code>4600023596</code></td><td><span class="br">V028</span></td><td>0</td><td><span class="bb">YELO</span></td><td><span class="ba">Revisar</span></td></tr>
+            <tr><td><code>4600026830</code></td><td><span class="br">V028</span></td><td>0</td><td><span class="bb">YELO</span></td><td><span class="ba">Revisar</span></td></tr>
+            <tr><td><code>4600026863</code></td><td><span class="br">V028</span></td><td>0</td><td><span class="bb">YELO</span></td><td><span class="ba">Revisar</span></td></tr>
+            <tr><td><code>4600027091</code></td><td><span class="br">V028</span></td><td>0</td><td><span class="bb">YELO</span></td><td><span class="ba">Revisar</span></td></tr>
+            <tr><td><code>4600027521</code></td><td><span class="br">V028</span></td><td>0</td><td><span class="bb">YELO</span></td><td><span class="ba">Revisar</span></td></tr>
+            <tr><td><code>4600027567</code></td><td><span class="br">V028</span></td><td>0</td><td><span class="bb">YELO</span></td><td><span class="ba">Revisar</span></td></tr>
+            <tr><td><code>4600027592</code></td><td><span class="br">V028</span></td><td>0</td><td><span class="bb">YELO</span></td><td><span class="ba">Revisar</span></td></tr>
+            <tr><td><code>4600027685</code></td><td><span class="br">V028</span></td><td>0</td><td><span class="bb">YELO</span></td><td><span class="ba">Revisar</span></td></tr>
+            <tr><td><code>4600027726</code></td><td><span class="br">V028</span></td><td>0</td><td><span class="bb">YELO</span></td><td><span class="ba">Revisar</span></td></tr>
+            <tr><td><code>4600028142</code></td><td><span class="br">V028</span></td><td>0</td><td><span class="bb">YELO</span></td><td><span class="ba">Revisar</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── ROW 5: LINE YELO vs YECL + GAUGE DIAS CREDITO ── -->
+  <div class="row12">
+
+    <!-- Gauge / Medidor Días Crédito -->
+    <div class="card">
+      <div class="chead">
+        <div class="ctitle">
+          <div class="ico">🕐</div>
+          Promedio Global · Días de Crédito
+        </div>
+        <div class="cacts">
+          <button class="cbtn">⋯</button>
+        </div>
+      </div>
+      <div class="cbody" style="display:flex;flex-direction:column;align-items:center">
+        <div class="gauge-wrap">
+          <canvas id="chartGauge" width="240" height="140"></canvas>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;width:100%;margin-top:10px;text-align:center">
+          <div style="background:var(--gp);border-radius:7px;padding:10px 6px">
+            <div style="font-size:18px;font-weight:800;color:var(--blu)">60</div>
+            <div style="font-size:10px;color:var(--txs);margin-top:2px">Mín Observado</div>
+          </div>
+          <div style="background:var(--gp);border-radius:7px;padding:10px 6px;border:2px solid var(--g)">
+            <div style="font-size:18px;font-weight:800;color:var(--gd)">120</div>
+            <div style="font-size:10px;color:var(--txs);margin-top:2px">Promedio Global</div>
+          </div>
+          <div style="background:var(--gp);border-radius:7px;padding:10px 6px">
+            <div style="font-size:18px;font-weight:800;color:var(--pur)">180</div>
+            <div style="font-size:10px;color:var(--txs);margin-top:2px">Máx Observado</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Line YELO vs YECL -->
+    <div class="card">
+      <div class="chead">
+        <div class="ctitle">
+          <div class="ico">📉</div>
+          Evolución Comparativa YELO vs YECL · Últimos 18 Meses
+        </div>
+        <div class="cacts">
+          <button class="cbtn">⛶</button>
+          <button class="cbtn">⋯</button>
+        </div>
+      </div>
+      <div class="cbody">
+        <div style="position:relative;height:210px">
+          <canvas id="chartYeloYecl"></canvas>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div><!-- /canvas -->
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<div class="footer">
+  <div class="fbrand">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#004F2D" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+    HEINEKEN México · Dashboard Contratos de Compras
+  </div>
+  <span>Fuente: Azure Databricks → gold_hnk_mx_loc_procure.tbl_sot_contracts</span>
+  <span>Workspace: 496bfcf7 · Semantic Model: 7f0cfd8e · 30-Abr-2026</span>
+</div>
+
+<!-- ═══════════ SCRIPTS ═══════════ -->
+<script>
+/* ── PALETTE ── */
+const G     = '#007A33', GD = '#004F2D', GM = '#005C27';
+const GL    = '#A8DDB8', GLL= 'rgba(0,122,51,.08)';
+const BLU   = '#1D6FA4', PUR= '#6B21A8';
+const RED   = '#C8102E', AMB= '#E8900A';
+const GR    = '#9DB8A5';
+
+const TT = {
+  backgroundColor: GD, titleColor:'#fff',
+  bodyColor:'rgba(255,255,255,.85)', padding:10,
+  cornerRadius:6, titleFont:{size:12,weight:'bold'},
+  bodyFont:{size:11.5}
+};
+
+/* ── CHART 1: BAR CONDICION (horizontal stacked) ── */
+new Chart(document.getElementById('chartCondicion'), {
+  type:'bar',
+  data:{
+    labels:['V037','V027','V028','V060','V000','V045'],
+    datasets:[
+      {label:'YELO · Local',  data:[580,350,245,148,45,10],  backgroundColor:BLU, borderRadius:3, borderSkipped:false},
+      {label:'YECL · Global', data:[72, 73, 36, 30, 50,29],  backgroundColor:PUR, borderRadius:3, borderSkipped:false}
+    ]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false, indexAxis:'y',
+    plugins:{
+      legend:{position:'top', labels:{font:{size:11},padding:14,boxWidth:12,boxHeight:8}},
+      tooltip:{...TT, callbacks:{label:c=>` ${c.dataset.label}: ${c.raw.toLocaleString()} contratos`}}
+    },
+    scales:{
+      x:{stacked:true, grid:{color:'#EAF0EC'}, ticks:{font:{size:11},color:'#6B7E72'}},
+      y:{stacked:true, grid:{display:false},   ticks:{font:{size:12,weight:'700'},color:GD}}
+    }
+  }
+});
+
+/* ── CHART 2: DONUT TIPO CONTRATO ── */
+new Chart(document.getElementById('chartDonut'), {
+  type:'doughnut',
+  data:{
+    labels:['YELO · Local','YECL · Global'],
+    datasets:[{
+      data:[1378,290],
+      backgroundColor:[BLU,PUR],
+      borderColor:['#fff','#fff'],
+      borderWidth:3, hoverOffset:10
+    }]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false, cutout:'70%',
+    plugins:{
+      legend:{display:false},
+      tooltip:{...TT, callbacks:{label:c=>` ${c.label}: ${c.raw.toLocaleString()} (${(c.raw/1668*100).toFixed(1)}%)`}}
+    }
+  },
+  plugins:[{
+    id:'center',
+    afterDraw(chart){
+      const {ctx,chartArea:{top,bottom,left,right}}=chart;
+      const cx=(left+right)/2, cy=(top+bottom)/2;
+      ctx.save();
+      ctx.textAlign='center'; ctx.textBaseline='middle';
+      ctx.fillStyle=GD; ctx.font='bold 20px Inter,sans-serif';
+      ctx.fillText('1,668',cx,cy-8);
+      ctx.fillStyle='#7A9080'; ctx.font='10px Inter,sans-serif';
+      ctx.fillText('contratos',cx,cy+9);
+      ctx.restore();
+    }
+  }]
+});
+
+/* ── CHART 3: HISTOGRAMA DIAS CREDITO ── */
+new Chart(document.getElementById('chartHistograma'), {
+  type:'bar',
+  data:{
+    labels:['0 días','1–30 días','31–60 días','61–90 días','91–120 días','121–180 días','180+ días'],
+    datasets:[{
+      label:'Contratos',
+      data:[106,245,487,312,298,156,64],
+      backgroundColor:[RED,AMB,'#6EC99A',G,GM,GD,'#001F14'],
+      borderRadius:5, borderSkipped:false
+    }]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{
+      legend:{display:false},
+      tooltip:{...TT, callbacks:{
+        label:c=>` ${c.raw.toLocaleString()} contratos`,
+        afterLabel:c=>` ${(c.raw/1668*100).toFixed(1)}% del total`
+      }}
+    },
+    scales:{
+      x:{grid:{display:false}, ticks:{font:{size:10},color:'#6B7E72'}},
+      y:{grid:{color:'#EAF0EC'}, ticks:{font:{size:11},color:'#6B7E72'}}
+    }
+  }
+});
+
+/* ── CHART 4: LINE EVOLUCION TOTAL ── */
+const evoL = ['Nov\'24','Dic\'24','Ene\'25','Feb\'25','Mar\'25','Abr\'25','May\'25','Jun\'25','Jul\'25','Ago\'25','Sep\'25','Oct\'25','Nov\'25','Dic\'25','Ene\'26','Feb\'26','Mar\'26','Abr\'26'];
+const evoD = [1420,1435,1448,1462,1478,1491,1503,1518,1534,1548,1561,1578,1598,1614,1628,1642,1656,1668];
+
+new Chart(document.getElementById('chartEvolucion'), {
+  type:'line',
+  data:{
+    labels:evoL,
+    datasets:[{
+      label:'Contratos Activos', data:evoD,
+      borderColor:G, backgroundColor:GLL, fill:true, tension:.4,
+      pointRadius:3, pointBackgroundColor:G,
+      pointBorderColor:'#fff', pointBorderWidth:2, pointHoverRadius:6
+    }]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{
+      legend:{display:false},
+      tooltip:{...TT, callbacks:{label:c=>` ${c.raw.toLocaleString()} contratos activos`}}
+    },
+    scales:{
+      x:{grid:{display:false}, ticks:{font:{size:10},color:'#6B7E72',maxRotation:40}},
+      y:{min:1380, grid:{color:'#EAF0EC'}, ticks:{font:{size:11},color:'#6B7E72'}}
+    }
+  }
+});
+
+/* ── CHART 5: GAUGE (canvas manual) ── */
+(function drawGauge(){
+  const c = document.getElementById('chartGauge');
+  const ctx = c.getContext('2d');
+  const cx=120, cy=125, r=90, lw=18;
+  const val=120, min=0, max=180;
+  const startA = Math.PI, endA = 2*Math.PI;
+  const pct = (val-min)/(max-min);
+  const needleA = Math.PI + pct*Math.PI;
+
+  // Zones colors (green=ok, amber=warning, red=caution at 0)
+  const zones=[
+    {from:0,   to:.06,  color:RED},
+    {from:.06, to:.22,  color:AMB},
+    {from:.22, to:.55,  color:'#6EC99A'},
+    {from:.55, to:.78,  color:G},
+    {from:.78, to:1,    color:GM}
+  ];
+
+  // Background arc
+  ctx.clearRect(0,0,c.width,c.height);
+  zones.forEach(z=>{
+    ctx.beginPath();
+    ctx.arc(cx,cy,r, Math.PI+z.from*Math.PI, Math.PI+z.to*Math.PI);
+    ctx.lineWidth=lw; ctx.strokeStyle=z.color; ctx.lineCap='butt';
+    ctx.stroke();
+  });
+
+  // Track inner shadow
+  ctx.beginPath();
+  ctx.arc(cx,cy,r-lw/2-2, Math.PI, 2*Math.PI);
+  ctx.lineWidth=1; ctx.strokeStyle='rgba(0,0,0,.05)'; ctx.stroke();
+
+  // Needle
+  ctx.save();
+  ctx.translate(cx,cy);
+  ctx.rotate(needleA);
+  ctx.beginPath();
+  ctx.moveTo(0,6); ctx.lineTo(r-10,0); ctx.lineTo(0,-4);
+  ctx.fillStyle=GD; ctx.fill();
+  ctx.restore();
+
+  // Center cap
+  ctx.beginPath();
+  ctx.arc(cx,cy,9,0,2*Math.PI);
+  ctx.fillStyle=GD; ctx.fill();
+  ctx.beginPath();
+  ctx.arc(cx,cy,5,0,2*Math.PI);
+  ctx.fillStyle='#fff'; ctx.fill();
+
+  // Value label
+  ctx.fillStyle=GD; ctx.font='bold 26px Inter,sans-serif';
+  ctx.textAlign='center'; ctx.textBaseline='middle';
+  ctx.fillText('120', cx, cy-28);
+  ctx.fillStyle='#7A9080'; ctx.font='11px Inter,sans-serif';
+  ctx.fillText('días prom.', cx, cy-10);
+
+  // Min/Max labels
+  ctx.fillStyle='#7A9080'; ctx.font='10px Inter,sans-serif';
+  ctx.textAlign='left';  ctx.fillText('0',   cx-r-2, cy+14);
+  ctx.textAlign='right'; ctx.fillText('180', cx+r+2, cy+14);
+})();
+
+/* ── CHART 6: LINE YELO vs YECL ── */
+const yeloD = [1168,1180,1192,1205,1218,1228,1239,1253,1267,1278,1291,1306,1322,1335,1347,1358,1369,1378];
+const yeclD = [252, 255, 256, 257, 260, 263, 264, 265, 267, 270, 270, 272, 276, 279, 281, 284, 287, 290];
+
+new Chart(document.getElementById('chartYeloYecl'), {
+  type:'line',
+  data:{
+    labels:evoL,
+    datasets:[
+      {
+        label:'YELO · Local', data:yeloD,
+        borderColor:BLU, backgroundColor:'rgba(29,111,164,.07)',
+        fill:true, tension:.4,
+        pointRadius:3, pointBackgroundColor:BLU,
+        pointBorderColor:'#fff', pointBorderWidth:2, pointHoverRadius:6
+      },
+      {
+        label:'YECL · Global', data:yeclD,
+        borderColor:PUR, backgroundColor:'rgba(107,33,168,.05)',
+        fill:true, tension:.4,
+        pointRadius:3, pointBackgroundColor:PUR,
+        pointBorderColor:'#fff', pointBorderWidth:2, pointHoverRadius:6
+      }
+    ]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{
+      legend:{position:'top', labels:{font:{size:11},padding:14,boxWidth:12,boxHeight:8}},
+      tooltip:{...TT}
+    },
+    scales:{
+      x:{grid:{display:false}, ticks:{font:{size:10},color:'#6B7E72',maxRotation:40}},
+      y:{grid:{color:'#EAF0EC'}, ticks:{font:{size:11},color:'#6B7E72'}}
+    }
+  }
+});
+
+/* ── UI INTERACTIONS ── */
+function activateTab(el){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+document.querySelectorAll('.fchip').forEach(chip=>{
+  chip.addEventListener('click',function(){
+    this.classList.toggle('on');
+  });
+});
+</script>
+</body>
+</html>
