@@ -1,0 +1,90 @@
+/* Heineken Exec KPI Card — visual.less */
+
+:root {
+  --hnk-corporate-green: #205527;
+  --hnk-bright-green:    #A5E600;
+  --hnk-success:         #00A651;
+  --hnk-warning:         #F2A900;
+  --hnk-danger:          #E2231A;
+  --hnk-neutral-700:     #4A5568;
+  --hnk-neutral-500:     #A0AEC0;
+  --hnk-neutral-200:     #E2E8F0;
+  --hnk-bg:              #FFFFFF;
+}
+
+.hnk-kpi-card {
+  font-family: "Segoe UI", Segoe, Tahoma, Arial, sans-serif;
+  background: var(--hnk-bg);
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+
+  svg {
+    display: block;
+    overflow: visible;
+  }
+
+  .hnk-value {
+    font-weight: 700;
+    fill: var(--hnk-corporate-green);
+  }
+
+  .hnk-title {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    fill: var(--hnk-neutral-700);
+  }
+
+  .hnk-target-label {
+    font-size: 11px;
+    fill: var(--hnk-neutral-700);
+  }
+
+  .hnk-variance-badge {
+    rx: 4px;
+    ry: 4px;
+  }
+
+  .hnk-variance-text {
+    font-size: 13px;
+    font-weight: 600;
+    fill: #ffffff;
+  }
+
+  .hnk-sparkline-path {
+    fill: none;
+    stroke: var(--hnk-bright-green);
+    stroke-width: 1.5px;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .hnk-sparkline-fill {
+    fill: var(--hnk-bright-green);
+    opacity: 0.12;
+  }
+
+  .hnk-sparkline-dot {
+    fill: var(--hnk-corporate-green);
+    stroke: #ffffff;
+    stroke-width: 1.5px;
+  }
+
+  .hnk-landing {
+    font-size: 12px;
+    fill: var(--hnk-neutral-500);
+  }
+
+  /* Focus outline for keyboard navigation */
+  g:focus {
+    outline: 2px solid var(--hnk-bright-green);
+    outline-offset: 2px;
+  }
+
+  /* Highlighted (cross-filter) vs dimmed */
+  .hnk-dimmed {
+    opacity: 0.25;
+  }
+}

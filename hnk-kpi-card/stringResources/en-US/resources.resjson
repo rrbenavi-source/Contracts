@@ -1,0 +1,22 @@
+{
+  "Visual_Value": "Value",
+  "Visual_Target": "Target",
+  "Visual_Trend": "Trend (Axis)",
+  "Visual_TrendValue": "Trend (Value)",
+  "Card_KpiSettings": "KPI Settings",
+  "Prop_DisplayUnits": "Display Units",
+  "Prop_DecimalPlaces": "Decimal Places",
+  "Prop_PositiveColor": "Positive Color",
+  "Prop_NegativeColor": "Negative Color",
+  "Prop_SparklineColor": "Sparkline Color",
+  "Prop_ShowSparkline": "Show Sparkline",
+  "Prop_VarianceMode": "Variance Mode",
+  "Prop_VarianceMode_Absolute": "Absolute",
+  "Prop_VarianceMode_Percent": "Percentage",
+  "Card_TitleSettings": "Title",
+  "Prop_ShowTitle": "Show Title",
+  "Prop_TitleText": "Title Text",
+  "Prop_TitleFontSize": "Font Size",
+  "Prop_TitleFontColor": "Font Color",
+  "Landing_NoData": "Assign a measure to the Value field to display a KPI"
+}

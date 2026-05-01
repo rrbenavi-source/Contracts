@@ -1,0 +1,28 @@
+{
+  "visual": {
+    "name": "hnkExecKpiCard",
+    "displayName": "Heineken Exec KPI Card",
+    "guid": "HnkExecKpiCard1FB8C9F2A3D047CEB9E4F1A2D3E4F567",
+    "visualClassName": "Visual",
+    "version": "1.0.0.0",
+    "description": "Tarjeta KPI ejecutiva con sparkline, varianza y formato condicional. Heineken México 2026.",
+    "supportUrl": "https://heineken-mexico.atlassian.net/servicedesk/customer/portal/12",
+    "gitHubUrl": ""
+  },
+  "apiVersion": "5.11.0",
+  "author": {
+    "name": "Heineken México · BI Center of Excellence",
+    "email": "bi-coe@heineken.com.mx"
+  },
+  "assets": {
+    "icon": "assets/icon.png"
+  },
+  "externalJS": [],
+  "style": "style/visual.less",
+  "capabilities": "capabilities.json",
+  "dependencies": null,
+  "stringResources": [
+    "stringResources/en-US/resources.resjson",
+    "stringResources/es-MX/resources.resjson"
+  ]
+}

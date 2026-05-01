@@ -1,0 +1,83 @@
+{
+  "privileges": [],
+  "dataRoles": [
+    {
+      "displayName": "Valor",
+      "name": "value",
+      "kind": "Measure"
+    },
+    {
+      "displayName": "Target / Objetivo",
+      "name": "target",
+      "kind": "Measure"
+    },
+    {
+      "displayName": "Tendencia (eje)",
+      "name": "trend",
+      "kind": "Grouping"
+    },
+    {
+      "displayName": "Tendencia (valor)",
+      "name": "trendValue",
+      "kind": "Measure"
+    }
+  ],
+  "dataViewMappings": [
+    {
+      "conditions": [
+        {
+          "value":      { "max": 1 },
+          "target":     { "max": 1 },
+          "trend":      { "max": 1 },
+          "trendValue": { "max": 1 }
+        }
+      ],
+      "categorical": {
+        "categories": {
+          "for": { "in": "trend" },
+          "dataReductionAlgorithm": { "top": { "count": 100 } }
+        },
+        "values": {
+          "select": [
+            { "for": { "in": "value"      } },
+            { "for": { "in": "target"     } },
+            { "for": { "in": "trendValue" } }
+          ]
+        }
+      }
+    }
+  ],
+  "objects": {
+    "kpiSettings": {
+      "properties": {
+        "displayUnits":   { "type": { "formatting": { "labelDisplayUnits": true } } },
+        "decimalPlaces":  { "type": { "numeric": true } },
+        "positiveColor":  { "type": { "fill": { "solid": { "color": true } } } },
+        "negativeColor":  { "type": { "fill": { "solid": { "color": true } } } },
+        "sparklineColor": { "type": { "fill": { "solid": { "color": true } } } },
+        "showSparkline":  { "type": { "bool": true } },
+        "varianceMode": {
+          "type": {
+            "enumeration": [
+              { "value": "absolute", "displayName": "Absoluto" },
+              { "value": "percent",  "displayName": "Porcentaje" }
+            ]
+          }
+        }
+      }
+    },
+    "titleSettings": {
+      "properties": {
+        "show":       { "type": { "bool": true } },
+        "titleText":  { "type": { "text": true } },
+        "fontSize":   { "type": { "formatting": { "fontSize": true } } },
+        "fontColor":  { "type": { "fill": { "solid": { "color": true } } } }
+      }
+    }
+  },
+  "supportsHighlight": true,
+  "supportsLandingPage": true,
+  "supportsEmptyDataView": true,
+  "supportsKeyboardFocus": true,
+  "supportsMultiVisualSelection": false
+}
