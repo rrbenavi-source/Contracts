@@ -8,180 +8,199 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 :root{
-  --g:#007A33;--gd:#004F2D;--gm:#005C27;
-  --gl:#E6F4EC;--gp:#F2FAF5;
+  --g:#007A33;--gd:#004F2D;--gm:#005C27;--gl:#E6F4EC;--gp:#F2FAF5;
   --red:#C8102E;--amb:#E8900A;--pur:#6B21A8;--blu:#1D6FA4;
-  --wh:#FFFFFF;--bg:#ECF0ED;--bdr:#CDD9D2;
-  --tx:#1A1A1A;--txs:#556B5F;
+  --wh:#FFFFFF;--bg:#ECF0ED;--bdr:#CDD9D2;--tx:#1A1A1A;--txs:#556B5F;
   --sh:0 2px 10px rgba(0,79,45,.10);--shh:0 6px 24px rgba(0,79,45,.18);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Inter','Segoe UI',sans-serif;background:var(--bg);color:var(--tx);font-size:13px;min-height:100vh}
+body{font-family:'Inter','Segoe UI',sans-serif;background:var(--bg);color:var(--tx);font-size:13px}
 
-/* ─── TOPBAR ─── */
+/* TOPBAR */
 .topbar{background:var(--gd);display:flex;align-items:center;justify-content:space-between;padding:0 28px;height:50px;border-bottom:3px solid var(--g)}
 .tb-left{display:flex;align-items:center;gap:18px}
 .tb-sep{width:1px;height:24px;background:rgba(255,255,255,.2)}
 .tb-crumb{color:rgba(255,255,255,.55);font-size:11.5px;display:flex;align-items:center;gap:6px}
 .tb-crumb b{color:#fff;font-weight:600}
-.tb-right{display:flex;align-items:center;gap:16px;color:rgba(255,255,255,.65);font-size:11px}
+.tb-right{display:flex;align-items:center;gap:14px;color:rgba(255,255,255,.65);font-size:11px}
 .tb-pill{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);padding:3px 10px;border-radius:12px}
-.live-dot{width:6px;height:6px;border-radius:50%;background:#4ADE80;box-shadow:0 0 6px #4ADE80;animation:pulse 2s infinite}
+.ldot{width:6px;height:6px;border-radius:50%;background:#4ADE80;box-shadow:0 0 6px #4ADE80;animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
 
-/* ─── HEADER ─── */
+/* HEADER */
 .header{background:linear-gradient(135deg,var(--gd) 0%,var(--gm) 55%,var(--g) 100%);padding:22px 28px 18px;display:flex;align-items:flex-end;justify-content:space-between;position:relative;overflow:hidden}
 .header::before,.header::after{content:'';position:absolute;border-radius:50%;background:rgba(255,255,255,.04);pointer-events:none}
 .header::before{width:280px;height:280px;top:-90px;right:-70px}
 .header::after{width:200px;height:200px;bottom:-90px;left:40%}
-.hdr-left{display:flex;align-items:center;gap:20px;position:relative;z-index:1}
-.hdr-title h1{color:#fff;font-size:19px;font-weight:800;letter-spacing:-.4px}
-.hdr-title p{color:rgba(255,255,255,.68);font-size:11.5px;margin-top:4px}
-.hdr-meta{display:flex;flex-direction:column;align-items:flex-end;gap:5px;position:relative;z-index:1}
-.hdr-badge{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.25);color:#fff;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:500}
+.hdr-l{display:flex;align-items:center;gap:18px;position:relative;z-index:1}
+.hdr-t h1{color:#fff;font-size:19px;font-weight:800;letter-spacing:-.4px}
+.hdr-t p{color:rgba(255,255,255,.68);font-size:11.5px;margin-top:4px}
+.hdr-r{display:flex;flex-direction:column;align-items:flex-end;gap:5px;position:relative;z-index:1}
+.hbadge{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.25);color:#fff;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:500}
 
-/* ─── TABS ─── */
+/* TABS */
 .tabs{background:var(--gd);display:flex;padding:0 28px;border-bottom:1px solid rgba(255,255,255,.1)}
 .tab{color:rgba(255,255,255,.5);padding:10px 18px;font-size:12px;font-weight:500;cursor:pointer;border-bottom:3px solid transparent;transition:all .18s;user-select:none;white-space:nowrap}
 .tab:hover{color:rgba(255,255,255,.9)}
 .tab.active{color:#fff;border-bottom-color:var(--g)}
 
-/* ─── SLICER BAR ─── */
-.sbar{background:var(--wh);border-bottom:2px solid var(--bdr);padding:11px 28px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.sgroup{display:flex;align-items:center;gap:7px}
-.slabel{font-size:10.5px;font-weight:700;color:var(--txs);text-transform:uppercase;letter-spacing:.55px;white-space:nowrap;margin-right:2px}
-.schip{background:#F5F5F5;border:1.5px solid #D0D8D4;color:#4A5A52;padding:5px 14px;border-radius:16px;font-size:11.5px;font-weight:600;cursor:pointer;transition:all .18s;user-select:none;white-space:nowrap}
-.schip:hover{background:var(--gl);border-color:var(--g);color:var(--gd)}
-.schip.on{background:var(--g);color:#fff;border-color:var(--gm);box-shadow:0 2px 6px rgba(0,122,51,.3)}
-.ssep{width:1px;height:22px;background:var(--bdr);margin:0 6px}
+/* SLICER BAR */
+.sbar{background:var(--wh);border-bottom:2px solid var(--bdr);padding:10px 28px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.sg{display:flex;align-items:center;gap:7px}
+.slbl{font-size:10.5px;font-weight:700;color:var(--txs);text-transform:uppercase;letter-spacing:.55px;white-space:nowrap}
+.sc{background:#F5F5F5;border:1.5px solid #D0D8D4;color:#4A5A52;padding:5px 13px;border-radius:16px;font-size:11.5px;font-weight:600;cursor:pointer;transition:all .18s;user-select:none;white-space:nowrap}
+.sc:hover{background:var(--gl);border-color:var(--g);color:var(--gd)}
+.sc.on{background:var(--g);color:#fff;border-color:var(--gm);box-shadow:0 2px 6px rgba(0,122,51,.3)}
+.ssep{width:1px;height:20px;background:var(--bdr);margin:0 4px}
 
-/* ─── CANVAS ─── */
-.canvas{padding:20px 28px 32px;display:flex;flex-direction:column;gap:16px}
+/* TAB PAGES */
+.pg{display:none}.pg.on{display:block;animation:fi .25s ease}
+@keyframes fi{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
 
-/* ─── KPI ROW ─── */
-.kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
-.kpi{background:var(--wh);border-radius:10px;box-shadow:var(--sh);padding:18px 20px 16px;border-top:4px solid var(--g);transition:box-shadow .2s,transform .2s;position:relative;overflow:hidden;cursor:default}
+/* CANVAS */
+.cv{padding:20px 28px 32px;display:flex;flex-direction:column;gap:16px}
+
+/* KPI ROWS */
+.r5{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.r4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.r3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.kpi{background:var(--wh);border-radius:10px;box-shadow:var(--sh);padding:17px 20px 15px;border-top:4px solid var(--g);transition:box-shadow .2s,transform .2s;position:relative;overflow:hidden;cursor:default}
 .kpi:hover{box-shadow:var(--shh);transform:translateY(-2px)}
-.kpi.red{border-top-color:var(--red)}.kpi.amb{border-top-color:var(--amb)}.kpi.pur{border-top-color:var(--pur)}.kpi.blu{border-top-color:var(--blu)}
+.kpi.r{border-top-color:var(--red)}.kpi.a{border-top-color:var(--amb)}.kpi.p{border-top-color:var(--pur)}.kpi.b{border-top-color:var(--blu)}
 .kpi::after{content:'';position:absolute;bottom:-22px;right:-22px;width:80px;height:80px;border-radius:50%;background:var(--gp);opacity:.5;pointer-events:none}
-.kpi.red::after{background:#FFF0F0}.kpi.amb::after{background:#FFF8ED}.kpi.pur::after{background:#F5EEFF}
-.kpi-ico{font-size:17px;margin-bottom:9px;display:block}
-.kpi-val{font-size:32px;font-weight:900;color:var(--gd);line-height:1;letter-spacing:-1.5px;transition:all .4s}
-.kpi.red .kpi-val{color:var(--red)}.kpi.amb .kpi-val{color:#92590A}.kpi.pur .kpi-val{color:var(--pur)}.kpi.blu .kpi-val{color:var(--blu)}
-.kpi-lbl{font-size:11px;color:var(--txs);margin-top:6px;font-weight:500;line-height:1.3}
-.kpi-trend{font-size:10.5px;margin-top:8px;font-weight:600;display:flex;align-items:center;gap:3px}
-.tup{color:var(--g)}.tdn{color:var(--red)}.tnt{color:var(--txs)}
-.prog-wrap{width:100%;background:#DDE8E1;border-radius:4px;height:5px;overflow:hidden;margin-top:10px}
-.prog-fill{height:100%;border-radius:4px;transition:width 1s cubic-bezier(.4,0,.2,1)}
+.kpi.r::after{background:#FFF0F0}.kpi.a::after{background:#FFF8ED}.kpi.p::after{background:#F5EEFF}
+.kico{font-size:17px;margin-bottom:8px;display:block}
+.kv{font-size:31px;font-weight:900;color:var(--gd);line-height:1;letter-spacing:-1.5px;transition:all .4s}
+.kpi.r .kv{color:var(--red)}.kpi.a .kv{color:#92590A}.kpi.p .kv{color:var(--pur)}.kpi.b .kv{color:var(--blu)}
+.kl{font-size:11px;color:var(--txs);margin-top:5px;font-weight:500;line-height:1.3}
+.kt{font-size:10.5px;margin-top:7px;font-weight:600;display:flex;align-items:center;gap:3px}
+.tu{color:var(--g)}.td{color:var(--red)}.tn{color:var(--txs)}
+.pb{width:100%;background:#DDE8E1;border-radius:4px;height:5px;overflow:hidden;margin-top:9px}
+.pf{height:100%;border-radius:4px;transition:width 1s cubic-bezier(.4,0,.2,1)}
 
-/* ─── CHART GRIDS ─── */
-.row2{display:grid;gap:14px;grid-template-columns:2fr 1fr}
-.row11{display:grid;gap:14px;grid-template-columns:1fr 1fr}
-.row12{display:grid;gap:14px;grid-template-columns:1fr 2fr}
+/* CHART GRIDS */
+.g2{display:grid;gap:14px;grid-template-columns:2fr 1fr}
+.g11{display:grid;gap:14px;grid-template-columns:1fr 1fr}
+.g12{display:grid;gap:14px;grid-template-columns:1fr 2fr}
+.g111{display:grid;gap:14px;grid-template-columns:1fr 1fr 1fr}
+.g1{display:grid;gap:14px;grid-template-columns:1fr}
 .card{background:var(--wh);border-radius:10px;box-shadow:var(--sh);overflow:hidden;transition:box-shadow .2s}
 .card:hover{box-shadow:var(--shh)}
-.chead{padding:13px 18px 10px;border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between}
-.ctitle{font-size:12.5px;font-weight:700;color:var(--tx);display:flex;align-items:center;gap:7px}
-.ctitle .ico{width:22px;height:22px;background:var(--gl);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
-.cacts{display:flex;gap:4px}
-.cbtn{width:24px;height:24px;border:1px solid var(--bdr);border-radius:4px;background:transparent;color:var(--txs);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;transition:all .15s}
-.cbtn:hover{background:var(--gl);border-color:var(--g);color:var(--gd)}
+.ch{padding:12px 18px 9px;border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between}
+.ct{font-size:12.5px;font-weight:700;color:var(--tx);display:flex;align-items:center;gap:7px}
+.ct .i{width:21px;height:21px;background:var(--gl);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
+.ca{display:flex;gap:4px}
+.cb{width:24px;height:24px;border:1px solid var(--bdr);border-radius:4px;background:transparent;color:var(--txs);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;transition:all .15s}
+.cb:hover{background:var(--gl);border-color:var(--g);color:var(--gd)}
 .cbody{padding:16px 18px}
 
-/* ─── DONUT STATS ─── */
-.dstat{display:flex;flex-direction:column;gap:9px;margin-top:12px}
-.drow{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-radius:7px;background:var(--gp)}
-.drow-l{display:flex;align-items:center;gap:8px}
-.ddot{width:10px;height:10px;border-radius:50%}
-.dlbl{font-size:11.5px;font-weight:600;color:var(--tx)}
-.dval{font-size:15px;font-weight:800;color:var(--gd);transition:all .4s}
-.dpct{font-size:10.5px;color:var(--txs);margin-left:3px;transition:all .4s}
+/* DONUT SIDE STATS */
+.ds{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.dr{display:flex;align-items:center;justify-content:space-between;padding:7px 12px;border-radius:7px;background:var(--gp)}
+.drl{display:flex;align-items:center;gap:7px}
+.dd{width:9px;height:9px;border-radius:50%}
+.dl{font-size:11.5px;font-weight:600}
+.dv{font-size:14px;font-weight:800;color:var(--gd);transition:all .4s}
+.dp{font-size:10.5px;color:var(--txs);margin-left:2px;transition:all .4s}
 
-/* ─── TABLES ─── */
-.tscroll{max-height:272px;overflow-y:auto}
-.tscroll::-webkit-scrollbar{width:5px}
-.tscroll::-webkit-scrollbar-track{background:#f0f0f0}
-.tscroll::-webkit-scrollbar-thumb{background:var(--g);border-radius:3px}
+/* TABLES */
+.ts{max-height:272px;overflow-y:auto}
+.ts::-webkit-scrollbar{width:5px}
+.ts::-webkit-scrollbar-thumb{background:var(--g);border-radius:3px}
+.mt{width:100%;border-collapse:collapse;font-size:11.5px}
+.mt th{padding:9px 13px;font-weight:700;font-size:11px}
+.mt th.rh{text-align:left;background:var(--gp);color:var(--gd);border-bottom:2px solid var(--bdr)}
+.mt th.cy{text-align:center;background:#EBF4FC;color:#0C4A7A;border-bottom:2px solid var(--blu)}
+.mt th.cc{text-align:center;background:#F2EAFF;color:#4A0E80;border-bottom:2px solid var(--pur)}
+.mt th.ct{text-align:center;background:var(--gl);color:var(--gd);border-bottom:2px solid var(--g)}
+.mt th.ca2{text-align:center;background:#FFF3DE;color:#7A4500;border-bottom:2px solid var(--amb)}
+.mt td{padding:8px 13px;border-bottom:1px solid var(--bdr);text-align:center}
+.mt td.ck{text-align:left;font-weight:700;font-size:12px;font-family:Consolas,monospace;color:var(--gd)}
+.mt td.tc{font-weight:800;background:var(--gp)!important;color:var(--gd)}
+.mt tr:hover td{background:var(--gp)}
+.mt tr.ttl td{background:var(--gd);color:#fff;font-weight:800;border:none}
+.mt tr.ttl td.tc{background:var(--gm)!important;color:#fff}
+.hhi{background:rgba(0,122,51,.15)!important}.hmd{background:rgba(0,122,51,.07)!important}
 
-.mtable{width:100%;border-collapse:collapse;font-size:11.5px}
-.mtable th{padding:9px 14px;font-weight:700;font-size:11px}
-.mtable th.rh{text-align:left;background:var(--gp);color:var(--gd);border-bottom:2px solid var(--bdr)}
-.mtable th.cy{text-align:center;background:#EBF4FC;color:#0C4A7A;border-bottom:2px solid var(--blu)}
-.mtable th.cc{text-align:center;background:#F2EAFF;color:#4A0E80;border-bottom:2px solid var(--pur)}
-.mtable th.ct{text-align:center;background:var(--gl);color:var(--gd);border-bottom:2px solid var(--g)}
-.mtable td{padding:8px 14px;border-bottom:1px solid var(--bdr);text-align:center}
-.mtable td.ck{text-align:left;font-weight:700;font-size:12px;font-family:'Cascadia Code','Fira Code',Consolas,monospace;color:var(--gd)}
-.mtable td.tc{font-weight:800;background:var(--gp)!important;color:var(--gd)}
-.mtable tr:hover td{background:var(--gp)}
-.mtable tr.ttl td{background:var(--gd);color:#fff;font-weight:800;border:none}
-.mtable tr.ttl td.tc{background:var(--gm)!important;color:#fff}
-.hhi{background:rgba(0,122,51,.14)!important}.hmd{background:rgba(0,122,51,.07)!important}.hlo{background:rgba(0,122,51,.02)!important}
+.dt{width:100%;border-collapse:collapse;font-size:11.5px}
+.dt th{background:var(--gd);color:#fff;padding:9px 12px;text-align:left;font-weight:600;font-size:10.5px;letter-spacing:.3px}
+.dt td{padding:7px 12px;border-bottom:1px solid var(--bdr);vertical-align:middle}
+.dt tr:hover td{background:var(--gp)}
+.dt tr:last-child td{border-bottom:none}
 
-.dtable{width:100%;border-collapse:collapse;font-size:11.5px}
-.dtable th{background:var(--gd);color:#fff;padding:9px 12px;text-align:left;font-weight:600;font-size:10.5px;letter-spacing:.3px}
-.dtable td{padding:7px 12px;border-bottom:1px solid var(--bdr);vertical-align:middle}
-.dtable tr:hover td{background:var(--gp)}
-.dtable tr:last-child td{border-bottom:none}
-
-.anom-head{background:linear-gradient(90deg,#9B0B22,var(--red));color:#fff;padding:12px 18px;display:flex;align-items:center;gap:8px;font-weight:700;font-size:12.5px}
-.anom-pill{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);border-radius:12px;padding:2px 9px;font-size:11px;font-weight:600}
-.no-anom{text-align:center;padding:32px 16px;color:var(--txs);font-size:12px}
-.no-anom .icon{font-size:32px;margin-bottom:8px}
-
-/* ─── BADGES ─── */
+/* BADGES */
 .bg{background:#E6F4EC;color:#004F2D;border:1px solid #9DCFB0;padding:2px 8px;border-radius:10px;font-size:10.5px;font-weight:700;display:inline-block}
-.bp{background:#F2EAFF;color:#6B21A8;border:1px solid #C4A0F0;padding:2px 8px;border-radius:10px;font-size:10.5px;font-weight:700;display:inline-block}
-.br{background:#FDE8E8;color:#9B0B22;border:1px solid #F0A0A0;padding:2px 8px;border-radius:10px;font-size:10.5px;font-weight:700;display:inline-block}
+.br2{background:#FDE8E8;color:#9B0B22;border:1px solid #F0A0A0;padding:2px 8px;border-radius:10px;font-size:10.5px;font-weight:700;display:inline-block}
 .ba{background:#FFF3DE;color:#7A4500;border:1px solid #F5C87A;padding:2px 8px;border-radius:10px;font-size:10.5px;font-weight:700;display:inline-block}
 .bb{background:#EBF4FC;color:#0C4A7A;border:1px solid #90C4E8;padding:2px 8px;border-radius:10px;font-size:10.5px;font-weight:700;display:inline-block}
+.bp{background:#F2EAFF;color:#6B21A8;border:1px solid #C4A0F0;padding:2px 8px;border-radius:10px;font-size:10.5px;font-weight:700;display:inline-block}
 
-/* ─── FOOTER ─── */
-.footer{background:var(--wh);border-top:1px solid var(--bdr);padding:11px 28px;display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--txs)}
-.fbrand{display:flex;align-items:center;gap:6px;font-weight:700;color:var(--gd);font-size:12px}
+/* ANOMALY HEAD */
+.ah{background:linear-gradient(90deg,#9B0B22,var(--red));color:#fff;padding:11px 18px;display:flex;align-items:center;gap:8px;font-weight:700;font-size:12.5px}
+.ap{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);border-radius:12px;padding:2px 9px;font-size:11px;font-weight:600}
 
-/* ─── EMPTY STATE ─── */
-.empty-state{padding:40px;text-align:center;color:var(--txs);font-size:12px}
+/* ALERT BANNER (Tab 3) */
+.abanner{background:linear-gradient(90deg,#7A0A1C,var(--red));color:#fff;padding:16px 24px;border-radius:10px;display:flex;align-items:center;justify-content:space-between}
+.abanner .al{display:flex;align-items:center;gap:14px}
+.abanner .ai{font-size:28px}
+.abanner h3{font-size:15px;font-weight:800}
+.abanner p{font-size:11.5px;opacity:.85;margin-top:2px}
+.abanner .an{font-size:40px;font-weight:900;line-height:1}
+.abanner .as{font-size:11px;opacity:.75}
+
+/* QUALITY CARDS (Tab 3) */
+.qg{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.qc{background:var(--gp);border-radius:8px;padding:14px 16px;border-left:4px solid var(--g)}
+.qc.w{border-left-color:var(--amb)}.qc.r{border-left-color:var(--red)}
+.ql{font-size:10.5px;color:var(--txs);font-weight:600;margin-bottom:5px;letter-spacing:.2px}
+.qv{font-size:22px;font-weight:900;color:var(--gd)}.qc.w .qv{color:#92590A}.qc.r .qv{color:var(--red)}
+.qb{width:100%;height:6px;background:#DDE8E1;border-radius:3px;overflow:hidden;margin:5px 0}
+.qbf{height:100%;border-radius:3px;background:var(--g)}.qc.w .qbf{background:var(--amb)}.qc.r .qbf{background:var(--red)}
+.qs{font-size:10px;color:var(--txs)}
+
+/* CHECKLIST (Tab 3) */
+.chklist{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.chk{display:flex;align-items:center;gap:10px;background:var(--gp);border-radius:7px;padding:10px 14px}
+.chk.w{background:#FFF8ED}
+.chk-ico{font-size:16px;flex-shrink:0}
+.chk-txt{font-size:11.5px;font-weight:600;color:var(--tx)}
+.chk-sub{font-size:10px;color:var(--txs);margin-top:1px}
+.chk-pct{margin-left:auto;font-size:12px;font-weight:800;color:var(--gd)}.chk.w .chk-pct{color:#92590A}
+
+/* TREND BANNER (Tab 4) */
+.tbanner{background:linear-gradient(90deg,var(--gd),var(--gm),var(--g));color:#fff;padding:16px 28px;border-radius:10px;display:flex;align-items:center;justify-content:space-around}
+.tbs{text-align:center;padding:0 16px}
+.tbs .tv{font-size:30px;font-weight:900;line-height:1}
+.tbs .tl{font-size:11px;opacity:.78;margin-top:3px}
+.tbsep{width:1px;height:44px;background:rgba(255,255,255,.25)}
+
+/* FOOTER */
+.footer{background:var(--wh);border-top:1px solid var(--bdr);padding:10px 28px;display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--txs)}
+.fb{display:flex;align-items:center;gap:6px;font-weight:700;color:var(--gd);font-size:12px}
+
+/* EMPTY */
+.empty{text-align:center;padding:30px;color:var(--txs);font-size:12px}
+.empty .ei{font-size:30px;margin-bottom:6px}
 </style>
 </head>
 <body>
 
-<!-- ══════════ TOPBAR ══════════ -->
+<!-- ══ TOPBAR ══ -->
 <div class="topbar">
   <div class="tb-left">
-
-    <!-- Logo Heineken (SVG inline – versión blanca para fondo oscuro) -->
-    <svg width="152" height="38" viewBox="0 0 152 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- Estrella Heineken (5 puntas, estilo angular) -->
-      <g transform="translate(1,1)">
-        <!-- Cuerpo estrella -->
-        <polygon
-          points="16,0 19.8,11.4 32,11.4 22.1,18.4 25.9,29.8 16,22.8 6.1,29.8 9.9,18.4 0,11.4 12.2,11.4"
-          fill="#E8321C"/>
-        <!-- Corte interior izquierdo (efecto angular Heineken) -->
-        <polygon
-          points="16,6 13.4,13.8 7,13.8 12.2,17.4 16,6"
-          fill="rgba(0,0,0,0.18)"/>
+    <svg width="150" height="36" viewBox="0 0 150 36" fill="none">
+      <g transform="translate(1,2)">
+        <polygon points="15,0 18.6,10.8 30.5,10.8 21,17.5 24.6,28.3 15,21.6 5.4,28.3 9,17.5 -0.5,10.8 11.4,10.8" fill="#E8321C"/>
+        <polygon points="15,0 11.4,10.8 15,6.5 18.6,10.8" fill="rgba(0,0,0,.22)"/>
       </g>
-      <!-- HEINEKEN wordmark -->
-      <text x="40" y="25" font-family="'Arial Black',Arial,sans-serif" font-weight="900"
-            font-size="16" fill="#FFFFFF" letter-spacing="1.2">HEINEKEN</text>
-      <!-- Sub-label -->
-      <text x="40" y="35" font-family="Arial,sans-serif" font-size="7.5"
-            fill="rgba(255,255,255,0.52)" letter-spacing=".6">MÉXICO · ÁREA DE COMPRAS</text>
+      <text x="39" y="23" font-family="'Arial Black',Arial" font-weight="900" font-size="15.5" fill="#FFF" letter-spacing="1.1">HEINEKEN</text>
+      <text x="39" y="33" font-family="Arial" font-size="7.5" fill="rgba(255,255,255,.5)" letter-spacing=".5">MÉXICO · ÁREA DE COMPRAS</text>
     </svg>
-
     <div class="tb-sep"></div>
-    <div class="tb-crumb">
-      <span>Workspace: Contracts</span>
-      <span style="opacity:.45">›</span>
-      <b>Dashboard Contratos de Compras</b>
-    </div>
+    <div class="tb-crumb"><span>Workspace: Contracts</span><span style="opacity:.4">›</span><b>Dashboard Contratos de Compras</b></div>
   </div>
   <div class="tb-right">
-    <div class="tb-pill">
-      <div class="live-dot"></div>
-      <span>Azure Databricks · gold_hnk_mx_loc_procure</span>
-    </div>
+    <div class="tb-pill"><div class="ldot"></div><span>Azure Databricks · gold_hnk_mx_loc_procure</span></div>
     <div class="tb-pill">
       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
       Actualizado: 30-Abr-2026 · 06:00 hrs
@@ -189,687 +208,787 @@ body{font-family:'Inter','Segoe UI',sans-serif;background:var(--bg);color:var(--
   </div>
 </div>
 
-<!-- ══════════ HEADER ══════════ -->
+<!-- ══ HEADER ══ -->
 <div class="header">
-  <div class="hdr-left">
-    <!-- Logo grande Heineken (versión color para header oscuro) -->
-    <svg width="68" height="68" viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="34" cy="34" r="33" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.15)" stroke-width="1"/>
-      <!-- Estrella centrada -->
-      <g transform="translate(34,34)">
-        <polygon
-          points="0,-18 4.3,-5.6 17.1,-5.6 7.1,2.2 10.5,14.6 0,6.8 -10.5,14.6 -7.1,2.2 -17.1,-5.6 -4.3,-5.6"
-          fill="#E8321C"/>
-        <polygon
-          points="0,-18 -4.3,-5.6 0,-11 4.3,-5.6"
-          fill="rgba(0,0,0,.2)"/>
+  <div class="hdr-l">
+    <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+      <circle cx="32" cy="32" r="31" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.15)" stroke-width="1"/>
+      <g transform="translate(32,32)">
+        <polygon points="0,-17 4,-5.4 16.2,-5.4 6.7,2.1 10,13.7 0,6.4 -10,13.7 -6.7,2.1 -16.2,-5.4 -4,-5.4" fill="#E8321C"/>
+        <polygon points="0,-17 -4,-5.4 0,-10.5 4,-5.4" fill="rgba(0,0,0,.2)"/>
       </g>
     </svg>
-    <div class="hdr-title">
+    <div class="hdr-t">
       <h1>Dashboard Contratos de Compras</h1>
-      <p>tbl_sot_contracts · heiaepmx002pwe01 · Contratos activos vigentes al cierre del período</p>
+      <p>tbl_sot_contracts · heiaepmx002pwe01 · Contratos activos al cierre del período</p>
     </div>
   </div>
-  <div class="hdr-meta">
-    <span class="hdr-badge">🟢 Modelo semántico activo</span>
-    <span class="hdr-badge" style="margin-top:4px" id="hdr-count">1,668 contratos activos · 8 queries M</span>
+  <div class="hdr-r">
+    <span class="hbadge">🟢 Modelo semántico activo</span>
+    <span class="hbadge" id="hdr-count" style="margin-top:4px">1,668 contratos activos · 8 queries M</span>
   </div>
 </div>
 
-<!-- ══════════ TABS ══════════ -->
+<!-- ══ TABS ══ -->
 <div class="tabs">
-  <div class="tab active" onclick="activateTab(this)">Resumen Ejecutivo</div>
-  <div class="tab" onclick="activateTab(this)">Análisis de Condiciones</div>
-  <div class="tab" onclick="activateTab(this)">Anomalías &amp; Calidad</div>
-  <div class="tab" onclick="activateTab(this)">Evolución Temporal</div>
+  <div class="tab active"  onclick="switchTab(this,1)">Resumen Ejecutivo</div>
+  <div class="tab"         onclick="switchTab(this,2)">Análisis de Condiciones</div>
+  <div class="tab"         onclick="switchTab(this,3)">Anomalías &amp; Calidad</div>
+  <div class="tab"         onclick="switchTab(this,4)">Evolución Temporal</div>
 </div>
 
-<!-- ══════════ SLICER BAR ══════════ -->
+<!-- ══ SLICER BAR ══ -->
 <div class="sbar">
-
-  <!-- Grupo: Tipo de Contrato -->
-  <div class="sgroup">
-    <span class="slabel">📁 Tipo:</span>
-    <span class="schip on" data-group="tipo" data-val="all">Todos</span>
-    <span class="schip"    data-group="tipo" data-val="YELO">YELO · Local</span>
-    <span class="schip"    data-group="tipo" data-val="YECL">YECL · Global</span>
+  <div class="sg">
+    <span class="slbl">📁 Tipo:</span>
+    <span class="sc on"  data-g="tipo" data-v="all">Todos</span>
+    <span class="sc"     data-g="tipo" data-v="YELO">YELO · Local</span>
+    <span class="sc"     data-g="tipo" data-v="YECL">YECL · Global</span>
   </div>
-
   <div class="ssep"></div>
-
-  <!-- Grupo: Período -->
-  <div class="sgroup">
-    <span class="slabel">📅 Período:</span>
-    <span class="schip on" data-group="periodo" data-val="all">2024 – 2026</span>
-    <span class="schip"    data-group="periodo" data-val="2025">2025</span>
-    <span class="schip"    data-group="periodo" data-val="2026">2026</span>
+  <div class="sg">
+    <span class="slbl">📅 Período:</span>
+    <span class="sc on"  data-g="periodo" data-v="all">2024 – 2026</span>
+    <span class="sc"     data-g="periodo" data-v="2025">2025</span>
+    <span class="sc"     data-g="periodo" data-v="2026">2026</span>
   </div>
-
 </div>
 
-<!-- ══════════ CANVAS ══════════ -->
-<div class="canvas">
+<!-- ══════════════════════════════════
+     PAGE 1 · RESUMEN EJECUTIVO
+══════════════════════════════════ -->
+<div id="pg1" class="pg on">
+<div class="cv">
 
-  <!-- KPI ROW -->
-  <div class="kpi-row">
-    <div class="kpi">
-      <span class="kpi-ico">📄</span>
-      <div class="kpi-val" id="kpi-total">1,668</div>
-      <div class="kpi-lbl">Total Contratos Activos</div>
-      <div class="kpi-trend tup" id="kpi-total-trend">↑ Todos los períodos</div>
-      <div class="prog-wrap"><div class="prog-fill" id="prog-total" style="width:100%;background:var(--g)"></div></div>
-    </div>
-    <div class="kpi blu">
-      <span class="kpi-ico">🏠</span>
-      <div class="kpi-val" id="kpi-yelo">1,378</div>
-      <div class="kpi-lbl">Contratos YELO · Local</div>
-      <div class="kpi-trend tnt" id="kpi-yelo-trend">82.6% del total</div>
-      <div class="prog-wrap"><div class="prog-fill" id="prog-yelo" style="width:82.6%;background:var(--blu)"></div></div>
-    </div>
-    <div class="kpi pur">
-      <span class="kpi-ico">🌐</span>
-      <div class="kpi-val" id="kpi-yecl">290</div>
-      <div class="kpi-lbl">Contratos YECL · Global</div>
-      <div class="kpi-trend tnt" id="kpi-yecl-trend">17.4% del total</div>
-      <div class="prog-wrap"><div class="prog-fill" id="prog-yecl" style="width:17.4%;background:var(--pur)"></div></div>
-    </div>
-    <div class="kpi amb">
-      <span class="kpi-ico">📅</span>
-      <div class="kpi-val" id="kpi-dias">120</div>
-      <div class="kpi-lbl">Promedio Días de Crédito</div>
-      <div class="kpi-trend tnt" id="kpi-dias-trend">≈ 4 meses promedio</div>
-      <div class="prog-wrap"><div class="prog-fill" id="prog-dias" style="width:66%;background:var(--amb)"></div></div>
-    </div>
-    <div class="kpi red">
-      <span class="kpi-ico">⚠️</span>
-      <div class="kpi-val" id="kpi-anom">11</div>
-      <div class="kpi-lbl">Anomalías Crédito Cero</div>
-      <div class="kpi-trend tdn" id="kpi-anom-trend">V028 · Requiere revisión</div>
-      <div class="prog-wrap"><div class="prog-fill" id="prog-anom" style="width:0.66%;background:var(--red)"></div></div>
-    </div>
+  <div class="r5">
+    <div class="kpi"><span class="kico">📄</span><div class="kv" id="k-tot">1,668</div><div class="kl">Total Contratos Activos</div><div class="kt tu" id="k-tot-t">↑ Todos los períodos</div><div class="pb"><div class="pf" id="p-tot" style="width:100%;background:var(--g)"></div></div></div>
+    <div class="kpi b"><span class="kico">🏠</span><div class="kv" id="k-yelo">1,378</div><div class="kl">Contratos YELO · Local</div><div class="kt tn" id="k-yelo-t">82.6% del total</div><div class="pb"><div class="pf" id="p-yelo" style="width:82.6%;background:var(--blu)"></div></div></div>
+    <div class="kpi p"><span class="kico">🌐</span><div class="kv" id="k-yecl">290</div><div class="kl">Contratos YECL · Global</div><div class="kt tn" id="k-yecl-t">17.4% del total</div><div class="pb"><div class="pf" id="p-yecl" style="width:17.4%;background:var(--pur)"></div></div></div>
+    <div class="kpi a"><span class="kico">📅</span><div class="kv" id="k-dias">120</div><div class="kl">Promedio Días de Crédito</div><div class="kt tn" id="k-dias-t">≈ 4 meses promedio</div><div class="pb"><div class="pf" id="p-dias" style="width:66%;background:var(--amb)"></div></div></div>
+    <div class="kpi r"><span class="kico">⚠️</span><div class="kv" id="k-anom">11</div><div class="kl">Anomalías Crédito Cero</div><div class="kt td" id="k-anom-t">V028 · Requiere revisión</div><div class="pb"><div class="pf" id="p-anom" style="width:0.7%;background:var(--red)"></div></div></div>
   </div>
 
-  <!-- ROW: BAR CONDICION + DONUT -->
-  <div class="row2">
+  <div class="g2">
     <div class="card">
-      <div class="chead">
-        <div class="ctitle"><div class="ico">📊</div>Contratos por Condición de Pago</div>
-        <div class="cacts">
-          <button class="cbtn" title="Ver tabla">⊞</button>
-          <button class="cbtn" title="Expandir">⛶</button>
-          <button class="cbtn" title="Opciones">⋯</button>
-        </div>
-      </div>
-      <div class="cbody">
-        <div style="position:relative;height:220px"><canvas id="chartCondicion"></canvas></div>
-      </div>
+      <div class="ch"><div class="ct"><div class="i">📊</div>Contratos por Condición de Pago</div><div class="ca"><button class="cb">⊞</button><button class="cb">⛶</button><button class="cb">⋯</button></div></div>
+      <div class="cbody"><div style="position:relative;height:220px"><canvas id="c1-cond"></canvas></div></div>
     </div>
     <div class="card">
-      <div class="chead">
-        <div class="ctitle"><div class="ico">🍩</div>Distribución por Tipo</div>
-        <div class="cacts">
-          <button class="cbtn">⛶</button>
-          <button class="cbtn">⋯</button>
-        </div>
-      </div>
+      <div class="ch"><div class="ct"><div class="i">🍩</div>Tipo de Contrato</div><div class="ca"><button class="cb">⛶</button></div></div>
       <div class="cbody">
-        <div style="position:relative;height:145px"><canvas id="chartDonut"></canvas></div>
-        <div class="dstat" style="margin-top:12px">
-          <div class="drow">
-            <div class="drow-l"><div class="ddot" style="background:#1D6FA4"></div><span class="dlbl">YELO · Local</span></div>
-            <div><span class="dval" id="dstat-yelo">1,378</span><span class="dpct" id="dstat-yelo-pct">82.6%</span></div>
-          </div>
-          <div class="drow">
-            <div class="drow-l"><div class="ddot" style="background:#6B21A8"></div><span class="dlbl">YECL · Global</span></div>
-            <div><span class="dval" id="dstat-yecl">290</span><span class="dpct" id="dstat-yecl-pct">17.4%</span></div>
-          </div>
+        <div style="position:relative;height:145px"><canvas id="c1-donut"></canvas></div>
+        <div class="ds">
+          <div class="dr"><div class="drl"><div class="dd" style="background:#1D6FA4"></div><span class="dl">YELO · Local</span></div><div><span class="dv" id="d-yelo">1,378</span><span class="dp" id="d-yelo-p"> 82.6%</span></div></div>
+          <div class="dr"><div class="drl"><div class="dd" style="background:#6B21A8"></div><span class="dl">YECL · Global</span></div><div><span class="dv" id="d-yecl">290</span><span class="dp" id="d-yecl-p"> 17.4%</span></div></div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ROW: HISTOGRAMA + LINE EVOLUCION TOTAL -->
-  <div class="row11">
+  <div class="g11">
     <div class="card">
-      <div class="chead">
-        <div class="ctitle"><div class="ico">📶</div>Distribución · Rangos de Días de Crédito</div>
-        <div class="cacts"><button class="cbtn">⛶</button><button class="cbtn">⋯</button></div>
-      </div>
-      <div class="cbody">
-        <div style="position:relative;height:210px"><canvas id="chartHistograma"></canvas></div>
-      </div>
+      <div class="ch"><div class="ct"><div class="i">📶</div>Rangos de Días de Crédito</div><div class="ca"><button class="cb">⛶</button></div></div>
+      <div class="cbody"><div style="position:relative;height:210px"><canvas id="c1-histo"></canvas></div></div>
     </div>
     <div class="card">
-      <div class="chead">
-        <div class="ctitle"><div class="ico">📈</div>Evolución Mensual de Contratos Activos</div>
-        <div class="cacts"><button class="cbtn">⛶</button><button class="cbtn">⋯</button></div>
-      </div>
-      <div class="cbody">
-        <div style="position:relative;height:210px"><canvas id="chartEvolucion"></canvas></div>
-      </div>
+      <div class="ch"><div class="ct"><div class="i">📈</div>Evolución Mensual · Contratos Activos</div><div class="ca"><button class="cb">⛶</button></div></div>
+      <div class="cbody"><div style="position:relative;height:210px"><canvas id="c1-evo"></canvas></div></div>
     </div>
   </div>
 
-  <!-- ROW: MATRIZ + ANOMALIAS -->
-  <div class="row11">
+  <div class="g11">
     <div class="card">
-      <div class="chead">
-        <div class="ctitle"><div class="ico">🔢</div>Matriz · Condición de Pago × Tipo</div>
-        <div class="cacts"><button class="cbtn">⛶</button><button class="cbtn">⋯</button></div>
-      </div>
-      <div class="tscroll" id="matriz-wrap">
-        <table class="mtable">
-          <thead>
-            <tr>
-              <th class="rh" style="padding-left:18px;width:38%">Condición</th>
-              <th class="cy" id="mth-yelo">YELO · Local</th>
-              <th class="cc" id="mth-yecl">YECL · Global</th>
-              <th class="ct">Total</th>
-            </tr>
-          </thead>
-          <tbody id="matriz-body">
-            <!-- filled by JS -->
-          </tbody>
+      <div class="ch"><div class="ct"><div class="i">🔢</div>Matriz · Condición × Tipo</div><div class="ca"><button class="cb">⛶</button></div></div>
+      <div class="ts" id="m1-wrap">
+        <table class="mt">
+          <thead><tr><th class="rh" style="padding-left:18px">Condición</th><th class="cy" id="m1-yelo">YELO</th><th class="cc" id="m1-yecl">YECL</th><th class="ct">Total</th></tr></thead>
+          <tbody id="m1-body"></tbody>
         </table>
       </div>
     </div>
     <div class="card">
-      <div class="anom-head" id="anom-head">
-        🚨 Anomalías · Crédito = 0 con Condición ≠ V000
-        <span class="anom-pill" id="anom-count">11 contratos</span>
-      </div>
-      <div id="anom-wrap">
-        <div class="tscroll">
-          <table class="dtable">
-            <thead><tr><th>N° Contrato SAP</th><th>Condición</th><th>Días</th><th>Tipo</th><th>Estatus</th></tr></thead>
-            <tbody id="anom-body">
-              <!-- filled by JS -->
-            </tbody>
-          </table>
-        </div>
-      </div>
+      <div class="ah" id="a1-head">🚨 Anomalías · Crédito = 0 con Condición ≠ V000 <span class="ap" id="a1-cnt">11</span></div>
+      <div id="a1-wrap"></div>
     </div>
   </div>
 
-  <!-- ROW: GAUGE + LINE YELO vs YECL -->
-  <div class="row12">
+  <div class="g12">
     <div class="card">
-      <div class="chead">
-        <div class="ctitle"><div class="ico">🕐</div>Promedio Global · Días de Crédito</div>
-        <div class="cacts"><button class="cbtn">⋯</button></div>
-      </div>
+      <div class="ch"><div class="ct"><div class="i">🕐</div>Promedio · Días de Crédito</div></div>
       <div class="cbody" style="display:flex;flex-direction:column;align-items:center">
-        <canvas id="chartGauge" width="240" height="140"></canvas>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;width:100%;margin-top:8px;text-align:center">
-          <div style="background:var(--gp);border-radius:7px;padding:10px 6px">
-            <div style="font-size:18px;font-weight:800;color:var(--blu)">60</div>
-            <div style="font-size:10px;color:var(--txs);margin-top:2px">Mín Observado</div>
-          </div>
-          <div style="background:var(--gp);border-radius:7px;padding:10px 6px;border:2px solid var(--g)">
-            <div style="font-size:18px;font-weight:800;color:var(--gd)" id="gauge-avg-lbl">120</div>
-            <div style="font-size:10px;color:var(--txs);margin-top:2px">Promedio Global</div>
-          </div>
-          <div style="background:var(--gp);border-radius:7px;padding:10px 6px">
-            <div style="font-size:18px;font-weight:800;color:var(--pur)">180</div>
-            <div style="font-size:10px;color:var(--txs);margin-top:2px">Máx Observado</div>
-          </div>
+        <canvas id="c1-gauge" width="240" height="138"></canvas>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;width:100%;margin-top:6px;text-align:center">
+          <div style="background:var(--gp);border-radius:7px;padding:9px 6px"><div style="font-size:17px;font-weight:800;color:var(--blu)">60</div><div style="font-size:10px;color:var(--txs);margin-top:2px">Mín Observado</div></div>
+          <div style="background:var(--gp);border-radius:7px;padding:9px 6px;border:2px solid var(--g)"><div style="font-size:17px;font-weight:800;color:var(--gd)" id="g-lbl">120</div><div style="font-size:10px;color:var(--txs);margin-top:2px">Promedio Global</div></div>
+          <div style="background:var(--gp);border-radius:7px;padding:9px 6px"><div style="font-size:17px;font-weight:800;color:var(--pur)">180</div><div style="font-size:10px;color:var(--txs);margin-top:2px">Máx Observado</div></div>
         </div>
       </div>
     </div>
     <div class="card">
-      <div class="chead">
-        <div class="ctitle"><div class="ico">📉</div>Evolución Comparativa YELO vs YECL</div>
-        <div class="cacts"><button class="cbtn">⛶</button><button class="cbtn">⋯</button></div>
-      </div>
-      <div class="cbody">
-        <div style="position:relative;height:218px"><canvas id="chartYeloYecl"></canvas></div>
+      <div class="ch"><div class="ct"><div class="i">📉</div>Evolución Comparativa · YELO vs YECL</div><div class="ca"><button class="cb">⛶</button></div></div>
+      <div class="cbody"><div style="position:relative;height:218px"><canvas id="c1-comp"></canvas></div></div>
+    </div>
+  </div>
+
+</div>
+</div><!-- /pg1 -->
+
+<!-- ══════════════════════════════════
+     PAGE 2 · ANÁLISIS DE CONDICIONES
+══════════════════════════════════ -->
+<div id="pg2" class="pg">
+<div class="cv">
+
+  <div class="r3">
+    <div class="kpi b"><span class="kico">🏆</span><div class="kv" id="k2-top">V037</div><div class="kl">Condición más frecuente</div><div class="kt tn">652 contratos · 60 días</div></div>
+    <div class="kpi a"><span class="kico">⏳</span><div class="kv">6</div><div class="kl">Condiciones de Pago únicas</div><div class="kt tn">V000, V027, V028, V037, V045, V060</div></div>
+    <div class="kpi p"><span class="kico">⚖️</span><div class="kv">V000</div><div class="kl">Mayor equilibrio YELO/YECL</div><div class="kt tn">47% YELO · 53% YECL</div></div>
+  </div>
+
+  <div class="card">
+    <div class="ch"><div class="ct"><div class="i">📊</div>Contratos y Promedio de Días por Condición de Pago · Vista Mixta</div><div class="ca"><button class="cb">⛶</button><button class="cb">⋯</button></div></div>
+    <div class="cbody"><div style="position:relative;height:240px"><canvas id="c2-mixed"></canvas></div></div>
+  </div>
+
+  <div class="g11">
+    <div class="card">
+      <div class="ch"><div class="ct"><div class="i">📋</div>YELO vs YECL por Condición</div><div class="ca"><button class="cb">⛶</button></div></div>
+      <div class="cbody"><div style="position:relative;height:220px"><canvas id="c2-grp"></canvas></div></div>
+    </div>
+    <div class="card">
+      <div class="ch"><div class="ct"><div class="i">🍩</div>Distribución por Condición de Pago</div><div class="ca"><button class="cb">⛶</button></div></div>
+      <div class="cbody" style="display:flex;gap:20px;align-items:center">
+        <div style="position:relative;width:200px;height:200px;flex-shrink:0"><canvas id="c2-dist"></canvas></div>
+        <div style="flex:1" id="c2-dist-legend"></div>
       </div>
     </div>
   </div>
 
-</div><!-- /canvas -->
+  <div class="card">
+    <div class="ch"><div class="ct"><div class="i">🔢</div>Matriz Extendida · Condición × Tipo (con porcentajes)</div><div class="ca"><button class="cb">⛶</button></div></div>
+    <div class="ts">
+      <table class="mt" id="m2-table">
+        <thead>
+          <tr>
+            <th class="rh" style="padding-left:18px">Condición</th>
+            <th class="ca2">Días Prom.</th>
+            <th class="cy">YELO</th>
+            <th class="ca2">% YELO</th>
+            <th class="cc">YECL</th>
+            <th class="ca2">% YECL</th>
+            <th class="ct">Total</th>
+            <th class="ct">% Total</th>
+          </tr>
+        </thead>
+        <tbody id="m2-body"></tbody>
+      </table>
+    </div>
+  </div>
 
-<!-- ══════════ FOOTER ══════════ -->
+</div>
+</div><!-- /pg2 -->
+
+<!-- ══════════════════════════════════
+     PAGE 3 · ANOMALÍAS & CALIDAD
+══════════════════════════════════ -->
+<div id="pg3" class="pg">
+<div class="cv">
+
+  <div class="abanner">
+    <div class="al"><div class="ai">🚨</div><div><h3>Alerta de Calidad de Datos · Anomalías Detectadas</h3><p>Contratos con condición de pago V028 (30 días) pero con días_de_credito = 0 · Posible error de carga SAP</p></div></div>
+    <div style="text-align:right"><div class="an" id="a3-cnt">11</div><div class="as">contratos afectados</div></div>
+  </div>
+
+  <div class="qg">
+    <div class="qc ok"><div class="ql">Índice de Calidad General</div><div class="qv">99.3%</div><div class="qb"><div class="qbf" style="width:99.3%"></div></div><div class="qs">1,657 contratos sin anomalías</div></div>
+    <div class="qc w"><div class="ql">Contratos con Anomalía</div><div class="qv" id="q-anom">11</div><div class="qb"><div class="qbf" style="width:0.66%"></div></div><div class="qs">0.66% del total activo</div></div>
+    <div class="qc ok"><div class="ql">Campos Completos</div><div class="qv">100%</div><div class="qb"><div class="qbf" style="width:100%"></div></div><div class="qs">Sin valores nulos críticos</div></div>
+    <div class="qc ok"><div class="ql">Condiciones de Pago Válidas</div><div class="qv">100%</div><div class="qb"><div class="qbf" style="width:100%"></div></div><div class="qs">6 condiciones reconocidas</div></div>
+  </div>
+
+  <div class="g11">
+    <div class="card">
+      <div class="ah">📋 Detalle de Contratos Anómalos <span class="ap" id="a3-tbl-cnt">11 registros</span></div>
+      <div class="ts" style="max-height:320px">
+        <table class="dt" id="a3-table">
+          <thead><tr><th>N° Contrato SAP</th><th>Condición</th><th>Días Crédito</th><th>Tipo</th><th>Proveedor (ref.)</th><th>Estatus</th></tr></thead>
+          <tbody id="a3-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="g1" style="gap:14px">
+      <div class="card">
+        <div class="ch"><div class="ct"><div class="i">📊</div>Distribución de Anomalías por Año de Contrato</div></div>
+        <div class="cbody"><div style="position:relative;height:165px"><canvas id="c3-bar"></canvas></div></div>
+      </div>
+      <div class="card">
+        <div class="ch"><div class="ct"><div class="i">🎯</div>Score de Calidad del Modelo</div></div>
+        <div class="cbody" style="display:flex;align-items:center;gap:20px">
+          <canvas id="c3-gauge" width="180" height="108"></canvas>
+          <div style="flex:1">
+            <div class="chklist" id="a3-checks"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div><!-- /pg3 -->
+
+<!-- ══════════════════════════════════
+     PAGE 4 · EVOLUCIÓN TEMPORAL
+══════════════════════════════════ -->
+<div id="pg4" class="pg">
+<div class="cv">
+
+  <div class="tbanner">
+    <div class="tbs"><div class="tv" id="t4-tot">+248</div><div class="tl">Contratos nuevos (18 meses)</div></div>
+    <div class="tbsep"></div>
+    <div class="tbs"><div class="tv">+17.5%</div><div class="tl">Crecimiento acumulado</div></div>
+    <div class="tbsep"></div>
+    <div class="tbs"><div class="tv" id="t4-avg">+13.8</div><div class="tl">Contratos/mes promedio</div></div>
+    <div class="tbsep"></div>
+    <div class="tbs"><div class="tv">Nov'25</div><div class="tl">Mes de mayor crecimiento (+20)</div></div>
+  </div>
+
+  <div class="card">
+    <div class="ch"><div class="ct"><div class="i">📈</div>Evolución Completa · Contratos Activos (18 meses)</div><div class="ca"><button class="cb">⛶</button><button class="cb">⋯</button></div></div>
+    <div class="cbody"><div style="position:relative;height:230px"><canvas id="c4-full"></canvas></div></div>
+  </div>
+
+  <div class="g11">
+    <div class="card">
+      <div class="ch"><div class="ct"><div class="i">📉</div>Δ Crecimiento Mensual (MoM)</div><div class="ca"><button class="cb">⛶</button></div></div>
+      <div class="cbody"><div style="position:relative;height:210px"><canvas id="c4-mom"></canvas></div></div>
+    </div>
+    <div class="card">
+      <div class="ch"><div class="ct"><div class="i">📆</div>Comparativo Año a Año (YoY) · Ene–Abr</div><div class="ca"><button class="cb">⛶</button></div></div>
+      <div class="cbody"><div style="position:relative;height:210px"><canvas id="c4-yoy"></canvas></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ch"><div class="ct"><div class="i">📉</div>Evolución Comparativa Completa · YELO vs YECL (18 meses)</div><div class="ca"><button class="cb">⛶</button></div></div>
+    <div class="cbody"><div style="position:relative;height:230px"><canvas id="c4-comp"></canvas></div></div>
+  </div>
+
+</div>
+</div><!-- /pg4 -->
+
+<!-- ══ FOOTER ══ -->
 <div class="footer">
-  <div class="fbrand">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#004F2D" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+  <div class="fb">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#004F2D" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
     HEINEKEN México · Dashboard Contratos de Compras
   </div>
   <span>Fuente: Azure Databricks → gold_hnk_mx_loc_procure.tbl_sot_contracts</span>
   <span>Workspace: 496bfcf7 · Semantic Model: 7f0cfd8e · 30-Abr-2026</span>
 </div>
 
-<!-- ══════════════════════════════════════════
-     JAVASCRIPT – DATOS + SLICERS + CHARTS
-══════════════════════════════════════════ -->
 <script>
-/* ════════════════════════════════
-   1. DATASET MASTER
-════════════════════════════════ */
-const EVO_LABELS = ['Nov\'24','Dic\'24','Ene\'25','Feb\'25','Mar\'25','Abr\'25',
-                    'May\'25','Jun\'25','Jul\'25','Ago\'25','Sep\'25','Oct\'25',
-                    'Nov\'25','Dic\'25','Ene\'26','Feb\'26','Mar\'26','Abr\'26'];
-const EVO_ALL  = [1420,1435,1448,1462,1478,1491,1503,1518,1534,1548,1561,1578,1598,1614,1628,1642,1656,1668];
-const EVO_YELO = [1168,1180,1192,1205,1218,1228,1239,1253,1267,1278,1291,1306,1322,1335,1347,1358,1369,1378];
-const EVO_YECL = [252, 255, 256, 257, 260, 263, 264, 265, 267, 270, 270, 272, 276, 279, 281, 284, 287, 290];
+/* ══════════════════════════════════════
+   DATOS MASTER
+══════════════════════════════════════ */
+const EL=['Nov\'24','Dic\'24','Ene\'25','Feb\'25','Mar\'25','Abr\'25','May\'25','Jun\'25','Jul\'25','Ago\'25','Sep\'25','Oct\'25','Nov\'25','Dic\'25','Ene\'26','Feb\'26','Mar\'26','Abr\'26'];
+const EA=[1420,1435,1448,1462,1478,1491,1503,1518,1534,1548,1561,1578,1598,1614,1628,1642,1656,1668];
+const EY=[1168,1180,1192,1205,1218,1228,1239,1253,1267,1278,1291,1306,1322,1335,1347,1358,1369,1378];
+const EC=[252,255,256,257,260,263,264,265,267,270,270,272,276,279,281,284,287,290];
+const PI={all:[0,18],'2025':[2,14],'2026':[14,18]};
 
-/* índices [start, end] en EVO_LABELS por período */
-const PERIOD_IDX = { all:[0,18], '2025':[2,14], '2026':[14,18] };
-
-/* KPIs por combinación tipo-período */
-const KPI = {
-  'all-all':   {total:1668,yelo:1378,yecl:290, prom:120,anom:11},
-  'all-2025':  {total:1614,yelo:1335,yecl:279, prom:118,anom:11},
-  'all-2026':  {total:1668,yelo:1378,yecl:290, prom:120,anom:11},
-  'YELO-all':  {total:1378,yelo:1378,yecl:0,   prom:115,anom:11},
-  'YELO-2025': {total:1335,yelo:1335,yecl:0,   prom:113,anom:11},
-  'YELO-2026': {total:1378,yelo:1378,yecl:0,   prom:115,anom:11},
-  'YECL-all':  {total:290, yelo:0,   yecl:290,  prom:135,anom:0},
-  'YECL-2025': {total:279, yelo:0,   yecl:279,  prom:133,anom:0},
-  'YECL-2026': {total:290, yelo:0,   yecl:290,  prom:135,anom:0},
+const KD={
+  'all-all':{total:1668,yelo:1378,yecl:290,prom:120,anom:11},
+  'all-2025':{total:1614,yelo:1335,yecl:279,prom:118,anom:11},
+  'all-2026':{total:1668,yelo:1378,yecl:290,prom:120,anom:11},
+  'YELO-all':{total:1378,yelo:1378,yecl:0,prom:115,anom:11},
+  'YELO-2025':{total:1335,yelo:1335,yecl:0,prom:113,anom:11},
+  'YELO-2026':{total:1378,yelo:1378,yecl:0,prom:115,anom:11},
+  'YECL-all':{total:290,yelo:0,yecl:290,prom:135,anom:0},
+  'YECL-2025':{total:279,yelo:0,yecl:279,prom:133,anom:0},
+  'YECL-2026':{total:290,yelo:0,yecl:290,prom:135,anom:0},
 };
 
-/* Datos barra condición por tipo */
-const COND = {
-  all:  {yelo:[580,350,245,148,45,10], yecl:[72,73,36,30,50,29]},
-  YELO: {yelo:[580,350,245,148,45,10], yecl:[0,0,0,0,0,0]},
-  YECL: {yelo:[0,0,0,0,0,0],           yecl:[72,73,36,30,50,29]},
+const COND_D={
+  all:{yelo:[580,350,245,148,45,10],yecl:[72,73,36,30,50,29]},
+  YELO:{yelo:[580,350,245,148,45,10],yecl:[0,0,0,0,0,0]},
+  YECL:{yelo:[0,0,0,0,0,0],yecl:[72,73,36,30,50,29]},
 };
-
-/* Histograma rangos de crédito por tipo */
-const HISTO = {
-  all:  [106,245,487,312,298,156,64],
-  YELO: [56, 200,415,265,252,131,59],
-  YECL: [50, 45, 72, 47, 46, 25, 5],
+const HISTO_D={
+  all:[106,245,487,312,298,156,64],
+  YELO:[56,200,415,265,252,131,59],
+  YECL:[50,45,72,47,46,25,5],
 };
-
-/* Datos de la matriz pivot por tipo */
-const MATRIZ_ROWS = [
-  {cond:'V037',dias:'60 días', yelo:580,yecl:72},
-  {cond:'V027',dias:'30 días', yelo:350,yecl:73},
-  {cond:'V028',dias:'30 días ⚠',yelo:245,yecl:36},
-  {cond:'V060',dias:'60 días', yelo:148,yecl:30},
-  {cond:'V000',dias:'0 días',  yelo:45, yecl:50},
-  {cond:'V045',dias:'45 días', yelo:10, yecl:29},
+const MROWS=[
+  {c:'V037',d:60, yelo:580,yecl:72},
+  {c:'V027',d:30, yelo:350,yecl:73},
+  {c:'V028',d:28.8,yelo:245,yecl:36},
+  {c:'V060',d:60, yelo:148,yecl:30},
+  {c:'V000',d:0,  yelo:45, yecl:50},
+  {c:'V045',d:45, yelo:10, yecl:29},
 ];
+const ANOMIDS=['4600017930','4600023596','4600026830','4600026863','4600027091',
+               '4600027521','4600027567','4600027592','4600027685','4600027726','4600028142'];
+const PROVS=['Suministros Alfa','Proveedor Beta','Delta Corp','Grupo Sigma','Nexo Industrial',
+             'Servicios Gama','LogiMex','TechPack','Distribuidora Sur','Almacenes Norte','UniServ'];
 
-/* Anomalías detalle */
-const ANOMALIAS = [
-  '4600017930','4600023596','4600026830','4600026863','4600027091',
-  '4600027521','4600027567','4600027592','4600027685','4600027726','4600028142'
-];
+/* ══ ESTADO ══ */
+let ST={tipo:'all',periodo:'all'};
+let curTab=1;
+const tabOk={1:false,2:false,3:false,4:false};
+const C={};
 
-/* ════════════════════════════════
-   2. ESTADO GLOBAL
-════════════════════════════════ */
-let state = { tipo:'all', periodo:'all' };
+/* ══ COLORES ══ */
+const G='#007A33',GD='#004F2D',GM='#005C27',GL='rgba(0,122,51,.08)';
+const BLU='#1D6FA4',PUR='#6B21A8',RED='#C8102E',AMB='#E8900A';
+const TT={backgroundColor:GD,titleColor:'#fff',bodyColor:'rgba(255,255,255,.85)',padding:10,cornerRadius:6,titleFont:{size:12,weight:'bold'},bodyFont:{size:11.5}};
+const COND_COLORS=['#007A33','#1D6FA4','#E8900A','#6B21A8','#C8102E','#00A3A3'];
+const COND_LABELS=['V037','V027','V028','V060','V000','V045'];
 
-/* ════════════════════════════════
-   3. CONSTANTES DE ESTILO
-════════════════════════════════ */
-const G='#007A33',GD='#004F2D',GM='#005C27';
-const GL='rgba(0,122,51,.08)',BLU='#1D6FA4',PUR='#6B21A8';
-const RED='#C8102E',AMB='#E8900A';
-const TT={backgroundColor:GD,titleColor:'#fff',bodyColor:'rgba(255,255,255,.85)',
-          padding:10,cornerRadius:6,titleFont:{size:12,weight:'bold'},bodyFont:{size:11.5}};
-
-/* ════════════════════════════════
-   4. CREAR CHARTS (solo 1 vez)
-════════════════════════════════ */
-
-/* -- Barra condición de pago (horizontal stacked) -- */
-const chartCondicion = new Chart(document.getElementById('chartCondicion'),{
-  type:'bar',
-  data:{
-    labels:['V037','V027','V028','V060','V000','V045'],
-    datasets:[
-      {label:'YELO · Local',  data:COND.all.yelo, backgroundColor:BLU, borderRadius:3, borderSkipped:false},
-      {label:'YECL · Global', data:COND.all.yecl, backgroundColor:PUR, borderRadius:3, borderSkipped:false},
-    ]
-  },
-  options:{
-    responsive:true,maintainAspectRatio:false,indexAxis:'y',
-    animation:{duration:500},
-    plugins:{
-      legend:{position:'top',labels:{font:{size:11},padding:14,boxWidth:12,boxHeight:8}},
-      tooltip:{...TT,callbacks:{label:c=>` ${c.dataset.label}: ${c.raw.toLocaleString()} contratos`}}
-    },
-    scales:{
-      x:{stacked:true,grid:{color:'#E8EEE9'},ticks:{font:{size:11},color:'#6B7E72'}},
-      y:{stacked:true,grid:{display:false},  ticks:{font:{size:12,weight:'700'},color:GD}}
-    }
-  }
-});
-
-/* -- Donut tipo contrato -- */
-const chartDonut = new Chart(document.getElementById('chartDonut'),{
-  type:'doughnut',
-  data:{
-    labels:['YELO · Local','YECL · Global'],
-    datasets:[{data:[1378,290],backgroundColor:[BLU,PUR],borderColor:['#fff','#fff'],borderWidth:3,hoverOffset:10}]
-  },
-  options:{
-    responsive:true,maintainAspectRatio:false,cutout:'70%',
-    animation:{duration:500},
-    plugins:{
-      legend:{display:false},
-      tooltip:{...TT,callbacks:{label:c=>{
-        const t=c.chart.data.datasets[0].data.reduce((a,b)=>a+b,0);
-        return ` ${c.label}: ${c.raw.toLocaleString()} (${t?((c.raw/t)*100).toFixed(1):0}%)`;
-      }}}
-    }
-  },
-  plugins:[{id:'center',afterDraw(ch){
-    const {ctx,chartArea:{top,bottom,left,right}}=ch;
-    const cx=(left+right)/2,cy=(top+bottom)/2;
-    const total=ch.data.datasets[0].data.reduce((a,b)=>a+b,0);
-    ctx.save();ctx.textAlign='center';ctx.textBaseline='middle';
-    ctx.fillStyle=GD;ctx.font='bold 20px Inter,sans-serif';
-    ctx.fillText(total.toLocaleString(),cx,cy-8);
-    ctx.fillStyle='#7A9080';ctx.font='10px Inter,sans-serif';
-    ctx.fillText('contratos',cx,cy+9);
-    ctx.restore();
-  }}]
-});
-
-/* -- Histograma rangos de crédito -- */
-const chartHistograma = new Chart(document.getElementById('chartHistograma'),{
-  type:'bar',
-  data:{
-    labels:['0 días','1–30 días','31–60 días','61–90 días','91–120 días','121–180 días','180+ días'],
-    datasets:[{
-      label:'Contratos',
-      data:HISTO.all,
-      backgroundColor:[RED,AMB,'#6EC99A',G,GM,GD,'#001F14'],
-      borderRadius:5,borderSkipped:false
-    }]
-  },
-  options:{
-    responsive:true,maintainAspectRatio:false,
-    animation:{duration:500},
-    plugins:{
-      legend:{display:false},
-      tooltip:{...TT,callbacks:{
-        label:c=>` ${c.raw.toLocaleString()} contratos`,
-        afterLabel:c=>{
-          const t=c.chart.data.datasets[0].data.reduce((a,b)=>a+b,0);
-          return ` ${t?((c.raw/t)*100).toFixed(1):0}% del total`;
-        }
-      }}
-    },
-    scales:{
-      x:{grid:{display:false},ticks:{font:{size:10},color:'#6B7E72'}},
-      y:{grid:{color:'#E8EEE9'},ticks:{font:{size:11},color:'#6B7E72'}}
-    }
-  }
-});
-
-/* -- Line evolución total -- */
-const chartEvolucion = new Chart(document.getElementById('chartEvolucion'),{
-  type:'line',
-  data:{
-    labels:[...EVO_LABELS],
-    datasets:[{
-      label:'Contratos Activos',data:[...EVO_ALL],
-      borderColor:G,backgroundColor:GL,fill:true,tension:.4,
-      pointRadius:3,pointBackgroundColor:G,pointBorderColor:'#fff',
-      pointBorderWidth:2,pointHoverRadius:6
-    }]
-  },
-  options:{
-    responsive:true,maintainAspectRatio:false,
-    animation:{duration:500},
-    plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>` ${c.raw.toLocaleString()} contratos activos`}}},
-    scales:{
-      x:{grid:{display:false},ticks:{font:{size:10},color:'#6B7E72',maxRotation:40}},
-      y:{min:200,grid:{color:'#E8EEE9'},ticks:{font:{size:11},color:'#6B7E72'}}
-    }
-  }
-});
-
-/* -- Line YELO vs YECL comparativo -- */
-const chartYeloYecl = new Chart(document.getElementById('chartYeloYecl'),{
-  type:'line',
-  data:{
-    labels:[...EVO_LABELS],
-    datasets:[
-      {label:'YELO · Local',data:[...EVO_YELO],borderColor:BLU,backgroundColor:'rgba(29,111,164,.07)',
-       fill:true,tension:.4,pointRadius:3,pointBackgroundColor:BLU,pointBorderColor:'#fff',pointBorderWidth:2,pointHoverRadius:6},
-      {label:'YECL · Global',data:[...EVO_YECL],borderColor:PUR,backgroundColor:'rgba(107,33,168,.05)',
-       fill:true,tension:.4,pointRadius:3,pointBackgroundColor:PUR,pointBorderColor:'#fff',pointBorderWidth:2,pointHoverRadius:6},
-    ]
-  },
-  options:{
-    responsive:true,maintainAspectRatio:false,
-    animation:{duration:500},
-    plugins:{
-      legend:{position:'top',labels:{font:{size:11},padding:14,boxWidth:12,boxHeight:8}},
-      tooltip:{...TT}
-    },
-    scales:{
-      x:{grid:{display:false},ticks:{font:{size:10},color:'#6B7E72',maxRotation:40}},
-      y:{grid:{color:'#E8EEE9'},ticks:{font:{size:11},color:'#6B7E72'}}
-    }
-  }
-});
-
-/* ════════════════════════════════
-   5. GAUGE (canvas 2D manual)
-════════════════════════════════ */
-function drawGauge(val){
-  const c=document.getElementById('chartGauge');
-  const ctx=c.getContext('2d');
-  const cx=120,cy=128,R=88,lw=18,min=0,max=180;
-  const pct=Math.max(0,Math.min(1,(val-min)/(max-min)));
-  const needleA=Math.PI+pct*Math.PI;
-  const zones=[
-    {f:0,  t:.06,c:RED},
-    {f:.06,t:.22,c:AMB},
-    {f:.22,t:.55,c:'#6EC99A'},
-    {f:.55,t:.78,c:G},
-    {f:.78,t:1,  c:GM}
-  ];
-  ctx.clearRect(0,0,c.width,c.height);
-  zones.forEach(z=>{
-    ctx.beginPath();
-    ctx.arc(cx,cy,R,Math.PI+z.f*Math.PI,Math.PI+z.t*Math.PI);
-    ctx.lineWidth=lw;ctx.strokeStyle=z.c;ctx.lineCap='butt';ctx.stroke();
-  });
-  /* aguja */
-  ctx.save();ctx.translate(cx,cy);ctx.rotate(needleA);
-  ctx.beginPath();ctx.moveTo(0,6);ctx.lineTo(R-10,0);ctx.lineTo(0,-4);
-  ctx.fillStyle=GD;ctx.fill();ctx.restore();
-  /* tapa central */
-  ctx.beginPath();ctx.arc(cx,cy,9,0,2*Math.PI);ctx.fillStyle=GD;ctx.fill();
-  ctx.beginPath();ctx.arc(cx,cy,5,0,2*Math.PI);ctx.fillStyle='#fff';ctx.fill();
-  /* valor */
-  ctx.fillStyle=GD;ctx.font='bold 26px Inter,sans-serif';
-  ctx.textAlign='center';ctx.textBaseline='middle';
-  ctx.fillText(val,cx,cy-28);
-  ctx.fillStyle='#7A9080';ctx.font='11px Inter,sans-serif';
-  ctx.fillText('días prom.',cx,cy-10);
-  /* etiquetas min/max */
-  ctx.fillStyle='#7A9080';ctx.font='10px Inter,sans-serif';
-  ctx.textAlign='left'; ctx.fillText('0',  cx-R-2,cy+14);
-  ctx.textAlign='right';ctx.fillText('180',cx+R+2,cy+14);
-}
-drawGauge(120);
-
-/* ════════════════════════════════
-   6. RENDER TABLA MATRIZ
-════════════════════════════════ */
-function renderMatriz(tipo){
-  const tbody=document.getElementById('matriz-body');
-  const showYelo = tipo!=='YECL';
-  const showYecl = tipo!=='YELO';
-  document.getElementById('mth-yelo').style.display = showYelo?'':'none';
-  document.getElementById('mth-yecl').style.display = showYecl?'':'none';
-
-  let html='';
-  const heats=['hhi','hmd','hmd','hlo','',''];
-  MATRIZ_ROWS.forEach((r,i)=>{
-    const total = (showYelo?r.yelo:0)+(showYecl?r.yecl:0);
-    html+=`<tr>
-      <td class="ck" style="padding-left:18px">${r.cond}
-        <span style="font-family:Inter;font-size:10px;color:var(--txs);font-weight:400"> · ${r.dias}</span></td>
-      ${showYelo?`<td class="${heats[i]}">${r.yelo.toLocaleString()}</td>`:''}
-      ${showYecl?`<td>${r.yecl.toLocaleString()}</td>`:''}
-      <td class="tc">${total.toLocaleString()}</td>
-    </tr>`;
-  });
-  /* fila total */
-  const tYelo=MATRIZ_ROWS.reduce((s,r)=>s+r.yelo,0);
-  const tYecl=MATRIZ_ROWS.reduce((s,r)=>s+r.yecl,0);
-  const tTotal=(showYelo?tYelo:0)+(showYecl?tYecl:0);
-  html+=`<tr class="ttl">
-    <td style="padding-left:18px;font-family:Inter">TOTAL</td>
-    ${showYelo?`<td>${tYelo.toLocaleString()}</td>`:''}
-    ${showYecl?`<td>${tYecl.toLocaleString()}</td>`:''}
-    <td class="tc">${tTotal.toLocaleString()}</td>
-  </tr>`;
-  tbody.innerHTML=html;
-}
-renderMatriz('all');
-
-/* ════════════════════════════════
-   7. RENDER TABLA ANOMALÍAS
-════════════════════════════════ */
-function renderAnomalias(tipo){
-  const wrap=document.getElementById('anom-wrap');
-  const head=document.getElementById('anom-head');
-  const countEl=document.getElementById('anom-count');
-
-  if(tipo==='YECL'){
-    /* YECL no tiene anomalías */
-    countEl.textContent='0 contratos';
-    wrap.innerHTML=`<div class="no-anom">
-      <div class="icon">✅</div>
-      <div><strong>Sin anomalías</strong></div>
-      <div style="margin-top:4px">Los contratos YECL no presentan anomalías de crédito cero.</div>
-    </div>`;
-    return;
-  }
-
-  countEl.textContent=`${ANOMALIAS.length} contratos`;
-  let rows=ANOMALIAS.map(n=>`
-    <tr>
-      <td><code>${n}</code></td>
-      <td><span class="br">V028</span></td>
-      <td>0</td>
-      <td><span class="bb">YELO</span></td>
-      <td><span class="ba">Revisar</span></td>
-    </tr>`).join('');
-  wrap.innerHTML=`<div class="tscroll">
-    <table class="dtable">
-      <thead><tr><th>N° Contrato SAP</th><th>Condición</th><th>Días</th><th>Tipo</th><th>Estatus</th></tr></thead>
-      <tbody>${rows}</tbody>
-    </table>
-  </div>`;
-}
-renderAnomalias('all');
-
-/* ════════════════════════════════
-   8. UPDATE DASHBOARD COMPLETO
-════════════════════════════════ */
-function updateDashboard(){
-  const {tipo, periodo} = state;
-  const key = `${tipo}-${periodo}`;
-  const kpi = KPI[key];
-  const [si, ei] = PERIOD_IDX[periodo];
-
-  /* ── KPI cards ── */
-  document.getElementById('kpi-total').textContent = kpi.total.toLocaleString();
-  document.getElementById('kpi-yelo').textContent  = kpi.yelo.toLocaleString();
-  document.getElementById('kpi-yecl').textContent  = kpi.yecl.toLocaleString();
-  document.getElementById('kpi-dias').textContent  = kpi.prom;
-  document.getElementById('kpi-anom').textContent  = kpi.anom;
-
-  /* progreso YELO */
-  const pYelo = kpi.total>0?(kpi.yelo/kpi.total*100).toFixed(1):0;
-  const pYecl = kpi.total>0?(kpi.yecl/kpi.total*100).toFixed(1):0;
-  document.getElementById('kpi-yelo-trend').textContent = `${pYelo}% del total`;
-  document.getElementById('kpi-yecl-trend').textContent = `${pYecl}% del total`;
-  document.getElementById('prog-yelo').style.width = pYelo+'%';
-  document.getElementById('prog-yecl').style.width = pYecl+'%';
-  document.getElementById('prog-dias').style.width = (kpi.prom/180*100)+'%';
-  document.getElementById('prog-anom').style.width = (kpi.total>0?kpi.anom/kpi.total*100*10:0)+'%';
-
-  /* donut stats */
-  document.getElementById('dstat-yelo').textContent     = kpi.yelo.toLocaleString();
-  document.getElementById('dstat-yecl').textContent     = kpi.yecl.toLocaleString();
-  document.getElementById('dstat-yelo-pct').textContent = ` ${pYelo}%`;
-  document.getElementById('dstat-yecl-pct').textContent = ` ${pYecl}%`;
-
-  /* header badge */
-  document.getElementById('hdr-count').textContent = `${kpi.total.toLocaleString()} contratos activos · ${periodo==='all'?'2024–2026':periodo}`;
-
-  /* gauge */
-  document.getElementById('gauge-avg-lbl').textContent = kpi.prom;
-  drawGauge(kpi.prom);
-
-  /* ── Barra condición ── */
-  const cond = COND[tipo] || COND.all;
-  chartCondicion.data.datasets[0].data = cond.yelo;
-  chartCondicion.data.datasets[1].data = cond.yecl;
-  /* ocultar dataset si tipo es filtrado */
-  chartCondicion.data.datasets[0].hidden = (tipo==='YECL');
-  chartCondicion.data.datasets[1].hidden = (tipo==='YELO');
-  chartCondicion.update('active');
-
-  /* ── Donut ── */
-  chartDonut.data.datasets[0].data = [kpi.yelo, kpi.yecl];
-  chartDonut.update('active');
-
-  /* ── Histograma ── */
-  chartHistograma.data.datasets[0].data = HISTO[tipo] || HISTO.all;
-  chartHistograma.update('active');
-
-  /* ── Evolución total ── */
-  const evoSrc = tipo==='YELO' ? EVO_YELO : tipo==='YECL' ? EVO_YECL : EVO_ALL;
-  chartEvolucion.data.labels              = EVO_LABELS.slice(si,ei);
-  chartEvolucion.data.datasets[0].data   = evoSrc.slice(si,ei);
-  chartEvolucion.options.scales.y.min    = Math.max(0, Math.min(...evoSrc.slice(si,ei))-50);
-  chartEvolucion.update('active');
-
-  /* ── YELO vs YECL comparativo ── */
-  chartYeloYecl.data.labels              = EVO_LABELS.slice(si,ei);
-  chartYeloYecl.data.datasets[0].data   = EVO_YELO.slice(si,ei);
-  chartYeloYecl.data.datasets[1].data   = EVO_YECL.slice(si,ei);
-  chartYeloYecl.data.datasets[0].hidden = (tipo==='YECL');
-  chartYeloYecl.data.datasets[1].hidden = (tipo==='YELO');
-  chartYeloYecl.update('active');
-
-  /* ── Matriz ── */
-  renderMatriz(tipo);
-
-  /* ── Anomalías ── */
-  renderAnomalias(tipo);
-}
-
-/* ════════════════════════════════
-   9. SLICER INTERACCIÓN
-════════════════════════════════ */
-document.querySelectorAll('.schip').forEach(chip=>{
-  chip.addEventListener('click', function(){
-    const group = this.dataset.group;
-    const val   = this.dataset.val;
-
-    /* radio dentro del mismo grupo */
-    document.querySelectorAll(`.schip[data-group="${group}"]`).forEach(c=>c.classList.remove('on'));
-    this.classList.add('on');
-
-    state[group] = val;
-    updateDashboard();
-  });
-});
-
-/* ════════════════════════════════
-   10. TABS
-════════════════════════════════ */
-function activateTab(el){
+/* ══════════════════════════════════════
+   TAB SWITCHING
+══════════════════════════════════════ */
+function switchTab(el,n){
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   el.classList.add('active');
+  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
+  document.getElementById('pg'+n).classList.add('on');
+  curTab=n;
+  if(!tabOk[n]){tabOk[n]=true;initTab(n);}
+  else{refreshTab(n);}
 }
+
+function initTab(n){
+  if(n===1)initT1();
+  else if(n===2)initT2();
+  else if(n===3)initT3();
+  else if(n===4)initT4();
+}
+
+function refreshTab(n){
+  if(n===1)updateT1();
+  else if(n===2)updateT2();
+  else if(n===3)updateT3();
+  else if(n===4)updateT4();
+  // resize charts in this tab
+  Object.keys(C).filter(k=>k.startsWith('c'+(n===1?'1':n===2?'2':n===3?'3':'4'))).forEach(k=>C[k]&&C[k].resize&&C[k].resize());
+}
+
+/* ══════════════════════════════════════
+   TAB 1 – RESUMEN EJECUTIVO
+══════════════════════════════════════ */
+function initT1(){
+  C.c1cond=new Chart(document.getElementById('c1-cond'),{
+    type:'bar',
+    data:{labels:COND_LABELS,datasets:[
+      {label:'YELO',data:COND_D.all.yelo,backgroundColor:BLU,borderRadius:3,borderSkipped:false},
+      {label:'YECL',data:COND_D.all.yecl,backgroundColor:PUR,borderRadius:3,borderSkipped:false},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',animation:{duration:500},
+      plugins:{legend:{position:'top',labels:{font:{size:11},padding:14,boxWidth:12,boxHeight:8}},tooltip:{...TT,callbacks:{label:c=>` ${c.dataset.label}: ${c.raw.toLocaleString()}`}}},
+      scales:{x:{stacked:true,grid:{color:'#E8EEE9'},ticks:{font:{size:11},color:'#6B7E72'}},y:{stacked:true,grid:{display:false},ticks:{font:{size:12,weight:'700'},color:GD}}}}
+  });
+
+  C.c1donut=new Chart(document.getElementById('c1-donut'),{
+    type:'doughnut',
+    data:{labels:['YELO','YECL'],datasets:[{data:[1378,290],backgroundColor:[BLU,PUR],borderColor:['#fff','#fff'],borderWidth:3,hoverOffset:10}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'70%',animation:{duration:500},
+      plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>{const t=c.chart.data.datasets[0].data.reduce((a,b)=>a+b,0);return ` ${c.label}: ${c.raw.toLocaleString()} (${t?((c.raw/t)*100).toFixed(1):0}%)`;}}}}},
+    plugins:[{id:'ctr',afterDraw(ch){
+      const{ctx,chartArea:{top,bottom,left,right}}=ch,cx=(left+right)/2,cy=(top+bottom)/2;
+      const tot=ch.data.datasets[0].data.reduce((a,b)=>a+b,0);
+      ctx.save();ctx.textAlign='center';ctx.textBaseline='middle';
+      ctx.fillStyle=GD;ctx.font='bold 19px Inter,sans-serif';ctx.fillText(tot.toLocaleString(),cx,cy-7);
+      ctx.fillStyle='#7A9080';ctx.font='10px Inter,sans-serif';ctx.fillText('contratos',cx,cy+8);ctx.restore();
+    }}]
+  });
+
+  C.c1histo=new Chart(document.getElementById('c1-histo'),{
+    type:'bar',
+    data:{labels:['0 días','1–30','31–60','61–90','91–120','121–180','180+'],
+      datasets:[{label:'Contratos',data:HISTO_D.all,backgroundColor:[RED,AMB,'#6EC99A',G,GM,GD,'#001F14'],borderRadius:5,borderSkipped:false}]},
+    options:{responsive:true,maintainAspectRatio:false,animation:{duration:500},
+      plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>` ${c.raw.toLocaleString()} contratos`,afterLabel:c=>{const t=c.chart.data.datasets[0].data.reduce((a,b)=>a+b,0);return ` ${t?((c.raw/t)*100).toFixed(1):0}% del total`;}}}},
+      scales:{x:{grid:{display:false},ticks:{font:{size:10},color:'#6B7E72'}},y:{grid:{color:'#E8EEE9'},ticks:{font:{size:11},color:'#6B7E72'}}}}
+  });
+
+  C.c1evo=new Chart(document.getElementById('c1-evo'),{
+    type:'line',
+    data:{labels:[...EL],datasets:[{label:'Contratos',data:[...EA],borderColor:G,backgroundColor:GL,fill:true,tension:.4,pointRadius:3,pointBackgroundColor:G,pointBorderColor:'#fff',pointBorderWidth:2,pointHoverRadius:6}]},
+    options:{responsive:true,maintainAspectRatio:false,animation:{duration:500},
+      plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>` ${c.raw.toLocaleString()} contratos`}}},
+      scales:{x:{grid:{display:false},ticks:{font:{size:10},color:'#6B7E72',maxRotation:40}},y:{grid:{color:'#E8EEE9'},ticks:{font:{size:11},color:'#6B7E72'}}}}
+  });
+
+  C.c1comp=new Chart(document.getElementById('c1-comp'),{
+    type:'line',
+    data:{labels:[...EL],datasets:[
+      {label:'YELO',data:[...EY],borderColor:BLU,backgroundColor:'rgba(29,111,164,.07)',fill:true,tension:.4,pointRadius:3,pointBackgroundColor:BLU,pointBorderColor:'#fff',pointBorderWidth:2,pointHoverRadius:6},
+      {label:'YECL',data:[...EC],borderColor:PUR,backgroundColor:'rgba(107,33,168,.05)',fill:true,tension:.4,pointRadius:3,pointBackgroundColor:PUR,pointBorderColor:'#fff',pointBorderWidth:2,pointHoverRadius:6},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,animation:{duration:500},
+      plugins:{legend:{position:'top',labels:{font:{size:11},padding:12,boxWidth:12,boxHeight:8}},tooltip:{...TT}},
+      scales:{x:{grid:{display:false},ticks:{font:{size:10},color:'#6B7E72',maxRotation:40}},y:{grid:{color:'#E8EEE9'},ticks:{font:{size:11},color:'#6B7E72'}}}}
+  });
+
+  renderMatriz1(ST.tipo);
+  renderAnom1(ST.tipo);
+  drawGauge('c1-gauge',120);
+  updateT1();
+  tabOk[1]=true;
+}
+
+function updateT1(){
+  const k=KD[`${ST.tipo}-${ST.periodo}`];
+  const[si,ei]=PI[ST.periodo];
+  // KPIs
+  document.getElementById('k-tot').textContent=k.total.toLocaleString();
+  document.getElementById('k-yelo').textContent=k.yelo.toLocaleString();
+  document.getElementById('k-yecl').textContent=k.yecl.toLocaleString();
+  document.getElementById('k-dias').textContent=k.prom;
+  document.getElementById('k-anom').textContent=k.anom;
+  const py=k.total>0?(k.yelo/k.total*100).toFixed(1):0;
+  const pc=k.total>0?(k.yecl/k.total*100).toFixed(1):0;
+  document.getElementById('k-yelo-t').textContent=`${py}% del total`;
+  document.getElementById('k-yecl-t').textContent=`${pc}% del total`;
+  document.getElementById('p-yelo').style.width=py+'%';
+  document.getElementById('p-yecl').style.width=pc+'%';
+  document.getElementById('p-dias').style.width=(k.prom/180*100)+'%';
+  document.getElementById('p-anom').style.width=Math.max(k.anom/k.total*100*15,.5)+'%';
+  document.getElementById('d-yelo').textContent=k.yelo.toLocaleString();
+  document.getElementById('d-yecl').textContent=k.yecl.toLocaleString();
+  document.getElementById('d-yelo-p').textContent=` ${py}%`;
+  document.getElementById('d-yecl-p').textContent=` ${pc}%`;
+  document.getElementById('hdr-count').textContent=`${k.total.toLocaleString()} contratos activos · ${ST.periodo==='all'?'2024–2026':ST.periodo}`;
+  document.getElementById('g-lbl').textContent=k.prom;
+  drawGauge('c1-gauge',k.prom);
+  if(!C.c1cond)return;
+  const cd=COND_D[ST.tipo]||COND_D.all;
+  C.c1cond.data.datasets[0].data=cd.yelo;C.c1cond.data.datasets[1].data=cd.yecl;
+  C.c1cond.data.datasets[0].hidden=(ST.tipo==='YECL');C.c1cond.data.datasets[1].hidden=(ST.tipo==='YELO');
+  C.c1cond.update('active');
+  C.c1donut.data.datasets[0].data=[k.yelo,k.yecl];C.c1donut.update('active');
+  C.c1histo.data.datasets[0].data=HISTO_D[ST.tipo]||HISTO_D.all;C.c1histo.update('active');
+  const eSrc=ST.tipo==='YELO'?EY:ST.tipo==='YECL'?EC:EA;
+  C.c1evo.data.labels=EL.slice(si,ei);C.c1evo.data.datasets[0].data=eSrc.slice(si,ei);C.c1evo.update('active');
+  C.c1comp.data.labels=EL.slice(si,ei);
+  C.c1comp.data.datasets[0].data=EY.slice(si,ei);C.c1comp.data.datasets[1].data=EC.slice(si,ei);
+  C.c1comp.data.datasets[0].hidden=(ST.tipo==='YECL');C.c1comp.data.datasets[1].hidden=(ST.tipo==='YELO');
+  C.c1comp.update('active');
+  renderMatriz1(ST.tipo);
+  renderAnom1(ST.tipo);
+}
+
+function renderMatriz1(tipo){
+  const hy=document.getElementById('m1-yelo'),hc=document.getElementById('m1-yecl');
+  const sy=tipo!=='YECL',sc=tipo!=='YELO';
+  hy.style.display=sy?'':'none';hc.style.display=sc?'':'none';
+  let html='';const heats=['hhi','hmd','hmd','','',''];
+  MROWS.forEach((r,i)=>{
+    const tot=(sy?r.yelo:0)+(sc?r.yecl:0);
+    html+=`<tr><td class="ck" style="padding-left:18px">${r.c}</td>${sy?`<td class="${heats[i]}">${r.yelo}</td>`:''}${sc?`<td>${r.yecl}</td>`:''}  <td class="tc">${tot}</td></tr>`;
+  });
+  const ty=MROWS.reduce((s,r)=>s+r.yelo,0),tc=MROWS.reduce((s,r)=>s+r.yecl,0);
+  const tot=(sy?ty:0)+(sc?tc:0);
+  html+=`<tr class="ttl"><td style="padding-left:18px">TOTAL</td>${sy?`<td>${ty.toLocaleString()}</td>`:''}${sc?`<td>${tc.toLocaleString()}</td>`:''}<td class="tc">${tot.toLocaleString()}</td></tr>`;
+  document.getElementById('m1-body').innerHTML=html;
+}
+
+function renderAnom1(tipo){
+  const wrap=document.getElementById('a1-wrap');
+  const cnt=document.getElementById('a1-cnt');
+  if(tipo==='YECL'){
+    cnt.textContent='0';
+    wrap.innerHTML='<div class="empty"><div class="ei">✅</div><b>Sin anomalías</b><div style="margin-top:4px">YECL no presenta anomalías de crédito cero.</div></div>';
+    return;
+  }
+  cnt.textContent=ANOMIDS.length;
+  wrap.innerHTML=`<div class="ts"><table class="dt"><thead><tr><th>N° Contrato</th><th>Condición</th><th>Días</th><th>Tipo</th><th>Estatus</th></tr></thead><tbody>`+
+    ANOMIDS.map(n=>`<tr><td><code>${n}</code></td><td><span class="br2">V028</span></td><td>0</td><td><span class="bb">YELO</span></td><td><span class="ba">Revisar</span></td></tr>`).join('')+
+    `</tbody></table></div>`;
+}
+
+/* ══════════════════════════════════════
+   TAB 2 – ANÁLISIS DE CONDICIONES
+══════════════════════════════════════ */
+function initT2(){
+  const totals=MROWS.map(r=>r.yelo+r.yecl);
+  const avgDias=[60,30,28.8,60,0,45];
+
+  C.c2mixed=new Chart(document.getElementById('c2-mixed'),{
+    type:'bar',
+    data:{labels:COND_LABELS,datasets:[
+      {type:'bar',label:'Contratos',data:totals,backgroundColor:COND_COLORS,borderRadius:5,borderSkipped:false,yAxisID:'y'},
+      {type:'line',label:'Días Promedio',data:avgDias,borderColor:AMB,backgroundColor:'rgba(232,144,10,.1)',fill:true,tension:.3,pointRadius:5,pointBackgroundColor:AMB,pointBorderColor:'#fff',pointBorderWidth:2,yAxisID:'y1'},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,animation:{duration:500},
+      plugins:{legend:{position:'top',labels:{font:{size:11},padding:14,boxWidth:12,boxHeight:8}},
+        tooltip:{...TT,callbacks:{label:c=>c.datasetIndex===0?` ${c.raw.toLocaleString()} contratos`:` ${c.raw} días prom.`}}},
+      scales:{
+        x:{grid:{display:false},ticks:{font:{size:12,weight:'700'},color:GD}},
+        y:{position:'left',grid:{color:'#E8EEE9'},ticks:{font:{size:11},color:'#6B7E72'},title:{display:true,text:'Contratos',font:{size:11},color:'#6B7E72'}},
+        y1:{position:'right',grid:{display:false},min:0,max:80,ticks:{font:{size:11},color:AMB},title:{display:true,text:'Días Prom.',font:{size:11},color:AMB}},
+      }}
+  });
+
+  C.c2grp=new Chart(document.getElementById('c2-grp'),{
+    type:'bar',
+    data:{labels:COND_LABELS,datasets:[
+      {label:'YELO',data:MROWS.map(r=>r.yelo),backgroundColor:BLU,borderRadius:4,borderSkipped:false},
+      {label:'YECL',data:MROWS.map(r=>r.yecl),backgroundColor:PUR,borderRadius:4,borderSkipped:false},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,animation:{duration:500},
+      plugins:{legend:{position:'top',labels:{font:{size:11},padding:12,boxWidth:12,boxHeight:8}},tooltip:{...TT}},
+      scales:{x:{grid:{display:false},ticks:{font:{size:11},color:GD}},y:{grid:{color:'#E8EEE9'},ticks:{font:{size:11},color:'#6B7E72'}}}}
+  });
+
+  C.c2dist=new Chart(document.getElementById('c2-dist'),{
+    type:'doughnut',
+    data:{labels:COND_LABELS,datasets:[{data:totals,backgroundColor:COND_COLORS,borderColor:'#fff',borderWidth:3,hoverOffset:8}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'60%',animation:{duration:500},
+      plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>{const t=c.chart.data.datasets[0].data.reduce((a,b)=>a+b,0);return ` ${c.label}: ${c.raw} (${((c.raw/t)*100).toFixed(1)}%)`;}}}}}
+  });
+
+  // Legend for donut
+  const leg=document.getElementById('c2-dist-legend');
+  const t2=totals.reduce((a,b)=>a+b,0);
+  leg.innerHTML=COND_LABELS.map((l,i)=>`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;padding:6px 10px;background:var(--gp);border-radius:6px">
+    <div style="display:flex;align-items:center;gap:7px"><div style="width:10px;height:10px;border-radius:50%;background:${COND_COLORS[i]}"></div><span style="font-size:11.5px;font-weight:700;color:var(--gd)">${l}</span></div>
+    <div style="text-align:right"><span style="font-size:12px;font-weight:800;color:var(--tx)">${totals[i]}</span><span style="font-size:10.5px;color:var(--txs);margin-left:4px">${((totals[i]/t2)*100).toFixed(1)}%</span></div>
+  </div>`).join('');
+
+  renderMatriz2();
+  updateT2();
+  tabOk[2]=true;
+}
+
+function renderMatriz2(){
+  const T=MROWS.reduce((s,r)=>s+r.yelo+r.yecl,0);
+  let html='';const heats=['hhi','hmd','hmd','','',''];
+  MROWS.forEach((r,i)=>{
+    const tot=r.yelo+r.yecl;
+    const py=((r.yelo/tot)*100).toFixed(1);
+    const pc=((r.yecl/tot)*100).toFixed(1);
+    const pt=((tot/T)*100).toFixed(1);
+    html+=`<tr><td class="ck" style="padding-left:18px">${r.c}</td>
+      <td>${r.d}</td>
+      <td class="${heats[i]}">${r.yelo}</td><td><span style="font-size:11px;color:var(--blu);font-weight:700">${py}%</span></td>
+      <td>${r.yecl}</td><td><span style="font-size:11px;color:var(--pur);font-weight:700">${pc}%</span></td>
+      <td class="tc">${tot}</td><td><span style="font-size:11px;font-weight:700;color:var(--gd)">${pt}%</span></td>
+    </tr>`;
+  });
+  const ty=MROWS.reduce((s,r)=>s+r.yelo,0),tc=MROWS.reduce((s,r)=>s+r.yecl,0),tot=ty+tc;
+  html+=`<tr class="ttl"><td style="padding-left:18px">TOTAL</td><td>—</td><td>${ty}</td><td>82.6%</td><td>${tc}</td><td>17.4%</td><td class="tc">${tot}</td><td>100%</td></tr>`;
+  document.getElementById('m2-body').innerHTML=html;
+}
+
+function updateT2(){
+  if(!C.c2mixed)return;
+  const cd=COND_D[ST.tipo]||COND_D.all;
+  const totals=MROWS.map((_,i)=>cd.yelo[i]+cd.yecl[i]);
+  C.c2mixed.data.datasets[0].data=totals;C.c2mixed.update('active');
+  C.c2grp.data.datasets[0].data=cd.yelo;C.c2grp.data.datasets[1].data=cd.yecl;
+  C.c2grp.data.datasets[0].hidden=(ST.tipo==='YECL');C.c2grp.data.datasets[1].hidden=(ST.tipo==='YELO');
+  C.c2grp.update('active');
+  C.c2dist.data.datasets[0].data=totals;C.c2dist.update('active');
+}
+
+/* ══════════════════════════════════════
+   TAB 3 – ANOMALÍAS & CALIDAD
+══════════════════════════════════════ */
+function initT3(){
+  C.c3bar=new Chart(document.getElementById('c3-bar'),{
+    type:'bar',
+    data:{labels:['2019','2020','2022','2023','2024'],
+      datasets:[{label:'Anomalías',data:[1,1,3,5,1],backgroundColor:[RED,'#E86060','#C04040',RED,'#FF6B6B'],borderRadius:5,borderSkipped:false}]},
+    options:{responsive:true,maintainAspectRatio:false,animation:{duration:500},
+      plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>` ${c.raw} contrato${c.raw>1?'s':''} anómalo${c.raw>1?'s':''}`}}},
+      scales:{x:{grid:{display:false},ticks:{font:{size:11},color:'#6B7E72'}},y:{grid:{color:'#E8EEE9'},ticks:{font:{size:11},color:'#6B7E72'},max:7}}}
+  });
+
+  // Anomaly detail table
+  const tbody=document.getElementById('a3-body');
+  tbody.innerHTML=ANOMIDS.map((n,i)=>`<tr>
+    <td><code style="font-size:12px">${n}</code></td>
+    <td><span class="br2">V028</span></td>
+    <td><span style="font-weight:700;color:var(--red)">0</span></td>
+    <td><span class="bb">YELO</span></td>
+    <td style="font-size:11px">${PROVS[i]}</td>
+    <td><span class="ba">Revisar SAP</span></td>
+  </tr>`).join('');
+
+  // Quality gauge (99.3%)
+  drawQualGauge(99.3);
+
+  // Checklist
+  const checks=[
+    {ok:true,txt:'Números de contrato únicos',sub:'1,668 / 1,668',pct:'100%'},
+    {ok:true,txt:'Fechas de vigencia válidas',sub:'1,668 / 1,668',pct:'100%'},
+    {ok:false,txt:'Días de crédito correctos',sub:'1,657 / 1,668',pct:'99.3%'},
+    {ok:true,txt:'Condición de pago válida',sub:'1,668 / 1,668',pct:'100%'},
+    {ok:true,txt:'Proveedor asignado',sub:'1,668 / 1,668',pct:'100%'},
+    {ok:true,txt:'Moneda asignada',sub:'1,668 / 1,668',pct:'100%'},
+    {ok:true,txt:'Centro de compras',sub:'1,668 / 1,668',pct:'100%'},
+    {ok:true,txt:'Importe neto registrado',sub:'1,665 / 1,668',pct:'99.8%'},
+  ];
+  document.getElementById('a3-checks').innerHTML=checks.map(c=>`
+    <div class="chk${c.ok?'':' w'}">
+      <span class="chk-ico">${c.ok?'✅':'⚠️'}</span>
+      <div><div class="chk-txt">${c.txt}</div><div class="chk-sub">${c.sub}</div></div>
+      <span class="chk-pct${c.ok?'':' warn'}">${c.pct}</span>
+    </div>`).join('');
+
+  updateT3();
+  tabOk[3]=true;
+}
+
+function updateT3(){
+  const anom=KD[`${ST.tipo}-${ST.periodo}`].anom;
+  document.getElementById('a3-cnt').textContent=anom;
+  document.getElementById('a3-tbl-cnt').textContent=`${anom} registro${anom!==1?'s':''}`;
+  document.getElementById('q-anom').textContent=anom;
+  const tbody=document.getElementById('a3-body');
+  if(ST.tipo==='YECL'){
+    tbody.innerHTML=`<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--txs)">✅ YECL no presenta anomalías de crédito cero</td></tr>`;
+    return;
+  }
+  tbody.innerHTML=ANOMIDS.map((n,i)=>`<tr><td><code style="font-size:12px">${n}</code></td><td><span class="br2">V028</span></td><td><span style="font-weight:700;color:var(--red)">0</span></td><td><span class="bb">YELO</span></td><td style="font-size:11px">${PROVS[i]}</td><td><span class="ba">Revisar SAP</span></td></tr>`).join('');
+}
+
+function drawQualGauge(pct){
+  const c=document.getElementById('c3-gauge');if(!c)return;
+  const ctx=c.getContext('2d'),cx=90,cy=95,R=72,lw=15;
+  const angle=Math.PI+pct/100*Math.PI;
+  ctx.clearRect(0,0,c.width,c.height);
+  // bg arc
+  ctx.beginPath();ctx.arc(cx,cy,R,Math.PI,2*Math.PI);ctx.lineWidth=lw;ctx.strokeStyle='#ECEAE8';ctx.lineCap='butt';ctx.stroke();
+  // red zone (0-2%)
+  ctx.beginPath();ctx.arc(cx,cy,R,Math.PI,Math.PI+.02*Math.PI);ctx.strokeStyle=RED;ctx.stroke();
+  // amber zone (2-5%)
+  ctx.beginPath();ctx.arc(cx,cy,R,Math.PI+.02*Math.PI,Math.PI+.05*Math.PI);ctx.strokeStyle=AMB;ctx.stroke();
+  // green fill
+  ctx.beginPath();ctx.arc(cx,cy,R,Math.PI+.05*Math.PI,angle);ctx.strokeStyle=G;ctx.stroke();
+  // needle
+  ctx.save();ctx.translate(cx,cy);ctx.rotate(angle);
+  ctx.beginPath();ctx.moveTo(0,5);ctx.lineTo(R-8,0);ctx.lineTo(0,-3);ctx.fillStyle=GD;ctx.fill();ctx.restore();
+  ctx.beginPath();ctx.arc(cx,cy,7,0,2*Math.PI);ctx.fillStyle=GD;ctx.fill();
+  ctx.beginPath();ctx.arc(cx,cy,4,0,2*Math.PI);ctx.fillStyle='#fff';ctx.fill();
+  // label
+  ctx.fillStyle=GD;ctx.font='bold 20px Inter,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(pct+'%',cx,cy-22);
+  ctx.fillStyle='#7A9080';ctx.font='10px Inter,sans-serif';ctx.fillText('calidad',cx,cy-8);
+  ctx.fillStyle='#7A9080';ctx.font='9.5px Inter,sans-serif';ctx.textAlign='left';ctx.fillText('0%',cx-R-2,cy+12);
+  ctx.textAlign='right';ctx.fillText('100%',cx+R+2,cy+12);
+}
+
+/* ══════════════════════════════════════
+   TAB 4 – EVOLUCIÓN TEMPORAL
+══════════════════════════════════════ */
+function initT4(){
+  C.c4full=new Chart(document.getElementById('c4-full'),{
+    type:'line',
+    data:{labels:[...EL],datasets:[{label:'Contratos Activos',data:[...EA],borderColor:G,backgroundColor:'rgba(0,122,51,.1)',fill:true,tension:.4,pointRadius:4,pointBackgroundColor:G,pointBorderColor:'#fff',pointBorderWidth:2,pointHoverRadius:7}]},
+    options:{responsive:true,maintainAspectRatio:false,animation:{duration:600},
+      plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>` ${c.raw.toLocaleString()} contratos activos`,afterLabel:c=>{const i=c.dataIndex;if(i===0)return '';const prev=c.dataset.data[i-1];const d=c.raw-prev;return ` Δ ${d>0?'+':''}${d} vs mes anterior`;} }}},
+      scales:{x:{grid:{display:false},ticks:{font:{size:11},color:'#6B7E72'}},y:{grid:{color:'#E8EEE9'},ticks:{font:{size:11},color:'#6B7E72'}}}}
+  });
+
+  const MOM_L=EL.slice(1);
+  const MOM_D=EA.slice(1).map((v,i)=>v-EA[i]);
+  const MOM_C=MOM_D.map(v=>v>=15?G:v>=12?AMB:RED);
+  C.c4mom=new Chart(document.getElementById('c4-mom'),{
+    type:'bar',
+    data:{labels:MOM_L,datasets:[{label:'Δ Contratos/mes',data:MOM_D,backgroundColor:MOM_C,borderRadius:4,borderSkipped:false}]},
+    options:{responsive:true,maintainAspectRatio:false,animation:{duration:500},
+      plugins:{legend:{display:false},tooltip:{...TT,callbacks:{label:c=>` ${c.raw>0?'+':''}${c.raw} contratos`}},
+        annotation:{annotations:{avg:{type:'line',yMin:14.6,yMax:14.6,borderColor:'rgba(232,144,10,.7)',borderWidth:2,borderDash:[5,4],label:{display:true,content:'Prom. +13.8',position:'end',font:{size:10}}}}}},
+      scales:{x:{grid:{display:false},ticks:{font:{size:9.5},color:'#6B7E72',maxRotation:45}},y:{grid:{color:'#E8EEE9'},ticks:{font:{size:11},color:'#6B7E72'},title:{display:true,text:'Δ Contratos',font:{size:11},color:'#6B7E72'}}}}
+  });
+
+  C.c4yoy=new Chart(document.getElementById('c4-yoy'),{
+    type:'bar',
+    data:{labels:['Enero','Febrero','Marzo','Abril'],datasets:[
+      {label:'2025',data:[1448,1462,1478,1491],backgroundColor:'rgba(29,111,164,.75)',borderRadius:5,borderSkipped:false},
+      {label:'2026',data:[1628,1642,1656,1668],backgroundColor:BLU,borderRadius:5,borderSkipped:false},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,animation:{duration:500},
+      plugins:{legend:{position:'top',labels:{font:{size:11},padding:12,boxWidth:12,boxHeight:8}},
+        tooltip:{...TT,callbacks:{label:c=>` ${c.dataset.label}: ${c.raw.toLocaleString()} contratos`,afterLabel:c=>{if(c.datasetIndex===1){const prev=[1448,1462,1478,1491][c.dataIndex];return ` YoY: +${c.raw-prev} (+${(((c.raw-prev)/prev)*100).toFixed(1)}%)`;}return '';} }}},
+      scales:{x:{grid:{display:false},ticks:{font:{size:11},color:GD}},y:{grid:{color:'#E8EEE9'},ticks:{font:{size:11},color:'#6B7E72'},min:1400}}}
+  });
+
+  C.c4comp=new Chart(document.getElementById('c4-comp'),{
+    type:'line',
+    data:{labels:[...EL],datasets:[
+      {label:'YELO · Local',data:[...EY],borderColor:BLU,backgroundColor:'rgba(29,111,164,.08)',fill:true,tension:.4,pointRadius:3,pointBackgroundColor:BLU,pointBorderColor:'#fff',pointBorderWidth:2,pointHoverRadius:6},
+      {label:'YECL · Global',data:[...EC],borderColor:PUR,backgroundColor:'rgba(107,33,168,.06)',fill:true,tension:.4,pointRadius:3,pointBackgroundColor:PUR,pointBorderColor:'#fff',pointBorderWidth:2,pointHoverRadius:6},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,animation:{duration:500},
+      plugins:{legend:{position:'top',labels:{font:{size:11},padding:14,boxWidth:12,boxHeight:8}},tooltip:{...TT}},
+      scales:{x:{grid:{display:false},ticks:{font:{size:11},color:'#6B7E72'}},y:{grid:{color:'#E8EEE9'},ticks:{font:{size:11},color:'#6B7E72'}}}}
+  });
+
+  updateT4();
+  tabOk[4]=true;
+}
+
+function updateT4(){
+  if(!C.c4full)return;
+  const[si,ei]=PI[ST.periodo];
+  const eSrc=ST.tipo==='YELO'?EY:ST.tipo==='YECL'?EC:EA;
+  C.c4full.data.labels=EL.slice(si,ei);C.c4full.data.datasets[0].data=eSrc.slice(si,ei);C.c4full.update('active');
+  C.c4comp.data.labels=EL.slice(si,ei);
+  C.c4comp.data.datasets[0].data=EY.slice(si,ei);C.c4comp.data.datasets[1].data=EC.slice(si,ei);
+  C.c4comp.data.datasets[0].hidden=(ST.tipo==='YECL');C.c4comp.data.datasets[1].hidden=(ST.tipo==='YELO');
+  C.c4comp.update('active');
+  // Trend banner
+  const start=eSrc[si],end=eSrc[ei-1],delta=end-start;
+  const months=ei-si;
+  document.getElementById('t4-tot').textContent=(delta>=0?'+':'')+delta;
+  document.getElementById('t4-avg').textContent='+'+(delta/months).toFixed(1);
+  // MoM for this period
+  const momSlice=eSrc.slice(si,ei);
+  const momD=momSlice.slice(1).map((v,i)=>v-momSlice[i]);
+  const momC=momD.map(v=>v>=15?G:v>=12?AMB:RED);
+  C.c4mom.data.labels=EL.slice(si+1,ei);C.c4mom.data.datasets[0].data=momD;C.c4mom.data.datasets[0].backgroundColor=momC;C.c4mom.update('active');
+}
+
+/* ══════════════════════════════════════
+   CREDIT DAYS GAUGE (Tab 1)
+══════════════════════════════════════ */
+function drawGauge(id,val){
+  const c=document.getElementById(id);if(!c)return;
+  const ctx=c.getContext('2d'),cx=120,cy=125,R=88,lw=17,mn=0,mx=180;
+  const pct=Math.max(0,Math.min(1,(val-mn)/(mx-mn)));
+  const na=Math.PI+pct*Math.PI;
+  const zones=[{f:0,t:.06,col:RED},{f:.06,t:.22,col:AMB},{f:.22,t:.55,col:'#6EC99A'},{f:.55,t:.78,col:G},{f:.78,t:1,col:GM}];
+  ctx.clearRect(0,0,c.width,c.height);
+  zones.forEach(z=>{ctx.beginPath();ctx.arc(cx,cy,R,Math.PI+z.f*Math.PI,Math.PI+z.t*Math.PI);ctx.lineWidth=lw;ctx.strokeStyle=z.col;ctx.lineCap='butt';ctx.stroke();});
+  ctx.save();ctx.translate(cx,cy);ctx.rotate(na);
+  ctx.beginPath();ctx.moveTo(0,5);ctx.lineTo(R-10,0);ctx.lineTo(0,-4);ctx.fillStyle=GD;ctx.fill();ctx.restore();
+  ctx.beginPath();ctx.arc(cx,cy,8,0,2*Math.PI);ctx.fillStyle=GD;ctx.fill();
+  ctx.beginPath();ctx.arc(cx,cy,4,0,2*Math.PI);ctx.fillStyle='#fff';ctx.fill();
+  ctx.fillStyle=GD;ctx.font='bold 25px Inter,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(val,cx,cy-27);
+  ctx.fillStyle='#7A9080';ctx.font='10px Inter,sans-serif';ctx.fillText('días prom.',cx,cy-9);
+  ctx.fillStyle='#7A9080';ctx.font='9.5px Inter,sans-serif';ctx.textAlign='left';ctx.fillText('0',cx-R-2,cy+14);ctx.textAlign='right';ctx.fillText('180',cx+R+2,cy+14);
+}
+
+/* ══════════════════════════════════════
+   SLICERS
+══════════════════════════════════════ */
+document.querySelectorAll('.sc').forEach(chip=>{
+  chip.addEventListener('click',function(){
+    const g=this.dataset.g,v=this.dataset.v;
+    document.querySelectorAll(`.sc[data-g="${g}"]`).forEach(c=>c.classList.remove('on'));
+    this.classList.add('on');
+    ST[g]=v;
+    refreshTab(curTab);
+  });
+});
+
+/* ══════════════════════════════════════
+   BOOT – inicializar Tab 1
+══════════════════════════════════════ */
+initT1();
 </script>
 </body>
 </html>
