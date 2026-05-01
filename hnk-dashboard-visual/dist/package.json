@@ -1,0 +1,17 @@
+{
+		"version": "1.0.0.0",
+		"author": {"name":"Heineken México · BI Center of Excellence","email":"bi-coe@heineken.com.mx"},
+		"resources": [
+			{
+				"resourceId": "rId0",
+				"sourceType": 5,
+				"file": "resources/HnkExecDashboard7F9A1B2C3D4E5F6A7B8C9D0E1F2A3B4.pbiviz.json"
+			}
+		],
+		"visual": {"name":"hnkExecDashboard","displayName":"Heineken Executive Contracts Dashboard","guid":"HnkExecDashboard7F9A1B2C3D4E5F6A7B8C9D0E1F2A3B4","visualClassName":"Visual","version":"1.0.0.0","description":"Dashboard ejecutivo de contratos Heineken México — 4 tabs: Resumen, Condiciones, Anomalías y Evolución. Slicers de Tipo y Período. Identidad visual Heineken.","supportUrl":"https://github.com/rrbenavi-source/Contracts","gitHubUrl":""},
+		"metadata": {
+			"pbivizjson": {
+				"resourceId": "rId0"
+			}
+		}
+	}

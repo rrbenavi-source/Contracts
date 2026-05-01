@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ES2022",
+    "lib": ["ES2022", "DOM"],
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "outDir": ".tmp/build/",
+    "rootDir": ".",
+    "strict": false,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "declaration": false,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true
+  },
+  "files": ["src/visual.ts"],
+  "exclude": ["node_modules", ".tmp", "dist"]
+}
