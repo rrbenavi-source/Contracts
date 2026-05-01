@@ -65,12 +65,12 @@ const YOY_2025   = [1560, 1575, 1590, 1608];
 const YOY_2026   = [1628, 1642, 1656, 1668];
 
 const ANOM_ROWS = [
-  { prov:'V028', nombre:'TechSupplies SA de CV',   tipo:'YELO', cond:'0 días',   n:11, riesgo:'Alto'  },
-  { prov:'V156', nombre:'Digital Commerce MX',     tipo:'YELO', cond:'15 días',  n:3,  riesgo:'Medio' },
-  { prov:'V312', nombre:'Insumos Globales SA',      tipo:'YECL', cond:'0 días',   n:2,  riesgo:'Medio' },
-  { prov:'V087', nombre:'Proveedora Nacional',      tipo:'YELO', cond:'8 días',   n:5,  riesgo:'Alto'  },
-  { prov:'V201', nombre:'Distribuciones Premium',  tipo:'YELO', cond:'5 días',   n:1,  riesgo:'Bajo'  }
+  { condPago:'V028', prov:'PRV-10456', nombre:'TechSupplies SA de CV',    tipo:'YELO', n:7,  riesgo:'Alto'  },
+  { condPago:'V028', prov:'PRV-30087', nombre:'Proveedora Nacional SA',   tipo:'YELO', n:3,  riesgo:'Alto'  },
+  { condPago:'V037', prov:'PRV-20156', nombre:'Digital Commerce MX',      tipo:'YELO', n:1,  riesgo:'Medio' },
+  { condPago:'V060', prov:'PRV-40201', nombre:'Distribuciones Premium MX',tipo:'YELO', n:1,  riesgo:'Bajo'  }
 ];
+// Anomaly = dias_de_credito = 0 AND condiciones_pago_clave ≠ V000
 
 /* ══════════════════════════════════════════════════════════════════
    STATE
@@ -104,6 +104,33 @@ export class Visual implements IVisual {
     this.host   = options.host;
     this.events = options.host.eventService;
     this.el.classList.add('hnk-dash');
+
+    // Event delegation — attached once to the root, survives innerHTML rebuilds
+    this.el.addEventListener('click', (evt: MouseEvent) => {
+      if (!this.initialized) return;
+      const target = evt.target as HTMLElement;
+
+      const chip = target.closest<HTMLElement>('.hnk-sc');
+      if (chip) {
+        const g = chip.dataset.g;
+        const v = chip.dataset.v;
+        if (g && v) {
+          this.el.querySelectorAll<HTMLElement>(`.hnk-sc[data-g="${g}"]`)
+            .forEach(c => c.classList.remove('active'));
+          chip.classList.add('active');
+          (this.st as any)[g] = v;
+          this.updateBadge();
+          this.renderTab(this.st.tab);
+        }
+        return;
+      }
+
+      const tabEl = target.closest<HTMLElement>('.hnk-tab');
+      if (tabEl) {
+        const n = parseInt(tabEl.dataset.tab ?? '0', 10);
+        if (n > 0) this.activateTab(n);
+      }
+    });
   }
 
   /* ── update ── */
@@ -247,11 +274,8 @@ export class Visual implements IVisual {
     this.el.innerHTML = `
       <!-- HEADER -->
       <div class="hnk-hdr">
-        <svg width="36" height="36" viewBox="0 0 36 36">
-          <circle cx="18" cy="18" r="18" fill="#205527"/>
-          <polygon points="18,5 21.5,15 32,15 23.5,21 27,31 18,25 9,31 12.5,21 4,15 14.5,15"
-                   fill="#E8321C" stroke="#B01D15" stroke-width="0.5"/>
-          <polygon points="18,5 14.5,15 18,11 21.5,15" fill="rgba(0,0,0,.2)"/>
+        <svg class="hnk-logo-star" width="34" height="34" viewBox="0 0 36 36">
+          <polygon points="18,2 21.8,13.1 33.5,13.1 24.1,20.0 27.6,31.2 18,24.4 8.4,31.2 11.9,20.0 2.5,13.1 14.2,13.1"/>
         </svg>
         <div class="hnk-hdr-text">
           <div class="ht1">HEINEKEN</div>
@@ -351,35 +375,6 @@ export class Visual implements IVisual {
       </div><!-- /hnk-content -->
     `;
 
-    this.attachSlicers();
-    this.attachTabs();
-  }
-
-  /* ══════════════════════════════════════════════════════════════
-     EVENT BINDING
-     ══════════════════════════════════════════════════════════════ */
-  private attachSlicers(): void {
-    this.el.querySelectorAll<HTMLElement>('.hnk-sc').forEach(chip => {
-      chip.addEventListener('click', () => {
-        const g = chip.dataset.g!;
-        const v = chip.dataset.v!;
-        this.el.querySelectorAll<HTMLElement>(`.hnk-sc[data-g="${g}"]`)
-          .forEach(c => c.classList.remove('active'));
-        chip.classList.add('active');
-        (this.st as any)[g] = v;
-        this.updateBadge();
-        this.renderTab(this.st.tab);
-      });
-    });
-  }
-
-  private attachTabs(): void {
-    this.el.querySelectorAll<HTMLElement>('.hnk-tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        const n = parseInt(tab.dataset.tab!, 10);
-        this.activateTab(n);
-      });
-    });
   }
 
   private activateTab(n: number): void {
@@ -503,41 +498,38 @@ export class Visual implements IVisual {
       drawQualityRing(qwrap, pct);
     }
 
-    /* Anomaly section */
+    /* Anomaly section — criteria: dias_de_credito = 0 AND condPago ≠ V000 */
     const awrap = this.el.querySelector<HTMLElement>('#anom-wrap');
     const title = this.el.querySelector<HTMLElement>('#anom-title');
     if (awrap) {
-      if (tipo === 'YECL' || kd.anom === 0) {
-        // No anomalies for YECL
+      const isYecl = tipo === 'YECL';
+      if (isYecl || kd.anom === 0) {
         awrap.innerHTML = `
           <div style="display:flex;flex-direction:column;align-items:center;
                       justify-content:center;height:100%;gap:8px;">
-            <div style="font-size:32px;">✅</div>
+            <div style="font-size:32px;">&#10003;</div>
             <div style="font-size:14px;font-weight:700;color:#00A651;">Sin Anomalías</div>
             <div style="font-size:11px;color:#A0AEC0;">
-              ${tipo === 'YECL' ? 'YECL no presenta contratos con condición irregular' : 'No se detectaron anomalías en el período seleccionado'}
+              ${isYecl ? 'YECL no presenta contratos con días de crédito = 0' : 'No se detectaron anomalías en el período seleccionado'}
             </div>
           </div>`;
-        if (title) title.textContent = 'Anomalías Detectadas — Estado del Portafolio';
+        if (title) title.textContent = 'Anomalías — dias_de_credito = 0 y Cond. ≠ V000';
       } else {
-        // Filter rows by tipo filter
         const rows = tipo === 'all'
           ? ANOM_ROWS
           : ANOM_ROWS.filter(r => r.tipo === tipo);
 
-        if (title) {
-          const cnt = rows.reduce((s, r) => s + r.n, 0);
-          title.textContent = `Anomalías Detectadas — ${cnt} contratos con condición ≤ 15 días`;
-        }
+        const cnt = rows.reduce((s, r) => s + r.n, 0);
+        if (title) title.textContent = `Anomalías — ${cnt} contratos: dias_credito=0 y Cond.≠V000`;
 
         awrap.innerHTML = `
           <table class="anom-tbl">
             <thead>
               <tr>
+                <th>Condición de Pago</th>
                 <th>Proveedor</th>
                 <th>Razón Social</th>
                 <th>Tipo</th>
-                <th>Condición</th>
                 <th style="text-align:center;">Contratos</th>
                 <th style="text-align:center;">Riesgo</th>
               </tr>
@@ -545,10 +537,11 @@ export class Visual implements IVisual {
             <tbody>
               ${rows.map(r => `
                 <tr>
-                  <td><strong>${r.prov}</strong></td>
+                  <td><strong style="color:#E2231A;">${r.condPago}</strong>
+                    <span style="font-size:9px;color:#A0AEC0;margin-left:4px;">0 días</span></td>
+                  <td>${r.prov}</td>
                   <td>${r.nombre}</td>
                   <td><span class="badge ${r.tipo.toLowerCase()}">${r.tipo}</span></td>
-                  <td style="color:#E2231A;font-weight:600;">${r.cond}</td>
                   <td style="text-align:center;font-weight:700;">${r.n}</td>
                   <td style="text-align:center;"><span class="badge ${r.riesgo.toLowerCase()}">${r.riesgo}</span></td>
                 </tr>`).join('')}
