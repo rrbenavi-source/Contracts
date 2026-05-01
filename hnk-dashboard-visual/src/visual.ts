@@ -77,6 +77,16 @@ const ANOM_ROWS = [
    ══════════════════════════════════════════════════════════════════ */
 interface DashState { tipo: string; periodo: string; tab: number; }
 
+interface LiveKpi { total: number; yelo: number; yecl: number; prom: number; anom: number; }
+interface LiveCond { label: string; yelo: number; yecl: number; }
+interface LiveEvo  { month: string; all:  number; yelo: number; yecl: number; }
+
+interface LiveData {
+  kpi?:  LiveKpi;
+  cond?: LiveCond[];
+  evo?:  LiveEvo[];
+}
+
 /* ══════════════════════════════════════════════════════════════════
    VISUAL
    ══════════════════════════════════════════════════════════════════ */
@@ -87,6 +97,7 @@ export class Visual implements IVisual {
   private initialized: boolean = false;
   private st:          DashState = { tipo:'all', periodo:'all', tab:1 };
   private tabInit      = new Set<number>();
+  private live:        LiveData = {};
 
   constructor(options: VisualConstructorOptions) {
     this.el     = options.element;
@@ -103,16 +114,125 @@ export class Visual implements IVisual {
       this.el.style.width  = `${width}px`;
       this.el.style.height = `${height}px`;
 
+      this.readDataView(options);
+
       if (!this.initialized) {
         this.buildDOM();
         this.initialized = true;
         this.activateTab(1);
       } else {
+        this.updateBadge();
         this.renderTab(this.st.tab);
       }
       this.events.renderingFinished(options);
     } catch (err) {
       this.events.renderingFailed(options, String(err));
+    }
+  }
+
+  /* ── dataView reader ── */
+  private readDataView(options: VisualUpdateOptions): void {
+    this.live = {};
+    const dv  = options.dataViews?.[0];
+    if (!dv?.categorical) return;
+
+    const cat    = dv.categorical;
+    const cats   = cat.categories?.[0];
+    const vals   = cat.values;
+    if (!vals || vals.length === 0) return;
+
+    // Locate measure columns by role
+    let iTotal = -1, iYELO = -1, iYECL = -1, iProm = -1, iAnom = -1;
+    vals.forEach((v, i) => {
+      const roles: Record<string, boolean> = (v as any).source?.roles ?? {};
+      if (roles['totalContratos']) iTotal = i;
+      if (roles['contratosYELO'])  iYELO  = i;
+      if (roles['contratosYECL'])  iYECL  = i;
+      if (roles['promDias'])       iProm  = i;
+      if (roles['anomalias'])      iAnom  = i;
+    });
+
+    const num = (idx: number, row: number): number => {
+      if (idx < 0) return 0;
+      const v = vals[idx]?.values?.[row];
+      return typeof v === 'number' ? v : (v != null ? +v : 0);
+    };
+    const sum = (idx: number): number => {
+      if (idx < 0) return 0;
+      return (vals[idx]?.values ?? []).reduce<number>((s, v) =>
+        s + (typeof v === 'number' ? v : (v != null ? +v : 0)), 0);
+    };
+
+    const rowCount = cats ? cats.values.length : (vals[0]?.values?.length ?? 0);
+
+    if (!cats || rowCount === 0) {
+      // No category: scalar summary from first row
+      const total = iTotal >= 0 ? num(iTotal, 0) : 0;
+      const yelo  = iYELO  >= 0 ? num(iYELO,  0) : 0;
+      const yecl  = iYECL  >= 0 ? num(iYECL,  0) : 0;
+      const prom  = iProm  >= 0 ? num(iProm,   0) : 0;
+      const anom  = iAnom  >= 0 ? num(iAnom,   0) : 0;
+      if (total > 0 || yelo > 0 || yecl > 0) {
+        this.live.kpi = { total, yelo, yecl, prom, anom };
+      }
+      return;
+    }
+
+    // Detect category type: dateTime → evolution, text → condition bars
+    const isDate: boolean = cats.source?.type?.dateTime === true
+      || cats.values[0] instanceof Date;
+
+    if (isDate) {
+      const evo: LiveEvo[] = [];
+      cats.values.forEach((cv, i) => {
+        let label: string;
+        if (cv instanceof Date) {
+          label = cv.toLocaleDateString('es-MX', { month: 'short', year: '2-digit' });
+        } else if (typeof cv === 'string') {
+          const d = new Date(cv);
+          label = isNaN(d.getTime()) ? cv : d.toLocaleDateString('es-MX', { month: 'short', year: '2-digit' });
+        } else {
+          label = String(cv ?? '');
+        }
+        evo.push({
+          month: label,
+          all:   iTotal >= 0 ? num(iTotal, i) : 0,
+          yelo:  iYELO  >= 0 ? num(iYELO,  i) : 0,
+          yecl:  iYECL  >= 0 ? num(iYECL,  i) : 0
+        });
+      });
+      if (evo.length > 0) {
+        this.live.evo = evo;
+        // KPI = last row (most recent)
+        const last = evo.length - 1;
+        this.live.kpi = {
+          total: evo[last].all,
+          yelo:  evo[last].yelo,
+          yecl:  evo[last].yecl,
+          prom:  iProm >= 0 ? num(iProm, last) : 0,
+          anom:  iAnom >= 0 ? num(iAnom, last) : 0
+        };
+      }
+    } else {
+      // Text category → condition / tipo breakdown
+      const cond: LiveCond[] = [];
+      cats.values.forEach((cv, i) => {
+        cond.push({
+          label: String(cv ?? ''),
+          yelo:  iYELO  >= 0 ? num(iYELO, i)  : (iTotal >= 0 ? num(iTotal, i) : 0),
+          yecl:  iYECL  >= 0 ? num(iYECL, i)  : 0
+        });
+      });
+      if (cond.length > 0) {
+        this.live.cond = cond;
+        this.live.kpi  = {
+          total: iTotal >= 0 ? sum(iTotal) : cond.reduce((s, c) => s + c.yelo + c.yecl, 0),
+          yelo:  iYELO  >= 0 ? sum(iYELO)  : cond.reduce((s, c) => s + c.yelo, 0),
+          yecl:  iYECL  >= 0 ? sum(iYECL)  : cond.reduce((s, c) => s + c.yecl, 0),
+          prom:  iProm  >= 0 ? num(iProm, 0) : 0,
+          anom:  iAnom  >= 0 ? sum(iAnom)   : 0
+        };
+      }
     }
   }
 
@@ -293,12 +413,26 @@ export class Visual implements IVisual {
     }
   }
 
-  private kd() {
+  private kd(): { total:number; yelo:number; yecl:number; prom:number; anom:number } {
+    if (this.live.kpi) return this.live.kpi;
     return KD[`${this.st.tipo}-${this.st.periodo}`] ?? KD['all-all'];
   }
 
-  private condData() {
+  private condData(): { y:number[]; e:number[] } {
+    if (this.live.cond && this.live.cond.length > 0) {
+      return {
+        y: this.live.cond.map(c => c.yelo),
+        e: this.live.cond.map(c => c.yecl)
+      };
+    }
     return COND_D[this.st.tipo] ?? COND_D['all'];
+  }
+
+  private condLabels(): string[] {
+    if (this.live.cond && this.live.cond.length > 0) {
+      return this.live.cond.map(c => c.label);
+    }
+    return COND_LABELS;
   }
 
   private sliceEvo(arr: number[]): number[] {
@@ -340,7 +474,7 @@ export class Visual implements IVisual {
 
     /* Condition bars */
     const bwrap = this.el.querySelector<HTMLElement>('#cond-bars-wrap');
-    if (bwrap) drawCondBars(bwrap, cd.y, cd.e, COND_LABELS);
+    if (bwrap) drawCondBars(bwrap, cd.y, cd.e, this.condLabels());
   }
 
   /* ══════════════════════════════════════════════════════════════
@@ -348,8 +482,11 @@ export class Visual implements IVisual {
      ══════════════════════════════════════════════════════════════ */
   private renderTab2(): void {
     const cd   = this.condData();
+    const lbls = this.condLabels();
+    // avg days per label — use embedded reference or derive from label text
+    const avg  = lbls.map((l, i) => COND_AVG[i] ?? (parseInt(l) || 30));
     const wrap = this.el.querySelector<HTMLElement>('#mixed-wrap');
-    if (wrap) drawMixedChart(wrap, cd.y, cd.e, COND_LABELS, COND_AVG);
+    if (wrap) drawMixedChart(wrap, cd.y, cd.e, lbls, avg);
   }
 
   /* ══════════════════════════════════════════════════════════════
@@ -426,10 +563,23 @@ export class Visual implements IVisual {
      ══════════════════════════════════════════════════════════════ */
   private renderTab4(): void {
     const [s, e] = PI[this.st.periodo] ?? [0, 18];
-    const months = MONTHS.slice(s, e);
-    const all    = EVA_ALL.slice(s, e);
-    const yelo   = EVA_YELO.slice(s, e);
-    const yecl   = EVA_YECL.slice(s, e);
+
+    let months: string[];
+    let all:    number[];
+    let yelo:   number[];
+    let yecl:   number[];
+
+    if (this.live.evo && this.live.evo.length >= 2) {
+      months = this.live.evo.map(r => r.month);
+      all    = this.live.evo.map(r => r.all);
+      yelo   = this.live.evo.map(r => r.yelo);
+      yecl   = this.live.evo.map(r => r.yecl);
+    } else {
+      months = MONTHS.slice(s, e);
+      all    = EVA_ALL.slice(s, e);
+      yelo   = EVA_YELO.slice(s, e);
+      yecl   = EVA_YECL.slice(s, e);
+    }
 
     /* Evolution line chart */
     const ewrap = this.el.querySelector<HTMLElement>('#evo-wrap');
@@ -437,11 +587,18 @@ export class Visual implements IVisual {
       drawEvolutionChart(ewrap, months, all, yelo, yecl, this.st.tipo);
     }
 
-    /* MoM delta — slice correspondingly */
+    /* MoM delta — derive from live evo or static */
     const mwrap = this.el.querySelector<HTMLElement>('#mom-wrap');
     if (mwrap) {
-      const momSlice  = MOM_D.slice(s === 0 ? 0 : s - 1, e - 1);
-      const momMonths = MOM_M.slice(s === 0 ? 0 : s - 1, e - 1);
+      let momSlice:  number[];
+      let momMonths: string[];
+      if (this.live.evo && this.live.evo.length >= 2) {
+        momSlice  = this.live.evo.slice(1).map((r, i) => r.all - this.live.evo![i].all);
+        momMonths = this.live.evo.slice(1).map(r => r.month);
+      } else {
+        momSlice  = MOM_D.slice(s === 0 ? 0 : s - 1, e - 1);
+        momMonths = MOM_M.slice(s === 0 ? 0 : s - 1, e - 1);
+      }
       if (momSlice.length >= 2) {
         drawMomChart(mwrap, momMonths, momSlice);
       }

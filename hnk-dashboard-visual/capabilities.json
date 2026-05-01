@@ -1,7 +1,72 @@
 {
   "privileges": [],
-  "dataRoles": [],
-  "dataViewMappings": [],
+  "dataRoles": [
+    {
+      "displayName": "Categoría (Condición / Período / Tipo)",
+      "name": "category",
+      "kind": "Grouping",
+      "description": "condiciones_pago_clave, Tipo_Contrato o año_mes_fecha"
+    },
+    {
+      "displayName": "Total Contratos",
+      "name": "totalContratos",
+      "kind": "Measure",
+      "description": "Medida Total_Contratos de KPI_Contratos_Genera"
+    },
+    {
+      "displayName": "Contratos YELO (Local)",
+      "name": "contratosYELO",
+      "kind": "Measure",
+      "description": "Medida Contratos_YELO de KPI_Contratos_Genera"
+    },
+    {
+      "displayName": "Contratos YECL (Global)",
+      "name": "contratosYECL",
+      "kind": "Measure",
+      "description": "Medida Contratos_YECL de KPI_Contratos_Genera"
+    },
+    {
+      "displayName": "Días Promedio Crédito",
+      "name": "promDias",
+      "kind": "Measure",
+      "description": "Medida Promedio_Dias_Credito de KPI_Contratos_Genera"
+    },
+    {
+      "displayName": "Anomalías / Pct Anomalía",
+      "name": "anomalias",
+      "kind": "Measure",
+      "description": "Medida Pct_Anomalia o conteo de contratos con dias_de_credito anómalo"
+    }
+  ],
+  "dataViewMappings": [
+    {
+      "conditions": [
+        {
+          "category":       { "max": 1 },
+          "totalContratos": { "max": 1 },
+          "contratosYELO":  { "max": 1 },
+          "contratosYECL":  { "max": 1 },
+          "promDias":       { "max": 1 },
+          "anomalias":      { "max": 1 }
+        }
+      ],
+      "categorical": {
+        "categories": {
+          "for": { "in": "category" },
+          "dataReductionAlgorithm": { "top": { "count": 500 } }
+        },
+        "values": {
+          "select": [
+            { "for": { "in": "totalContratos" } },
+            { "for": { "in": "contratosYELO"  } },
+            { "for": { "in": "contratosYECL"  } },
+            { "for": { "in": "promDias"        } },
+            { "for": { "in": "anomalias"       } }
+          ]
+        }
+      }
+    }
+  ],
   "objects": {},
   "supportsLandingPage": false,
   "supportsEmptyDataView": true,
