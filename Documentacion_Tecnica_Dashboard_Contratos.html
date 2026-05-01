@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Documentación Técnica – Dashboard Contratos de Compras</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#f4f6f9;color:#252525;font-size:13px}
+.header{background:linear-gradient(135deg,#0078d4 0%,#005a9e 100%);color:#fff;padding:28px 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.header h1{font-size:22px;font-weight:700}
+.header p{font-size:12px;opacity:.85;margin-top:4px}
+.dl-btn{background:#fff;color:#0078d4;border:none;padding:10px 22px;border-radius:6px;font-size:13px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block}
+.dl-btn:hover{background:#e8f0fe}
+nav{background:#005a9e;display:flex;flex-wrap:wrap;gap:2px;padding:0 40px}
+nav a{color:#cde;padding:10px 16px;text-decoration:none;font-size:12px;border-bottom:3px solid transparent}
+nav a:hover{color:#fff;border-bottom-color:#fff;background:rgba(255,255,255,.08)}
+.container{max-width:1280px;margin:0 auto;padding:30px 40px}
+section{background:#fff;border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,.08);margin-bottom:28px;overflow:hidden}
+.sh{background:#f7f9fc;border-bottom:2px solid #0078d4;padding:14px 24px;display:flex;align-items:center;gap:10px}
+.sh h2{font-size:15px;font-weight:700;color:#0078d4}
+.sb{padding:24px}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{background:#f0f4f8;color:#444;padding:9px 12px;text-align:left;font-weight:600;border:1px solid #dde}
+td{padding:8px 12px;border:1px solid #e8edf2;vertical-align:top}
+tr:nth-child(even) td{background:#fafbfc}
+tr:hover td{background:#f0f6ff}
+.b{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600}
+.by{background:#e8f4fd;color:#0078d4;border:1px solid #b3d7f5}
+.bg{background:#f3e5ff;color:#7519c1;border:1px solid #d8b4fe}
+.bok{background:#e6f7ed;color:#107c10;border:1px solid #a3d9a9}
+.bw{background:#fff8e1;color:#b36b00;border:1px solid #fcd878}
+.be{background:#fde8e8;color:#c00;border:1px solid #f5b4b4}
+.bf{background:#e8f4fd;color:#0078d4;border:1px solid #b3d7f5}
+.kpi-g{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-bottom:16px}
+.kpi{background:#f7f9fc;border:1px solid #dde;border-radius:8px;padding:16px;text-align:center;border-top:4px solid #0078d4}
+.kv{font-size:28px;font-weight:700;color:#0078d4}
+.kl{font-size:11px;color:#666;margin-top:4px}
+pre{background:#1e1e2e;color:#cdd6f4;padding:18px;border-radius:0 0 6px 6px;overflow-x:auto;font-size:11.5px;line-height:1.65;font-family:'Cascadia Code','Fira Code',Consolas,monospace;margin:0}
+.pt{background:#0078d4;color:#fff;padding:8px 16px;border-radius:6px 6px 0 0;font-size:12px;font-weight:700;display:flex;justify-content:space-between;margin-top:20px}
+.ig{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.ii{background:#f7f9fc;border:1px solid #e0e6ee;border-radius:6px;padding:14px}
+.ii label{font-size:10px;color:#888;display:block;margin-bottom:4px;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+.ii span{font-size:12px;color:#252525;font-family:monospace;word-break:break-all}
+.rb{background:#fff8e1;border-left:4px solid #f0a500;padding:12px 16px;border-radius:0 6px 6px 0;margin:10px 0;font-size:12px}
+.rb strong{color:#7a4f00}
+.anombox{background:#fde8e8;border-left:4px solid #c00;padding:12px 16px;border-radius:0 6px 6px 0;margin:10px 0;font-size:12px}
+footer{text-align:center;padding:24px;font-size:11px;color:#999;background:#fff;border-top:1px solid #eee}
+</style>
+</head>
+<body>
+<div class="header">
+  <div>
+    <h1>📋 Documentación Técnica – Dashboard Contratos de Compras</h1>
+    <p>HEINEKEN México · Área de Compras · Analista de Datos Sr · Generado: 30-Abr-2026</p>
+  </div>
+  <a class="dl-btn" id="dlBtn" href="#">⬇ Descargar HTML</a>
+</div>
+<nav>
+  <a href="#fuente">1. Fuente de Datos</a>
+  <a href="#campos">2. Campos</a>
+  <a href="#negocio">3. Lógica de Negocio</a>
+  <a href="#pq">4. Power Queries</a>
+  <a href="#modelo">5. Modelo Semántico</a>
+  <a href="#errores">6. Errores y Soluciones</a>
+  <a href="#visuales">7. Visuales del Dashboard</a>
+</nav>
+<div class="container">
+
+<!-- SECCIÓN 1: FUENTE DE DATOS -->
+<section id="fuente">
+<div class="sh"><h2>1. Fuente de Datos</h2></div>
+<div class="sb">
+<div class="ig">
+  <div class="ii"><label>Plataforma</label><span>Azure Databricks</span></div>
+  <div class="ii"><label>Host Databricks</label><span>adb-1347980599310379.19.azuredatabricks.net</span></div>
+  <div class="ii"><label>Catalog (Unity Catalog)</label><span>heiaepmx002pwe01</span></div>
+  <div class="ii"><label>Schema</label><span>gold_hnk_mx_loc_procure</span></div>
+  <div class="ii"><label>Objeto</label><span>tbl_sot_contracts (Vista Materializada)</span></div>
+  <div class="ii"><label>SQL Warehouse</label><span>/sql/1.0/warehouses/d956a286a35ef0b4</span></div>
+  <div class="ii"><label>Workspace Power BI</label><span>496bfcf7-0821-445a-8230-70d7ccd5653b</span></div>
+  <div class="ii"><label>Dataset / Semantic Model ID</label><span>7f0cfd8e-6fab-4c18-8086-b7fb7df6c640</span></div>
+  <div class="ii"><label>Reporte Power BI</label><span>c761f97f-0de0-4c5c-ae52-4b4041b88551</span></div>
+  <div class="ii"><label>Tenant HEINEKEN</label><span>66e853de-ece3-44dd-9d66-ee6bdf4159d4</span></div>
+</div>
+<p style="margin-top:16px;font-size:12px;color:#555;">
+  <strong>URL completa del reporte:</strong><br>
+  <code style="font-size:11px;">https://app.powerbi.com/groups/496bfcf7-0821-445a-8230-70d7ccd5653b/reports/c761f97f-0de0-4c5c-ae52-4b4041b88551</code>
+</p>
+</div>
+</section>
+
+<!-- SECCIÓN 2: ESTRUCTURA DE CAMPOS -->
+<section id="campos">
+<div class="sh"><h2>2. Estructura de Campos – tbl_sot_contracts</h2></div>
+<div class="sb">
+<table>
+<thead><tr><th>#</th><th>Campo</th><th>Tipo</th><th>Descripción</th><th>Notas</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>documento_compras_num</code></td><td>STRING</td><td>Número único de contrato (SAP)</td><td><span class="b bok">PK – COUNT DISTINCT</span></td></tr>
+<tr><td>2</td><td><code>documentos_compras_clase</code></td><td>STRING</td><td>Tipo de contrato</td><td><span class="b by">YELO</span>=Local · <span class="b bg">YECL</span>=Global</td></tr>
+<tr><td>3</td><td><code>condiciones_pago_clave</code></td><td>STRING</td><td>Clave de condición de pago</td><td>V000, V027, V028, V037, V060...</td></tr>
+<tr><td>4</td><td><code>dias_de_credito</code></td><td>INTEGER</td><td>Días de crédito del contrato</td><td><span class="b be">Anomalía si = 0 y clave ≠ V000</span></td></tr>
+<tr><td>5</td><td><code>contrato_activo</code></td><td>BOOLEAN</td><td>Indicador de contrato vigente</td><td>Puede contener nulls – usar Value.Equals()</td></tr>
+<tr><td>6</td><td><code>periodo_validez_inicio</code></td><td>DATE</td><td>Fecha de inicio de vigencia</td><td>Base para calcular anio, mes, anio_mes_fecha</td></tr>
+<tr><td>7</td><td><code>periodo_validez_fin</code></td><td>DATE</td><td>Fecha de fin de vigencia</td><td></td></tr>
+<tr><td>8</td><td><code>proveedor_id</code></td><td>STRING</td><td>ID del proveedor en SAP</td><td></td></tr>
+<tr><td>9</td><td><code>proveedor_nombre</code></td><td>STRING</td><td>Nombre del proveedor</td><td></td></tr>
+<tr><td>10</td><td><code>moneda_clave</code></td><td>STRING</td><td>Clave de moneda (MXN, USD, EUR)</td><td></td></tr>
+<tr><td>11</td><td><code>importe_neto</code></td><td>DECIMAL</td><td>Valor neto del contrato</td><td></td></tr>
+<tr><td>12</td><td><code>centro_compras</code></td><td>STRING</td><td>Centro de compras SAP</td><td></td></tr>
+<tr><td>13</td><td><code>grupo_compras</code></td><td>STRING</td><td>Grupo comprador</td><td></td></tr>
+<tr><td>14</td><td><code>anio</code></td><td>INTEGER</td><td>Año (calculado en PQ-01)</td><td>⚠ La vista devuelve 0 – calcular desde periodo_validez_inicio</td></tr>
+<tr><td>15</td><td><code>mes</code></td><td>INTEGER</td><td>Mes (calculado en PQ-01)</td><td>⚠ La vista devuelve 0 – calcular desde periodo_validez_inicio</td></tr>
+<tr><td>16</td><td><code>anio_mes_fecha</code></td><td>DATE</td><td>Primer día del mes (calculado en PQ-01)</td><td>⚠ La vista devuelve 0 – calcular desde periodo_validez_inicio</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- SECCIÓN 3: LÓGICA DE NEGOCIO -->
+<section id="negocio">
+<div class="sh"><h2>3. Lógica de Negocio y KPIs</h2></div>
+<div class="sb">
+
+<div class="kpi-g">
+  <div class="kpi"><div class="kv">1,668</div><div class="kl">Total Contratos Activos</div></div>
+  <div class="kpi"><div class="kv">1,378</div><div class="kl">Contratos YELO (Local)</div></div>
+  <div class="kpi"><div class="kv" style="color:#7519c1">290</div><div class="kl">Contratos YECL (Global)</div></div>
+  <div class="kpi"><div class="kv">120</div><div class="kl">Promedio Días Crédito</div></div>
+  <div class="kpi" style="border-top-color:#c00"><div class="kv" style="color:#c00">11</div><div class="kl">Anomalías Crédito Cero</div></div>
+</div>
+
+<h3 style="font-size:13px;color:#444;margin:16px 0 8px">Clasificaciones</h3>
+<table>
+<thead><tr><th>Concepto</th><th>Regla</th><th>Valor</th></tr></thead>
+<tbody>
+<tr><td>Contrato Local</td><td><code>documentos_compras_clase = "YELO"</code></td><td><span class="b by">1,378 contratos</span></td></tr>
+<tr><td>Contrato Global</td><td><code>documentos_compras_clase = "YECL"</code></td><td><span class="b bg">290 contratos</span></td></tr>
+<tr><td>Contrato Activo</td><td><code>Value.Equals([contrato_activo], true)</code></td><td>Requiere Table.Buffer()</td></tr>
+<tr><td>Anomalía</td><td><code>dias_de_credito = 0 AND condiciones_pago_clave &lt;&gt; "V000"</code></td><td><span class="b be">11 contratos únicos</span></td></tr>
+</tbody>
+</table>
+
+<h3 style="font-size:13px;color:#444;margin:16px 0 8px">Rangos de Días de Crédito</h3>
+<table>
+<thead><tr><th>Rango</th><th>Criterio M</th></tr></thead>
+<tbody>
+<tr><td>0 días</td><td><code>dias_de_credito = 0</code></td></tr>
+<tr><td>1–30 días</td><td><code>dias_de_credito >= 1 and <= 30</code></td></tr>
+<tr><td>31–60 días</td><td><code>dias_de_credito >= 31 and <= 60</code></td></tr>
+<tr><td>61–90 días</td><td><code>dias_de_credito >= 61 and <= 90</code></td></tr>
+<tr><td>91–120 días</td><td><code>dias_de_credito >= 91 and <= 120</code></td></tr>
+<tr><td>121–180 días</td><td><code>dias_de_credito >= 121 and <= 180</code></td></tr>
+<tr><td>180+ días</td><td><code>dias_de_credito > 180</code></td></tr>
+</tbody>
+</table>
+
+<div class="rb" style="margin-top:16px">
+  <strong>⚠ Regla Crítica de Conteo:</strong> Siempre usar <code>Table.Distinct(_, {"documento_compras_num"})</code> seguido de <code>Table.RowCount()</code>. NUNCA contar registros directamente (la vista puede tener duplicados por granularidad).
+</div>
+
+<div class="anombox">
+  <strong>🚨 Anomalía V028 identificada:</strong> 11 contratos únicos tienen <code>dias_de_credito = 0</code> con condición V028 (pago 30 días). Contratos: 4600017930, 4600023596, 4600026830, 4600026863, 4600027091, 4600027521, 4600027567, 4600027592, 4600027685, 4600027726, 4600028142.
+</div>
+
+</div>
+</section>
+
+<!-- SECCIÓN 4: POWER QUERIES -->
+<section id="pq">
+<div class="sh"><h2>4. Power Queries (M Language) – 8 Consultas</h2></div>
+<div class="sb">
+
+<div class="rb"><strong>Arquitectura:</strong> PQ-01 (<code>Contratos_Base</code>) contiene la única conexión a Databricks. PQ-02 a PQ-08 referencian <code>Contratos_Base</code> con <code>= Contratos_Base</code>. Cada query es una "Consulta en blanco" separada en Power BI.</div>
+
+<div class="pt"><span>PQ-01 · Contratos_Base · Conexión principal + columnas calculadas</span><span>Databricks → tabla base filtrada</span></div>
+<pre>let
+    // ── Conexión directa a Databricks (valores literales, sin parámetros) ──
+    Origen = Databricks.Catalogs(
+        "adb-1347980599310379.19.azuredatabricks.net",
+        "/sql/1.0/warehouses/d956a286a35ef0b4",
+        [Catalog = "heiaepmx002pwe01"]
+    ),
+    Catalogo     = Origen{[Name="heiaepmx002pwe01"]}[Data],
+    Schema       = Catalogo{[Name="gold_hnk_mx_loc_procure"]}[Data],
+    Tabla        = Schema{[Name="tbl_sot_contracts"]}[Data],
+
+    // ── Materializar en memoria para romper query folding ──
+    TablaBuf     = Table.Buffer(Tabla),
+
+    // ── Filtrar solo contratos activos (protege nulls) ──
+    Activos      = Table.SelectRows(TablaBuf,
+                       each Value.Equals([contrato_activo], true)),
+
+    // ── Castear tipos base ──
+    Tipado       = Table.TransformColumnTypes(Activos, {
+                       {"periodo_validez_inicio", type date},
+                       {"dias_de_credito",         Int64.Type},
+                       {"contrato_activo",          type logical}
+                   }),
+
+    // ── Calcular Anio, Mes y AnioMesFecha desde periodo_validez_inicio ──
+    ConAnio      = Table.AddColumn(Tipado, "anio", each
+                       if [periodo_validez_inicio] = null then null
+                       else Date.Year([periodo_validez_inicio]),
+                       Int64.Type),
+
+    ConMes       = Table.AddColumn(ConAnio, "mes", each
+                       if [periodo_validez_inicio] = null then null
+                       else Date.Month([periodo_validez_inicio]),
+                       Int64.Type),
+
+    ConFecha     = Table.AddColumn(ConMes, "anio_mes_fecha", each
+                       if [periodo_validez_inicio] = null then null
+                       else #date(Date.Year([periodo_validez_inicio]),
+                                  Date.Month([periodo_validez_inicio]), 1),
+                       type date),
+
+    // ── Agregar descripción del tipo de contrato ──
+    ConTipo      = Table.AddColumn(ConFecha, "Tipo_Contrato_Desc", each
+                       if [documentos_compras_clase] = "YELO" then "Local (YELO)"
+                       else if [documentos_compras_clase] = "YECL" then "Global (YECL)"
+                       else [documentos_compras_clase]),
+
+    // ── Agregar rango de días de crédito ──
+    ConRango     = Table.AddColumn(ConTipo, "Rango_Dias_Credito", each
+                       if [dias_de_credito] = null  then "Sin dato"
+                       else if [dias_de_credito] = 0 then "0 días"
+                       else if [dias_de_credito] <= 30 then "1-30 días"
+                       else if [dias_de_credito] <= 60 then "31-60 días"
+                       else if [dias_de_credito] <= 90 then "61-90 días"
+                       else if [dias_de_credito] <= 120 then "91-120 días"
+                       else if [dias_de_credito] <= 180 then "121-180 días"
+                       else "180+ días"),
+
+    // ── Columna de anomalía ──
+    ConAnomalia  = Table.AddColumn(ConRango, "es_anomalia_credito", each
+                       [dias_de_credito] = 0 and
+                       not Value.Equals([condiciones_pago_clave], "V000")),
+
+    // ── Seleccionar columnas finales ──
+    Final        = Table.SelectColumns(ConAnomalia, {
+                       "documento_compras_num", "documentos_compras_clase",
+                       "Tipo_Contrato_Desc", "condiciones_pago_clave",
+                       "dias_de_credito", "Rango_Dias_Credito",
+                       "contrato_activo", "es_anomalia_credito",
+                       "periodo_validez_inicio", "periodo_validez_fin",
+                       "anio", "mes", "anio_mes_fecha",
+                       "proveedor_id", "proveedor_nombre",
+                       "moneda_clave", "importe_neto"
+                   })
+in
+    Final</pre>
+
+<div class="pt" style="margin-top:24px"><span>PQ-02 · KPI_Contratos_Generales · Tabla de 6 KPIs</span><span>Referencia Contratos_Base</span></div>
+<pre>let
+    Base = Contratos_Base,
+
+    // ── KPI 1: Total contratos activos únicos ──
+    TotalContratos     = Table.RowCount(Table.Distinct(Base, {"documento_compras_num"})),
+
+    // ── KPI 2: Contratos YELO (Locales) ──
+    ContratosYELO      = Table.RowCount(Table.Distinct(
+                             Table.SelectRows(Base, each [documentos_compras_clase] = "YELO"),
+                             {"documento_compras_num"})),
+
+    // ── KPI 3: Contratos YECL (Globales) ──
+    ContratosYECL      = Table.RowCount(Table.Distinct(
+                             Table.SelectRows(Base, each [documentos_compras_clase] = "YECL"),
+                             {"documento_compras_num"})),
+
+    // ── KPI 4: Promedio días de crédito ──
+    PromedioDias       = List.Average(Table.Distinct(Base, {"documento_compras_num"})[dias_de_credito]),
+
+    // ── KPI 5: Contratos con 0 días y condición ≠ V000 (anomalías) ──
+    Anomalias          = Table.RowCount(Table.Distinct(
+                             Table.SelectRows(Base, each
+                                 [dias_de_credito] = 0 and
+                                 not Value.Equals([condiciones_pago_clave], "V000")),
+                             {"documento_compras_num"})),
+
+    // ── KPI 6: % contratos YELO ──
+    PctYELO            = if TotalContratos = 0 then 0
+                         else Number.Round(ContratosYELO / TotalContratos * 100, 1),
+
+    // ── Tabla de resultados ──
+    Resultado = Table.FromRows({
+        {"Total_Contratos_Activos",    TotalContratos},
+        {"Contratos_YELO_Local",       ContratosYELO},
+        {"Contratos_YECL_Global",      ContratosYECL},
+        {"Promedio_Dias_Credito",       Number.Round(PromedioDias, 0)},
+        {"Anomalias_Credito_Cero",     Anomalias},
+        {"Pct_YELO",                   PctYELO}
+    }, {"KPI", "Valor"})
+in
+    Resultado</pre>
+
+</div>
+</section>
+
+<!-- PQ-03 a PQ-08 (dentro de sección PQ ya abierta arriba, aquí la continuamos con nueva sección) -->
+<section>
+<div class="sh"><h2>4. Power Queries (continuación) – PQ-03 a PQ-08</h2></div>
+<div class="sb">
+
+<div class="pt"><span>PQ-03 · Dist_Tipo_Contrato · Distribución Local vs Global</span><span>YELO: 1,378 · YECL: 290</span></div>
+<pre>let
+    Base       = Contratos_Base,
+    Distintos  = Table.Distinct(Base, {"documento_compras_num"}),
+    Agrupado   = Table.Group(Distintos, {"Tipo_Contrato_Desc"}, {
+                     {"Contratos_Unicos", each Table.RowCount(_), Int64.Type}
+                 }),
+    Ordenado   = Table.Sort(Agrupado, {{"Contratos_Unicos", Order.Descending}})
+in
+    Ordenado</pre>
+
+<div class="pt" style="margin-top:20px"><span>PQ-04 · Dist_Condicion_Pago · Contratos por condición de pago</span><span>V037, V027, V028, V060...</span></div>
+<pre>let
+    Base       = Contratos_Base,
+    Distintos  = Table.Distinct(Base, {"documento_compras_num"}),
+    Agrupado   = Table.Group(Distintos, {"condiciones_pago_clave"}, {
+                     {"Contratos_Unicos", each Table.RowCount(_), Int64.Type},
+                     {"Dias_Promedio",    each Number.Round(List.Average([dias_de_credito]), 0), type number}
+                 }),
+    Ordenado   = Table.Sort(Agrupado, {{"Contratos_Unicos", Order.Descending}})
+in
+    Ordenado</pre>
+
+<div class="pt" style="margin-top:20px"><span>PQ-05 · Dist_Dias_Credito · Distribución por rangos de días de crédito</span><span>Histograma de rangos</span></div>
+<pre>let
+    Base       = Contratos_Base,
+    Distintos  = Table.Distinct(Base, {"documento_compras_num"}),
+    Agrupado   = Table.Group(Distintos, {"Rango_Dias_Credito"}, {
+                     {"Contratos_Unicos", each Table.RowCount(_), Int64.Type}
+                 }),
+    // Orden lógico de rangos
+    OrdenRango = {"0 días","1-30 días","31-60 días","61-90 días",
+                  "91-120 días","121-180 días","180+ días","Sin dato"},
+    Ordenado   = Table.Sort(Agrupado, {{"Rango_Dias_Credito",
+                     (a, b) => Value.Compare(
+                         List.PositionOf(OrdenRango, a),
+                         List.PositionOf(OrdenRango, b))
+                 }})
+in
+    Ordenado</pre>
+
+<div class="pt" style="margin-top:20px"><span>PQ-06 · Anomalias_Credito_Cero · Contratos con días=0 y condición ≠ V000</span><span>11 contratos únicos</span></div>
+<pre>let
+    Base       = Contratos_Base,
+    Filtrado   = Table.SelectRows(Base, each
+                     [dias_de_credito] = 0 and
+                     not Value.Equals([condiciones_pago_clave], "V000")),
+    Distintos  = Table.Distinct(Filtrado, {"documento_compras_num"}),
+    Cols       = Table.SelectColumns(Distintos, {
+                     "documento_compras_num",
+                     "documentos_compras_clase",
+                     "Tipo_Contrato_Desc",
+                     "condiciones_pago_clave",
+                     "dias_de_credito",
+                     "proveedor_nombre",
+                     "periodo_validez_inicio",
+                     "periodo_validez_fin"
+                 }),
+    Ordenado   = Table.Sort(Cols, {{"documento_compras_num", Order.Ascending}})
+in
+    Ordenado</pre>
+
+<div class="pt" style="margin-top:20px"><span>PQ-07 · Evolucion_Temporal · Contratos únicos por mes/año</span><span>Timeline de vigencias</span></div>
+<pre>let
+    Base       = Contratos_Base,
+    SinNulos   = Table.SelectRows(Base, each [anio_mes_fecha] &lt;&gt; null),
+    Distintos  = Table.Distinct(SinNulos, {"documento_compras_num", "anio_mes_fecha"}),
+    Agrupado   = Table.Group(Distintos, {"anio_mes_fecha", "anio", "mes"}, {
+                     {"Contratos_Unicos", each Table.RowCount(_), Int64.Type}
+                 }),
+    ConLabel   = Table.AddColumn(Agrupado, "Periodo_Label", each
+                     Text.PadStart(Text.From([mes]), 2, "0") & "/" & Text.From([anio])),
+    Ordenado   = Table.Sort(ConLabel, {{"anio_mes_fecha", Order.Ascending}})
+in
+    Ordenado</pre>
+
+<div class="pt" style="margin-top:20px"><span>PQ-08 · Matriz_Condicion_Tipo · Pivot YELO / YECL por condición de pago</span><span>Tabla cruzada</span></div>
+<pre>let
+    Base       = Contratos_Base,
+
+    // ── Materializar para evitar errores de null en pivot ──
+    BaseBuf    = Table.Buffer(Base),
+
+    Distintos  = Table.Distinct(BaseBuf, {"documento_compras_num"}),
+
+    // ── Contar por condición + tipo ──
+    Agrupado   = Table.Group(Distintos,
+                     {"condiciones_pago_clave", "documentos_compras_clase"}, {
+                         {"Contratos", each Table.RowCount(_), Int64.Type}
+                 }),
+
+    // ── Pivot: columnas = YELO, YECL ──
+    Pivoteado  = Table.Pivot(
+                     Agrupado,
+                     List.Distinct(Agrupado[documentos_compras_clase]),
+                     "documentos_compras_clase",
+                     "Contratos",
+                     List.Sum
+                 ),
+
+    // ── Reemplazar nulls por 0 ──
+    Limpio     = Table.ReplaceValue(Pivoteado, null, 0,
+                     Replacer.ReplaceValue, Table.ColumnNames(Pivoteado)),
+
+    // ── Agregar total por fila ──
+    ConTotal   = Table.AddColumn(Limpio, "Total", each
+                     (if Record.HasFields(_, "YELO") then _[YELO] else 0) +
+                     (if Record.HasFields(_, "YECL") then _[YECL] else 0),
+                     Int64.Type),
+
+    Ordenado   = Table.Sort(ConTotal, {{"Total", Order.Descending}})
+in
+    Ordenado</pre>
+
+</div>
+</section>
+
+<!-- SECCIÓN 5: MODELO SEMÁNTICO -->
+<section id="modelo">
+<div class="sh"><h2>5. Arquitectura del Modelo Semántico (Power BI)</h2></div>
+<div class="sb">
+<table>
+<thead><tr><th>Query / Tabla</th><th>Tipo</th><th>Campos Clave</th><th>Propósito</th></tr></thead>
+<tbody>
+<tr><td><code>Contratos_Base</code></td><td>Tabla base</td><td>documento_compras_num, anio_mes_fecha, Tipo_Contrato_Desc, Rango_Dias_Credito, es_anomalia_credito</td><td>Fuente única de verdad; conexión a Databricks</td></tr>
+<tr><td><code>KPI_Contratos_Generales</code></td><td>Tabla KPI</td><td>KPI, Valor</td><td>6 métricas para Cards del dashboard</td></tr>
+<tr><td><code>Dist_Tipo_Contrato</code></td><td>Agregado</td><td>Tipo_Contrato_Desc, Contratos_Unicos</td><td>Donut chart Local vs Global</td></tr>
+<tr><td><code>Dist_Condicion_Pago</code></td><td>Agregado</td><td>condiciones_pago_clave, Contratos_Unicos, Dias_Promedio</td><td>Bar chart por condición</td></tr>
+<tr><td><code>Dist_Dias_Credito</code></td><td>Agregado</td><td>Rango_Dias_Credito, Contratos_Unicos</td><td>Histograma rangos de crédito</td></tr>
+<tr><td><code>Anomalias_Credito_Cero</code></td><td>Detalle</td><td>documento_compras_num, condiciones_pago_clave, dias_de_credito, proveedor_nombre</td><td>Tabla detalle de anomalías</td></tr>
+<tr><td><code>Evolucion_Temporal</code></td><td>Serie tiempo</td><td>anio_mes_fecha, Periodo_Label, Contratos_Unicos</td><td>Line chart evolución mensual</td></tr>
+<tr><td><code>Matriz_Condicion_Tipo</code></td><td>Pivot</td><td>condiciones_pago_clave, YELO, YECL, Total</td><td>Tabla cruzada YELO/YECL</td></tr>
+</tbody>
+</table>
+
+<div class="rb" style="margin-top:16px">
+  <strong>Reglas críticas del modelo:</strong><br><br>
+  • Todas las tablas de agregados usan <code>Table.Distinct(_, {"documento_compras_num"})</code> — NUNCA contar registros directamente.<br>
+  • <code>Contratos_Base</code> usa <code>Table.Buffer()</code> para romper query folding antes del filtro de <code>contrato_activo</code>.<br>
+  • El filtro de contrato activo usa <code>Value.Equals([contrato_activo], true)</code> para proteger nulos.<br>
+  • Los campos <code>anio</code>, <code>mes</code>, <code>anio_mes_fecha</code> son calculados en PQ-01, NO leídos de la vista (devuelve 0).<br>
+  • NO hay relaciones activas entre tablas en el modelo (tablas independientes pre-agregadas).<br>
+  • Los KPI Cards se configuran con filtro visual: campo <code>KPI</code> = nombre del KPI correspondiente.
+</div>
+</div>
+</section>
+
+<!-- SECCIÓN 6: ERRORES Y SOLUCIONES -->
+<section id="errores">
+<div class="sh"><h2>6. Errores Encontrados y Soluciones Aplicadas</h2></div>
+<div class="sb">
+<table>
+<thead><tr><th>#</th><th>Error</th><th>Causa Raíz</th><th>Solución Aplicada</th><th>Estado</th></tr></thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td><code>DatabricksHost matches no exports</code></td>
+  <td>Parámetros M definidos como variables no reconocidos como shared values por el conector</td>
+  <td>Usar valores literales directamente en <code>Databricks.Catalogs()</code></td>
+  <td><span class="b bok">Resuelto</span></td>
+</tr>
+<tr>
+  <td>2</td>
+  <td>Columna Valor con <code>[Error]</code></td>
+  <td><code>#table()</code> no acepta variables dinámicas en las filas dentro de Power BI Service</td>
+  <td>Reemplazar con <code>Table.FromRows()</code> con lista de listas</td>
+  <td><span class="b bok">Resuelto</span></td>
+</tr>
+<tr>
+  <td>3</td>
+  <td><code>A cyclic reference was encountered</code></td>
+  <td>PQ-02 se referenciaba a sí misma durante la reescritura del código</td>
+  <td>Crear PQ-02 como query completamente nueva y separada (no editar la existente)</td>
+  <td><span class="b bok">Resuelto</span></td>
+</tr>
+<tr>
+  <td>4</td>
+  <td><code>tbl_sot_contracts matches no exports</code></td>
+  <td>Conexión Databricks fue eliminada al reemplazar código de PQ-01</td>
+  <td>Incorporar <code>Databricks.Catalogs()</code> completo dentro de <code>Contratos_Base</code></td>
+  <td><span class="b bok">Resuelto</span></td>
+</tr>
+<tr>
+  <td>5</td>
+  <td><code>Cannot convert null to type Logical</code> (1er intento)</td>
+  <td>Filtro <code>= true</code> falla con nulls por query folding que envía el filtro a Databricks</td>
+  <td>Agregar comprobación <code>&lt;&gt; null and</code> antes del campo</td>
+  <td><span class="b bw">Parcial</span></td>
+</tr>
+<tr>
+  <td>6</td>
+  <td><code>Cannot convert null to type Logical</code> (2do intento)</td>
+  <td>Query folding persistía a pesar del guard de null</td>
+  <td><code>Table.Buffer()</code> + <code>Value.Equals([contrato_activo], true)</code></td>
+  <td><span class="b bok">Resuelto</span></td>
+</tr>
+<tr>
+  <td>7</td>
+  <td><code>anio</code>, <code>mes</code>, <code>anio_mes_fecha</code> = 0</td>
+  <td>La vista materializada devuelve valores 0 en estos campos calculados</td>
+  <td>Calcular desde <code>periodo_validez_inicio</code> con <code>Date.Year()</code>, <code>Date.Month()</code>, <code>#date()</code></td>
+  <td><span class="b bok">Resuelto</span></td>
+</tr>
+<tr>
+  <td>8</td>
+  <td><code>Can't determine relationships</code> en visual Anomalías</td>
+  <td>Se agregó <code>Tipo_Contrato_Desc</code> de tabla incorrecta (<code>Dist_Tipo_Contrato</code> vs <code>Anomalias_Credito_Cero</code>)</td>
+  <td>Remover el campo problemático con X en el panel Columns del visual</td>
+  <td><span class="b bok">Resuelto</span></td>
+</tr>
+<tr>
+  <td>9</td>
+  <td><code>KeyError: 'message'</code> en Python MSAL</td>
+  <td>Tenant HEINEKEN bloquea el Client ID público de Azure CLI</td>
+  <td>Abandonar enfoque API/Python → construir visuales directamente en navegador (Power BI Service UI)</td>
+  <td><span class="b bok">Resuelto</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- SECCIÓN 7: VISUALES DEL DASHBOARD -->
+<section id="visuales">
+<div class="sh"><h2>7. Visuales del Dashboard – Configuración</h2></div>
+<div class="sb">
+
+<p style="margin-bottom:16px;color:#555;font-size:12px">Reporte: <strong>Dashboard Contratos de Compras</strong> · Workspace: <strong>Contracts</strong> · 10 visuales construidos directamente en Power BI Service</p>
+
+<table>
+<thead>
+  <tr><th>#</th><th>Tipo Visual</th><th>Nombre / Tabla Fuente</th><th>Campos</th><th>Valor Confirmado</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td><td>Card</td><td>KPI_Contratos_Generales</td>
+  <td>Valor (filtro: KPI = "Total_Contratos_Activos")</td>
+  <td><span class="b bok">1,668</span></td>
+</tr>
+<tr>
+  <td>2</td><td>Card</td><td>KPI_Contratos_Generales</td>
+  <td>Valor (filtro: KPI = "Contratos_YELO_Local")</td>
+  <td><span class="b by">1,378</span></td>
+</tr>
+<tr>
+  <td>3</td><td>Card</td><td>KPI_Contratos_Generales</td>
+  <td>Valor (filtro: KPI = "Contratos_YECL_Global")</td>
+  <td><span class="b bg">290</span></td>
+</tr>
+<tr>
+  <td>4</td><td>Card</td><td>KPI_Contratos_Generales</td>
+  <td>Valor (filtro: KPI = "Promedio_Dias_Credito")</td>
+  <td><span class="b bok">120</span></td>
+</tr>
+<tr>
+  <td>5</td><td>Card</td><td>KPI_Contratos_Generales</td>
+  <td>Valor (filtro: KPI = "Anomalias_Credito_Cero")</td>
+  <td><span class="b be">11</span></td>
+</tr>
+<tr>
+  <td>6</td><td>Donut Chart</td><td>Dist_Tipo_Contrato</td>
+  <td>Legend: Tipo_Contrato_Desc · Values: Contratos_Unicos</td>
+  <td>Local 82.6% / Global 17.4%</td>
+</tr>
+<tr>
+  <td>7</td><td>Bar Chart</td><td>Dist_Condicion_Pago</td>
+  <td>X: condiciones_pago_clave · Y: Contratos_Unicos</td>
+  <td>V037, V027, V028, V060...</td>
+</tr>
+<tr>
+  <td>8</td><td>Bar Chart</td><td>Dist_Dias_Credito</td>
+  <td>X: Rango_Dias_Credito · Y: Contratos_Unicos</td>
+  <td>Histograma de rangos</td>
+</tr>
+<tr>
+  <td>9</td><td>Line Chart</td><td>Evolucion_Temporal</td>
+  <td>X: Periodo_Label · Y: Contratos_Unicos</td>
+  <td>Timeline mensual</td>
+</tr>
+<tr>
+  <td>10</td><td>Table</td><td>Anomalias_Credito_Cero</td>
+  <td>documento_compras_num · condiciones_pago_clave · dias_de_credito · proveedor_nombre</td>
+  <td>11 contratos V028</td>
+</tr>
+</tbody>
+</table>
+
+<div class="anombox" style="margin-top:16px">
+  <strong>🚨 Contratos anómalos identificados (V028 – días_de_credito = 0):</strong><br>
+  4600017930 · 4600023596 · 4600026830 · 4600026863 · 4600027091 · 4600027521 · 4600027567 · 4600027592 · 4600027685 · 4600027726 · 4600028142
+</div>
+
+</div>
+</section>
+
+<footer>
+  Documentación Técnica – Dashboard Contratos de Compras · HEINEKEN México · Área de Compras · 30-Abr-2026 · Generado por Claude (Anthropic)
+</footer>
+
+</div><!-- /container -->
+
+<script>
+// Botón de descarga: regenera el blob y dispara la descarga
+document.getElementById('dlBtn').addEventListener('click', function(e) {
+  e.preventDefault();
+  var html = document.documentElement.outerHTML;
+  // Reemplazar el blob src del botón por vacío antes de serializar
+  var blob = new Blob([html], {type: 'text/html;charset=utf-8'});
+  var url  = URL.createObjectURL(blob);
+  var a    = document.createElement('a');
+  a.href     = url;
+  a.download = 'Documentacion_Tecnica_Dashboard_Contratos.html';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(function(){ URL.revokeObjectURL(url); }, 3000);
+});
+</script>
+</body>
+</html>
